@@ -1,4 +1,4 @@
-package me.mattstudios.mattscore.utils;
+package me.mattstudios.mattcore.utils;
 
 import java.util.concurrent.TimeUnit;
 

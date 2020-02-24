@@ -1,4 +1,4 @@
-package me.mattstudios.mattscore.utils;
+package me.mattstudios.mattcore.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,9 +12,9 @@ public final class NmsUtils {
      *
      * @return The NMS class.
      */
-    public static Class<?> getNMSClass() {
+    public static Class<?> getNMSClass(final String className) {
         try {
-            return Class.forName("net.minecraft.server." + getServerVersion() + "." + "Packet");
+            return Class.forName("net.minecraft.server." + getServerVersion() + "." + className);
         } catch (ClassNotFoundException e) {
             return null;
         }
@@ -35,11 +35,11 @@ public final class NmsUtils {
      * @param player The player to receive the packet.
      * @param packet The packet to be sent.
      */
-    public static void sendPacket(Player player, Object packet) {
+    public static void sendPacket(final Player player, final Object packet) {
         try {
             Object handler = player.getClass().getMethod("getHandle").invoke(player);
             Object playerConnection = handler.getClass().getField("playerConnection").get(handler);
-            playerConnection.getClass().getMethod("sendPacket", getNMSClass()).invoke(playerConnection, packet);
+            playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public final class NmsUtils {
      * @param className The class name.
      * @return The NMS craft class.
      */
-    public static Class<?> getNMSCraftClass(String className) {
+    public static Class<?> getCraftClass(String className) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + getServerVersion() + "." + className);
         } catch (ClassNotFoundException e) {

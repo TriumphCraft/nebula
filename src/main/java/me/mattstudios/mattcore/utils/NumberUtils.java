@@ -1,4 +1,4 @@
-package me.mattstudios.mattscore.utils;
+package me.mattstudios.mattcore.utils;
 
 public final class NumberUtils {
 
