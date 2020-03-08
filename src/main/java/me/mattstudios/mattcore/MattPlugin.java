@@ -2,6 +2,7 @@ package me.mattstudios.mattcore;
 
 import me.mattstudios.mattcore.configuration.Config;
 import me.mattstudios.mattcore.locale.Locale;
+import me.mattstudios.mattcore.utils.Task;
 import me.mattstudios.mf.base.CommandBase;
 import me.mattstudios.mf.base.CommandManager;
 import me.mattstudios.mf.base.components.CompletionResolver;
@@ -46,6 +47,8 @@ public abstract class MattPlugin extends JavaPlugin {
 
     @Override
     public final void onEnable() {
+        Task.init(this);
+
         config = new Config(this);
         locale = new Locale(this);
 
