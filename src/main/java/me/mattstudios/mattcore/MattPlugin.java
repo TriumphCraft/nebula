@@ -7,6 +7,7 @@ import me.mattstudios.mf.base.CommandBase;
 import me.mattstudios.mf.base.CommandManager;
 import me.mattstudios.mf.base.components.CompletionResolver;
 import me.mattstudios.mf.base.components.MessageResolver;
+import me.mattstudios.mf.base.components.ParameterResolver;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -109,6 +110,16 @@ public abstract class MattPlugin extends JavaPlugin {
      */
     protected void registerCompletion(final String completionId, final CompletionResolver resolver) {
         commandManager.getCompletionHandler().register(completionId, resolver);
+    }
+
+    /**
+     * Used for registering command parameters
+     *
+     * @param clss     The class
+     * @param resolver The parameter resolver
+     */
+    protected void registerParamType(final Class<?> clss, final ParameterResolver resolver) {
+        commandManager.getParameterHandler().register(clss, resolver);
     }
 
     /**
