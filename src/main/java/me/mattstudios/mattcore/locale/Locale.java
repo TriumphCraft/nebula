@@ -38,7 +38,7 @@ public class Locale {
      */
     public void load(final Class<? extends SettingsHolder> messageClass, final String fileName) {
         settingsManager = withYamlFile(
-                new File(plugin.getDataFolder(), "lang/" + fileName + ".yml"))
+                new File(plugin.getDataFolder(), "lang/" + fileName + ".yml"), 2)
                 .useDefaultMigrationService()
                 .configurationData(createConfiguration(messageClass))
                 .create();
@@ -60,7 +60,7 @@ public class Locale {
      * @param property The property path for the message
      * @return The message already colored
      */
-    public String getMessageRaw(final Property<String> property) {
+    public <T> T getMessageRaw(final Property<T> property) {
         return settingsManager.getProperty(property);
     }
 

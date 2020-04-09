@@ -35,7 +35,7 @@ public final class Config extends YamlConfiguration {
      */
     public void load(final Class<? extends SettingsHolder> configClass) {
         settingsManager = withYamlFile(
-                new File(plugin.getDataFolder(), "config.yml"))
+                new File(plugin.getDataFolder(), "config.yml"), 2)
                 .useDefaultMigrationService()
                 .configurationData(createConfiguration(configClass))
                 .create();
