@@ -3,6 +3,7 @@ package me.mattstudios.mattcore.configuration;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.properties.Property;
+import ch.jalu.configme.resource.YamlFileResourceOptions;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -35,7 +36,7 @@ public final class Config extends YamlConfiguration {
      */
     public void load(final Class<? extends SettingsHolder> configClass) {
         settingsManager = withYamlFile(
-                new File(plugin.getDataFolder(), "config.yml"), 2)
+                new File(plugin.getDataFolder(), "config.yml"), YamlFileResourceOptions.builder().indentationSize(2).build())
                 .useDefaultMigrationService()
                 .configurationData(createConfiguration(configClass))
                 .create();

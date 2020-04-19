@@ -25,7 +25,7 @@ public final class MessageUtils {
      * @return returns the string with color
      */
     public static List<String> color(final List<String> messages) {
-        return messages.stream().map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
+        return messages.stream().map(string -> ChatColor.translateAlternateColorCodes('&', string)).collect(Collectors.toList());
     }
 
     /**

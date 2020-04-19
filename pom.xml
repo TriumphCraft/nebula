@@ -6,7 +6,7 @@
 
     <groupId>me.mattstudios.utils</groupId>
     <artifactId>matt-core</artifactId>
-    <version>1.1.12</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <distributionManagement>
@@ -49,15 +49,25 @@
         <dependency>
             <groupId>me.mattstudios.utils</groupId>
             <artifactId>matt-framework</artifactId>
-            <version>1.1.5</version>
-            <scope>provided</scope>
+            <version>1.4</version>
         </dependency>
 
         <dependency>
-            <groupId>com.github.ipsk</groupId>
+            <groupId>me.mattstudios.utils</groupId>
+            <artifactId>matt-framework-gui</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.AuthMe</groupId>
             <artifactId>ConfigMe</artifactId>
-            <version>8ccab345e9</version>
-            <scope>provided</scope>
+            <version>7bdf40d0f4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

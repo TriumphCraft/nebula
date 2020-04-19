@@ -3,6 +3,7 @@ package me.mattstudios.mattcore.locale;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.properties.Property;
+import ch.jalu.configme.resource.YamlFileResourceOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -38,7 +39,7 @@ public class Locale {
      */
     public void load(final Class<? extends SettingsHolder> messageClass, final String fileName) {
         settingsManager = withYamlFile(
-                new File(plugin.getDataFolder(), "lang/" + fileName + ".yml"), 2)
+                new File(plugin.getDataFolder(), "lang/" + fileName + ".yml"), YamlFileResourceOptions.builder().indentationSize(2).build())
                 .useDefaultMigrationService()
                 .configurationData(createConfiguration(messageClass))
                 .create();
