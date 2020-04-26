@@ -57,6 +57,7 @@ public abstract class MattPlugin extends JavaPlugin {
 
         // Calls the plugin enable
         enable();
+
     }
 
     @Override

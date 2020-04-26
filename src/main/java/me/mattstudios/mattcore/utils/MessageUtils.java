@@ -33,17 +33,8 @@ public final class MessageUtils {
      *
      * @param message the message to be sent to the console
      */
-    public static void info(final String message) {
+    public static void log(final String message) {
         Bukkit.getConsoleSender().sendMessage(color(message));
     }
-
-    /**
-     * Simplified way for sending console warn messages
-     *
-     * @param message the warn message to be sent to the console
-     */
-    public static void warn(final String message) {
-        Bukkit.getLogger().warning(color(message));
-    }
-
+    
 }
