@@ -1,4 +1,16 @@
 
-.idea/
+../triumph-config/.idea/
 
-target/
+.gradle/
+build/
+
+*.iml
+
+temp.java.asc
+
+temp.java
+gradle.properties
+
+testing-files/
+
+.idea/

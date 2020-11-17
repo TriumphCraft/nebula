@@ -1,0 +1,101 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.4.10"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "maven-publish"
+}
+
+group = "me.mattstudios"
+version = "1.0.8"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url = "https://repo.mattstudios.me/artifactory/public/" }
+}
+
+dependencies {
+    compileOnly "me.mattstudios.utils:matt-framework:1.4.6"
+    //compileOnly "me.mattstudios.utils:matt-framework-gui:2.0.2"
+    compileOnly "me.mattstudios:triumph-config:1.0.0-SNAPSHOT"
+
+    compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+compileJava {
+    options.compilerArgs += ["-parameters"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+    options.encoding = 'UTF-8'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+    kotlinOptions.javaParameters = true
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+
+            from components.java
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = "Core with some utils for all plugins"
+                description = "Adds utils and required classes to plugins"
+                // Change later
+                url = "https://github.com/TriumphDev/triumph-config"
+
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "http://www.opensource.org/licenses/mit-license.php"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "matt"
+                        name = "Mateus Moreira"
+                    }
+                }
+
+                // Change later
+                scm {
+                    connection = "scm:git:git://github.com/TriumphDev/triumph-config.git"
+                    developerConnection = "scm:git:ssh://github.com:TriumphDev/triumph-config.git"
+                    url = "http://github.com/TriumphDev/triumph-config"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            credentials {
+                username repoUsername
+                password repoPassword
+            }
+
+            url = repoUrl
+        }
+    }
+
+}
