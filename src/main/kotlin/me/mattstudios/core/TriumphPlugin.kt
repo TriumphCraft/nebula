@@ -65,7 +65,7 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Used for registering the plugin commands
      */
-    protected fun registerCommands(commands: List<CommandBase>) = commands.forEach(commandManager::register)
+    protected fun registerCommands(vararg commands: CommandBase) = commands.forEach(commandManager::register)
 
     /**
      * Used for registering command completions
@@ -86,6 +86,6 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Used for registering the listeners easily
      */
-    protected fun registerListeners(listeners: List<Listener>) = listeners.forEach { server.pluginManager.registerEvents(it, this) }
+    protected fun registerListeners(vararg listeners: Listener) = listeners.forEach { server.pluginManager.registerEvents(it, this) }
 
 }
