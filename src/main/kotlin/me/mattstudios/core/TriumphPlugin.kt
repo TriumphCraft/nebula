@@ -57,8 +57,6 @@ abstract class TriumphPlugin : JavaPlugin() {
 
     /**
      * Gets the config, overridden from the spigot one
-     *
-     * @return The config
      */
     override fun getConfig() = config
 
