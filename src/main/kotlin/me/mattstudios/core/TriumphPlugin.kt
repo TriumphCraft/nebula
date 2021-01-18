@@ -28,8 +28,8 @@ abstract class TriumphPlugin : JavaPlugin() {
     override fun onLoad() = load()
 
     override fun onEnable() {
-        config = Config(this)
-        locale = Locale(this)
+        config = Config(dataFolder)
+        locale = Locale(dataFolder)
 
         commandManager = CommandManager(this, true)
 
@@ -74,7 +74,7 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Used for registering command parameters
      */
-    protected fun registerParamType(clss: Class<*>, resolver: ParameterResolver) = commandManager.parameterHandler.register(clss, resolver)
+    protected fun registerParamType(clazz: Class<*>, resolver: ParameterResolver) = commandManager.parameterHandler.register(clazz, resolver)
 
     /**
      * Used for registering command messages

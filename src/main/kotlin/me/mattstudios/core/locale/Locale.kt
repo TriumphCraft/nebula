@@ -3,35 +3,52 @@ package me.mattstudios.core.locale
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.properties.Property
-import org.bukkit.plugin.Plugin
 import java.io.File
+import java.nio.file.Paths
 
-class Locale(private val plugin: Plugin) {
+/**
+ * **Locale** handler for all plugins
+ */
+@Suppress("MemberVisibilityCanBePrivate")
+class Locale(private val folder: File) {
+
+    var language = Language.ENGLISH
+        private set
 
     // The settings holder of the languages
     private lateinit var settingsManager: SettingsManager
 
+    // The message [SettingHolder]
+    private lateinit var messageClass: Class<out SettingsHolder>
+
     /**
-     * Loads the messages file
+     * Sets the message [SettingsHolder] to be used for the [Locale]
      */
-    fun load(messageClass: Class<out SettingsHolder>, fileName: String) {
-        settingsManager = SettingsManager.from(File(plugin.dataFolder, "lang/$fileName.yml"))
-                .configurationData(messageClass)
-                .create()
+    fun setHolder(messageClass: Class<out SettingsHolder>): Locale {
+        this.messageClass = messageClass
+        return this
     }
 
     /**
-     * Gets a message from the file colored
+     * Sets the current [Language] and starts the new [SettingsManager]
      */
-    operator fun <T> get(property: Property<T>): T {
-        return settingsManager[property]
+    fun setLocale(language: Language): Locale {
+        this.language = language
+        settingsManager = SettingsManager.from(Paths.get(folder.path, "lang/${language.file}.yml"))
+            .configurationData(messageClass)
+            .create()
+
+        return this
     }
+
+    /**
+     * Gets a message from the locale file
+     */
+    operator fun <T> get(property: Property<T>) = settingsManager[property]
 
     /**
      * Used to reload the lang file
      */
-    fun reload() {
-        settingsManager.reload()
-    }
+    fun reload() = settingsManager.reload()
 
 }

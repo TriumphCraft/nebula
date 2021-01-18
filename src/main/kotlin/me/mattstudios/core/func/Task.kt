@@ -6,6 +6,9 @@ import me.mattstudios.core.TriumphPlugin
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
+/**
+ * Tasks util for easier usage of Bukkit's tasks
+ */
 object Task {
 
     private val plugin = JavaPlugin.getPlugin(TriumphPlugin::class.java)
