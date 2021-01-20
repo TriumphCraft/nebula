@@ -21,7 +21,7 @@ abstract class TriumphPlugin : JavaPlugin() {
     private lateinit var config: Config
 
     // Locale object for message handling
-    protected lateinit var locale: Locale
+    lateinit var locale: Locale
         private set
 
     // Calls the plugin load
