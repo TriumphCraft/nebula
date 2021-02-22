@@ -3,7 +3,9 @@ package me.mattstudios.core.context
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.beanmapper.PropertyMapper
 import me.mattstudios.core.TriumphPlugin
+import me.mattstudios.core.configuration.Config
 import me.mattstudios.core.locale.Language
+import me.mattstudios.core.locale.Locale
 
 /**
  * Allows some logic to only be accessible in the enable instead of globally in the main class
@@ -38,28 +40,28 @@ interface EnableContext {
 class Enable(private val plugin: TriumphPlugin) : EnableContext {
 
     /**
-     * Starts up the config module
+     * Sets the setting holder and mapper for the [Config]
      */
     override fun config(holder: SettingsHolder, mapper: PropertyMapper?) {
         plugin.config.create(holder::class.java, mapper)
     }
 
     /**
-     * Starts up the locale module
+     * Sets the setting holder and the language of the [Locale] and creates the file
      */
     override fun locale(holder: SettingsHolder, language: Language) {
         plugin.locale.setHolder(holder::class.java).setLocale(language).create()
     }
 
     /**
-     * Used for registering the plugin commands
+     * Creates a [CommandContext] and applies the logic from enable
      */
     override fun commands(context: CommandContext.() -> Unit) {
         CommandContext(plugin.commandManager).apply(context)
     }
 
     /**
-     * Used for registering the plugin listeners
+     * Creates a [ListenerContext] and applies the logic from enable
      */
     override fun listeners(context: ListenerContext.() -> Unit) {
         ListenerContext(plugin).apply(context)

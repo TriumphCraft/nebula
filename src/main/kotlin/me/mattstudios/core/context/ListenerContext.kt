@@ -5,6 +5,9 @@ import me.mattstudios.core.func.Initializer
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 
+/**
+ * Handles registering listeners in a simple way
+ */
 class ListenerContext(private val plugin: TriumphPlugin) {
 
     /**

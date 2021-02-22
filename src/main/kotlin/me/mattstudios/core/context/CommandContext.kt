@@ -20,23 +20,23 @@ class CommandContext(private val commandManager: CommandManager) {
     }
 
     /**
-     * Register a completion
+     * Register a completion to be used in the commands
      */
     fun completion(id: String, resolver: CompletionResolver) {
         commandManager.completionHandler.register(id, resolver)
     }
 
     /**
-     * Register a parameter
+     * Register a parameter type to be used in the commands
      */
     fun parameter(type: Any, resolver: ParameterResolver) {
         commandManager.parameterHandler.register(type::class.java, resolver)
     }
 
     /**
-     * Registers a message
+     * Registers a command message
      */
-    fun completion(id: String, resolver: MessageResolver) {
+    fun message(id: String, resolver: MessageResolver) {
         commandManager.messageHandler.register(id, resolver)
     }
 
