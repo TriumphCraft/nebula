@@ -22,12 +22,7 @@ class Config(private val folder: File) : YamlConfiguration() {
     /**
      * Loads the config file selected
      */
-    fun create(configClass: Class<out SettingsHolder>) = create(configClass, null)
-
-    /**
-     * Loads the config file selected
-     */
-    fun create(configClass: Class<out SettingsHolder>, mapper: PropertyMapper?) {
+    fun create(configClass: Class<out SettingsHolder>, mapper: PropertyMapper? = null) {
         val builder = SettingsManager.from(Paths.get(folder.path, "config.yml")).configurationData(configClass)
         if (mapper != null) builder.propertyMapper(mapper)
         settingsManager = builder.create()
@@ -48,15 +43,12 @@ class Config(private val folder: File) : YamlConfiguration() {
     /**
      * Reloads the config
      */
-    fun reload() {
-        settingsManager.reload()
-    }
+    fun reload() = settingsManager.reload()
 
     /**
      * Saves the config
      */
-    fun save() {
-        settingsManager.save()
-    }
+    fun save() = settingsManager.save()
+
 
 }

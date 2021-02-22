@@ -18,7 +18,7 @@ class FileTests {
 
     init {
         config.create(Settings::class.java)
-        locale.setHolder(Messages::class.java).setLocale(Language.ENGLISH)
+        locale.setHolder(Messages::class.java).create()
     }
 
     @Test
@@ -37,7 +37,7 @@ class FileTests {
         Defaults.lang = Language.PORTUGUESE
 
         // Changes locale language
-        locale.setLocale(Language.PORTUGUESE)
+        locale.setLocale(Language.PORTUGUESE).create()
         assertThat(locale[Messages.MESSAGE_TEST]).isEqualTo("Mensagem Customizada Em Portugues")
     }
 

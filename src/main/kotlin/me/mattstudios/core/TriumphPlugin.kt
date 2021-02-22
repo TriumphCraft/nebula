@@ -1,20 +1,20 @@
 package me.mattstudios.core
 
 import me.mattstudios.core.configuration.Config
+import me.mattstudios.core.context.Enable
+import me.mattstudios.core.context.EnableContext
 import me.mattstudios.core.locale.Locale
-import me.mattstudios.mf.base.CommandBase
 import me.mattstudios.mf.base.CommandManager
-import me.mattstudios.mf.base.components.CompletionResolver
-import me.mattstudios.mf.base.components.MessageResolver
-import me.mattstudios.mf.base.components.ParameterResolver
-import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
+/**
+ * Adds many pre-made functionalities to make life easier
+ */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 abstract class TriumphPlugin : JavaPlugin() {
 
     // Command manager from MF
-    protected lateinit var commandManager: CommandManager
+    internal lateinit var commandManager: CommandManager
         private set
 
     // Config object for config handling
@@ -24,8 +24,21 @@ abstract class TriumphPlugin : JavaPlugin() {
     lateinit var locale: Locale
         private set
 
+    // Functions for handling plugin stages
+    private var loadFunction: () -> Unit = {}
+    private var enableFunction: EnableContext.() -> Unit = {}
+    private var disableFunction: () -> Unit = {}
+
+    /**
+     * Runs the plugin main logic
+     */
+    protected abstract fun plugin()
+
     // Calls the plugin load
-    override fun onLoad() = load()
+    override fun onLoad() {
+        plugin()
+        loadFunction()
+    }
 
     override fun onEnable() {
         config = Config(dataFolder)
@@ -34,56 +47,36 @@ abstract class TriumphPlugin : JavaPlugin() {
         commandManager = CommandManager(this, true)
 
         // Calls the plugin enable
-        enable()
+        enableFunction(Enable(this))
     }
 
     // Calls the plugin disable
-    override fun onDisable() = disable()
+    override fun onDisable() = disableFunction()
 
     /**
      * Used to pass the onLoad to the main plugin
      */
-    protected open fun load() {}
+    protected fun load(loadFunction: () -> Unit) {
+        this.loadFunction = loadFunction
+    }
 
     /**
      * Used to pass the onEnable to the main plugin
      */
-    protected open fun enable() {}
+    protected fun enable(enableFunction: EnableContext.() -> Unit) {
+        this.enableFunction = enableFunction
+    }
 
     /**
      * Used to pass onDisable to the main plugin
      */
-    protected open fun disable() {}
+    protected fun disable(disableFunction: () -> Unit) {
+        this.disableFunction = disableFunction
+    }
 
     /**
      * Gets the config, overridden from the spigot one
      */
     override fun getConfig() = config
-
-    /**
-     * Used for registering the plugin commands
-     */
-    protected fun registerCommands(vararg commands: CommandBase) = commands.forEach(commandManager::register)
-
-    /**
-     * Used for registering command completions
-     *
-     */
-    protected fun registerCompletion(completionId: String, resolver: CompletionResolver) = commandManager.completionHandler.register(completionId, resolver)
-
-    /**
-     * Used for registering command parameters
-     */
-    protected fun registerParamType(clazz: Class<*>, resolver: ParameterResolver) = commandManager.parameterHandler.register(clazz, resolver)
-
-    /**
-     * Used for registering command messages
-     */
-    protected fun registerMessage(messageId: String, resolver: MessageResolver) = commandManager.messageHandler.register(messageId, resolver)
-
-    /**
-     * Used for registering the listeners easily
-     */
-    protected fun registerListeners(vararg listeners: Listener) = listeners.forEach { server.pluginManager.registerEvents(it, this) }
 
 }

@@ -12,6 +12,7 @@ import java.nio.file.Paths
 @Suppress("MemberVisibilityCanBePrivate")
 class Locale(private val folder: File) {
 
+    // Current being used language
     var language = Language.ENGLISH
         private set
 
@@ -30,15 +31,20 @@ class Locale(private val folder: File) {
     }
 
     /**
-     * Sets the current [Language] and starts the new [SettingsManager]
+     * Sets the current [Language]
      */
     fun setLocale(language: Language): Locale {
         this.language = language
+        return this
+    }
+
+    /**
+     * Creates the [SettingsManager]
+     */
+    fun create() {
         settingsManager = SettingsManager.from(Paths.get(folder.path, "lang/${language.file}.yml"))
             .configurationData(messageClass)
             .create()
-
-        return this
     }
 
     /**
