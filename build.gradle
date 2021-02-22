@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.mattstudios"
-version = "1.0.17"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -17,7 +17,6 @@ repositories {
 
 dependencies {
     compileOnly "me.mattstudios.utils:matt-framework:1.4.6"
-    //compileOnly "me.mattstudios.utils:matt-framework-gui:2.0.2"
     compileOnly "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
 
     compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
