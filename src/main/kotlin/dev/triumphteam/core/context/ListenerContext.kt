@@ -1,7 +1,7 @@
-package me.mattstudios.core.context
+package dev.triumphteam.core.context
 
-import me.mattstudios.core.TriumphPlugin
-import me.mattstudios.core.func.Initializer
+import dev.triumphteam.core.TriumphPlugin
+import dev.triumphteam.core.func.Initializer
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 

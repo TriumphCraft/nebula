@@ -1,4 +1,4 @@
-package me.mattstudios.core.func
+package dev.triumphteam.core.func
 
 import java.io.IOException
 import java.nio.file.Files

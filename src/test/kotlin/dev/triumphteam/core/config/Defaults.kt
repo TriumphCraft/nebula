@@ -1,6 +1,6 @@
-package me.mattstudios.core.config
+package dev.triumphteam.core.config
 
-import me.mattstudios.core.locale.Language
+import dev.triumphteam.core.locale.Language
 
 enum class Defaults(private val en: String, private val pt: String) {
 

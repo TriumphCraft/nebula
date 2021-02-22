@@ -1,4 +1,4 @@
-package me.mattstudios.core.func
+package dev.triumphteam.core.func
 
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor

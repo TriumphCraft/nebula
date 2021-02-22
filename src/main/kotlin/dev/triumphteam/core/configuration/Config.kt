@@ -1,4 +1,4 @@
-package me.mattstudios.core.configuration
+package dev.triumphteam.core.configuration
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager

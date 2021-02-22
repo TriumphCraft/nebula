@@ -1,6 +1,6 @@
-package me.mattstudios.core.context
+package dev.triumphteam.core.context
 
-import me.mattstudios.core.func.Initializer
+import dev.triumphteam.core.func.Initializer
 import me.mattstudios.mf.base.CommandBase
 import me.mattstudios.mf.base.CommandManager
 import me.mattstudios.mf.base.components.CompletionResolver

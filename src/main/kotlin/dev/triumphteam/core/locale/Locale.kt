@@ -1,4 +1,4 @@
-package me.mattstudios.core.locale
+package dev.triumphteam.core.locale
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager

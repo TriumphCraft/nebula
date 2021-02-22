@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package me.mattstudios.core.func
+package dev.triumphteam.core.func
 
-import me.mattstudios.core.TriumphPlugin
+import dev.triumphteam.core.TriumphPlugin
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -41,6 +41,7 @@ object Task {
     /**
      * Better syntax for running task timers async
      */
-    fun asyncTimer(period: Long, delay: Long = 0L, task: Runnable) = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, task, delay, period)
+    fun asyncTimer(period: Long, delay: Long = 0L, task: Runnable) = Bukkit.getScheduler().runTaskTimerAsynchronously(
+        plugin, task, delay, period)
 
 }

@@ -1,11 +1,11 @@
-package me.mattstudios.core.context
+package dev.triumphteam.core.context
 
+import dev.triumphteam.core.TriumphPlugin
+import dev.triumphteam.core.configuration.Config
+import dev.triumphteam.core.locale.Language
+import dev.triumphteam.core.locale.Locale
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.beanmapper.PropertyMapper
-import me.mattstudios.core.TriumphPlugin
-import me.mattstudios.core.configuration.Config
-import me.mattstudios.core.locale.Language
-import me.mattstudios.core.locale.Locale
 
 /**
  * Allows some logic to only be accessible in the enable instead of globally in the main class

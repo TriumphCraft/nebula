@@ -1,4 +1,4 @@
-package me.mattstudios.core.locale
+package dev.triumphteam.core.locale
 
 /**
  * Enum with all the possible supported [Language]s

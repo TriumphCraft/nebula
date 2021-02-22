@@ -1,11 +1,11 @@
-package me.mattstudios.core.tests
+package dev.triumphteam.core.tests
 
-import me.mattstudios.core.config.Defaults
-import me.mattstudios.core.config.Messages
-import me.mattstudios.core.config.Settings
-import me.mattstudios.core.configuration.Config
-import me.mattstudios.core.locale.Language
-import me.mattstudios.core.locale.Locale
+import dev.triumphteam.core.config.Defaults
+import dev.triumphteam.core.config.Messages
+import dev.triumphteam.core.config.Settings
+import dev.triumphteam.core.configuration.Config
+import dev.triumphteam.core.locale.Language
+import dev.triumphteam.core.locale.Locale
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.nio.file.Paths

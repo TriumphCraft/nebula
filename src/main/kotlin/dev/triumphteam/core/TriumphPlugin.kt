@@ -1,9 +1,9 @@
-package me.mattstudios.core
+package dev.triumphteam.core
 
-import me.mattstudios.core.configuration.Config
-import me.mattstudios.core.context.Enable
-import me.mattstudios.core.context.EnableContext
-import me.mattstudios.core.locale.Locale
+import dev.triumphteam.core.configuration.Config
+import dev.triumphteam.core.context.Enable
+import dev.triumphteam.core.context.EnableContext
+import dev.triumphteam.core.locale.Locale
 import me.mattstudios.mf.base.CommandManager
 import org.bukkit.plugin.java.JavaPlugin
 
