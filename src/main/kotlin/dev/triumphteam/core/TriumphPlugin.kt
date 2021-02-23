@@ -1,8 +1,6 @@
 package dev.triumphteam.core
 
 import dev.triumphteam.core.configuration.Config
-import dev.triumphteam.core.context.Enable
-import dev.triumphteam.core.context.EnableContext
 import dev.triumphteam.core.locale.Locale
 import me.mattstudios.mf.base.CommandManager
 import org.bukkit.plugin.java.JavaPlugin
@@ -24,22 +22,29 @@ abstract class TriumphPlugin : JavaPlugin() {
     lateinit var locale: Locale
         private set
 
-    // Functions for handling plugin stages
-    private var loadFunction: () -> Unit = {}
-    private var enableFunction: EnableContext.() -> Unit = {}
-    private var disableFunction: () -> Unit = {}
+    /**
+     * Main on load function
+     */
+    protected open fun load() {}
 
     /**
-     * Runs the plugin main logic
+     * Main on enable function
      */
-    protected abstract fun plugin()
+    protected open fun enable() {}
 
-    // Calls the plugin load
-    override fun onLoad() {
-        plugin()
-        loadFunction()
-    }
+    /**
+     * Main on disable function
+     */
+    protected open fun disable() {}
 
+    /**
+     * Calls [JavaPlugin]'s onLoad and calls [load], does nothing more, exists so the functions can be named similarly
+     */
+    override fun onLoad() = load()
+
+    /**
+     * Calls [JavaPlugin]'s onEnable, initialize some values and call the main [enable]
+     */
     override fun onEnable() {
         config = Config(dataFolder)
         locale = Locale(dataFolder)
@@ -47,32 +52,13 @@ abstract class TriumphPlugin : JavaPlugin() {
         commandManager = CommandManager(this, true)
 
         // Calls the plugin enable
-        enableFunction(Enable(this))
-    }
-
-    // Calls the plugin disable
-    override fun onDisable() = disableFunction()
-
-    /**
-     * Used to pass the onLoad to the main plugin
-     */
-    protected fun load(loadFunction: () -> Unit) {
-        this.loadFunction = loadFunction
+        enable()
     }
 
     /**
-     * Used to pass the onEnable to the main plugin
+     * Calls [JavaPlugin]'s onDisable and calls [disable], does nothing more, exists so the functions can be named similarly
      */
-    protected fun enable(enableFunction: EnableContext.() -> Unit) {
-        this.enableFunction = enableFunction
-    }
-
-    /**
-     * Used to pass onDisable to the main plugin
-     */
-    protected fun disable(disableFunction: () -> Unit) {
-        this.disableFunction = disableFunction
-    }
+    override fun onDisable() = disable()
 
     /**
      * Gets the config, overridden from the spigot one
