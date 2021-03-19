@@ -20,8 +20,8 @@ class ListenerContext(private val plugin: TriumphPlugin) {
     /**
      * Simple initializer for doing the above but not clog up the main class
      */
-    fun initialize(initializer: Initializer<TriumphPlugin>) {
-        initializer.initialize(plugin)
+    fun initialize(initializer: Initializer<ListenerContext>) {
+        initializer.initialize(this)
     }
 
 }

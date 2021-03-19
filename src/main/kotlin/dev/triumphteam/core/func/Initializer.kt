@@ -8,6 +8,6 @@ interface Initializer<T> {
     /**
      * Calls a initializing block, this can be used for registering commands, listeners, etc
      */
-    fun initialize(manager: T)
+    fun initialize(context: T)
 
 }

@@ -29,8 +29,8 @@ class CommandContext(private val commandManager: CommandManager) {
     /**
      * Register a parameter type to be used in the commands
      */
-    fun parameter(type: Any, resolver: ParameterResolver) {
-        commandManager.parameterHandler.register(type::class.java, resolver)
+    fun parameter(type: Class<*>, resolver: ParameterResolver) {
+        commandManager.parameterHandler.register(type, resolver)
     }
 
     /**
@@ -43,8 +43,8 @@ class CommandContext(private val commandManager: CommandManager) {
     /**
      * Simple initializer for doing the above but not clog up the main class
      */
-    fun initialize(initializer: Initializer<CommandManager>) {
-        initializer.initialize(commandManager)
+    fun initialize(initializer: Initializer<CommandContext>) {
+        initializer.initialize(this)
     }
 
 }
