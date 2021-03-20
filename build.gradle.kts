@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "me.mattstudios"
-version = "1.1.5"
+version = "1.1.6"
 
 repositories {
     mavenCentral()
@@ -36,7 +36,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.0")
 }
 
-private val kotlinComponent: SoftwareComponent = components["kotlin"]
+val kotlinComponent: SoftwareComponent = components["kotlin"]
 
 tasks {
 

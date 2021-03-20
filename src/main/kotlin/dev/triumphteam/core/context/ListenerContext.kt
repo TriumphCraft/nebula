@@ -8,7 +8,7 @@ import org.bukkit.event.Listener
 /**
  * Handles registering listeners in a simple way
  */
-class ListenerContext(private val plugin: TriumphPlugin) {
+class ListenerContext<T : TriumphPlugin>(private val plugin: T) {
 
     /**
      * Registers a new listener
@@ -20,8 +20,8 @@ class ListenerContext(private val plugin: TriumphPlugin) {
     /**
      * Simple initializer for doing the above but not clog up the main class
      */
-    fun initialize(initializer: Initializer<ListenerContext>) {
-        initializer.initialize(this)
+    fun initialize(initializer: Initializer<T>) {
+        initializer.initialize(plugin)
     }
 
 }

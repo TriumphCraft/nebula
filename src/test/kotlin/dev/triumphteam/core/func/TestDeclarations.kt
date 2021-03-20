@@ -26,5 +26,6 @@ fun getJarPath(path: String): Path {
     val filePath = object : Any() {}.javaClass.getResource(path).path
     // Windows prepends the path with a '/' or '\', which Paths cannot handle
     val appropriatePath = if (System.getProperty("os.name").contains("indow")) filePath.substring(1) else filePath
+
     return Paths.get(appropriatePath)
 }

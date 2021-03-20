@@ -1,7 +1,12 @@
 package dev.triumphteam.core
 
 import dev.triumphteam.core.configuration.Config
+import dev.triumphteam.core.context.CommandContext
+import dev.triumphteam.core.context.ListenerContext
+import dev.triumphteam.core.locale.Language
 import dev.triumphteam.core.locale.Locale
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.beanmapper.PropertyMapper
 import me.mattstudios.mf.base.CommandManager
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -64,5 +69,34 @@ abstract class TriumphPlugin : JavaPlugin() {
      * Gets the config, overridden from the spigot one
      */
     override fun getConfig() = config
+
+    /**
+     * Sets the setting holder and mapper for the [Config]
+     */
+    protected fun config(holder: SettingsHolder, mapper: PropertyMapper?) {
+        config.create(holder::class.java, mapper)
+    }
+
+    /**
+     * Sets the setting holder and the language of the [Locale] and creates the file
+     */
+    protected fun locale(holder: SettingsHolder, language: Language) {
+        locale.setHolder(holder::class.java).setLocale(language).create()
+    }
+
+    /**
+     * Creates a [CommandContext] and applies the logic from enable
+     */
+    fun <T : TriumphPlugin> T.commands(context: CommandContext<T>.() -> Unit) {
+        CommandContext(this).apply(context)
+    }
+
+
+    /**
+     * Creates a [ListenerContext] and applies the logic from enable
+     */
+    fun <T : TriumphPlugin> T.listeners(context: ListenerContext<T>.() -> Unit) {
+        ListenerContext(this).apply(context)
+    }
 
 }
