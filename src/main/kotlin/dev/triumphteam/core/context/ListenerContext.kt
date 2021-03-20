@@ -8,13 +8,20 @@ import org.bukkit.event.Listener
 /**
  * Handles registering listeners in a simple way
  */
-class ListenerContext<T : TriumphPlugin>(private val plugin: T) {
+class ListenerContext<T : TriumphPlugin>(val plugin: T) {
 
     /**
      * Registers a new listener
      */
-    fun add(listener: Listener) {
+    fun register(listener: Listener) {
         Bukkit.getPluginManager().registerEvents(listener, plugin)
+    }
+
+    /**
+     * Registers a new command
+     */
+    fun register(vararg listeners: Listener) {
+        listeners.forEach(this::register)
     }
 
     /**

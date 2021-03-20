@@ -10,14 +10,21 @@ import me.mattstudios.mf.base.components.ParameterResolver
 /**
  * Command builder for starting up command related things in the main class
  */
-class CommandContext<T : TriumphPlugin>(private val plugin: T) {
+class CommandContext<T : TriumphPlugin>(val plugin: T) {
     private val commandManager = plugin.commandManager
 
     /**
      * Registers a new command
      */
-    fun add(commandBase: CommandBase) {
-        commandManager.register(commandBase)
+    fun register(command: CommandBase) {
+        commandManager.register(command)
+    }
+
+    /**
+     * Registers a new command
+     */
+    fun register(vararg commands: CommandBase) {
+        commands.forEach(this::register)
     }
 
     /**
