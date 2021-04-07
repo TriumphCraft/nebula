@@ -14,7 +14,7 @@ interface Config {
     /**
      * Gets a property
      */
-    operator fun <T> get(property: Property<T>)
+    operator fun <T> get(property: Property<T>): T
 
     /**
      * Gets a property
