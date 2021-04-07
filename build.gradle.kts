@@ -1,15 +1,13 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val javaVersion = "1.8"
 
 plugins {
-    kotlin("jvm") version "1.4.31"
+    kotlin("jvm") version "1.4.32"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("maven-publish")
 }
 
 group = "me.mattstudios"
-version = "1.1.8"
+version = "1.1.9"
 
 repositories {
     mavenCentral()
@@ -34,6 +32,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.11.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+
 }
 
 val kotlinComponent: SoftwareComponent = components["kotlin"]
@@ -51,7 +50,7 @@ tasks {
         targetCompatibility = javaVersion
     }
 
-    withType<KotlinCompile> {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             jvmTarget = javaVersion
             javaParameters = true

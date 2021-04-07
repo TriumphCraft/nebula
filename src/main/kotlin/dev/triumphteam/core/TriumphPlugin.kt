@@ -1,14 +1,18 @@
 package dev.triumphteam.core
 
 import dev.triumphteam.core.configuration.Config
+import dev.triumphteam.core.configuration.ConfigFactory
+import dev.triumphteam.core.configuration.UnregisteredConfigException
 import dev.triumphteam.core.context.CommandContext
 import dev.triumphteam.core.context.ListenerContext
+import dev.triumphteam.core.func.Initializer
 import dev.triumphteam.core.locale.Language
 import dev.triumphteam.core.locale.Locale
 import me.mattstudios.config.SettingsHolder
-import me.mattstudios.config.beanmapper.PropertyMapper
 import me.mattstudios.mf.base.CommandManager
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
+import kotlin.reflect.KClass
 
 /**
  * Adds many pre-made functionalities to make life easier
@@ -16,12 +20,13 @@ import org.bukkit.plugin.java.JavaPlugin
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 abstract class TriumphPlugin : JavaPlugin() {
 
+    // Config object for config handling
+    // TODO config
+    val configs = mutableMapOf<KClass<out Config>, Config>()
+
     // Command manager from MF
     internal lateinit var commandManager: CommandManager
         private set
-
-    // Config object for config handling
-    private lateinit var config: Config
 
     // Locale object for message handling
     lateinit var locale: Locale
@@ -51,7 +56,6 @@ abstract class TriumphPlugin : JavaPlugin() {
      * Calls [JavaPlugin]'s onEnable, initialize some values and call the main [enable]
      */
     override fun onEnable() {
-        config = Config(dataFolder)
         locale = Locale(dataFolder)
 
         commandManager = CommandManager(this, true)
@@ -68,13 +72,26 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Gets the config, overridden from the spigot one
      */
-    override fun getConfig() = config
+    @Throws(UnsupportedOperationException::class)
+    override fun getConfig(): FileConfiguration {
+        // TODO Handle this better later
+        throw UnsupportedOperationException()
+    }
 
     /**
-     * Sets the setting holder and mapper for the [Config]
+     *
      */
-    protected fun config(holder: SettingsHolder, mapper: PropertyMapper?) {
-        config.create(holder::class.java, mapper)
+    protected fun config(configFactory: ConfigFactory) {
+        configFactory.create(this).also {
+            configs[it::class] = it
+        }
+    }
+
+    /**
+     * Gets a config that has been registered before
+     */
+    inline fun <reified T : Config> config(): Config {
+        return configs[T::class] ?: throw UnregisteredConfigException(T::class)
     }
 
     /**
@@ -89,6 +106,13 @@ abstract class TriumphPlugin : JavaPlugin() {
      */
     fun <T : TriumphPlugin> T.commands(context: CommandContext<T>.() -> Unit) {
         CommandContext(this).apply(context)
+    }
+
+    /**
+     * Simple initializer for doing the above but not clog up the main class
+     */
+    fun <T> T.initialize(initializer: Initializer<TriumphPlugin>) {
+        initializer.initialize(this@TriumphPlugin)
     }
 
 
