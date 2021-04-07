@@ -10,7 +10,6 @@ import dev.triumphteam.core.locale.Language
 import dev.triumphteam.core.locale.Locale
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.mf.base.CommandManager
-import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.reflect.KClass
 
@@ -20,8 +19,8 @@ import kotlin.reflect.KClass
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 abstract class TriumphPlugin : JavaPlugin() {
 
-    // Config object for config handling
-    // TODO config
+    // Config map for saving all the configs used by the main plugin
+    // Unfortunately it's required to be public due to the reified inline function for the getter
     val configs = mutableMapOf<KClass<out Config>, Config>()
 
     // Command manager from MF
@@ -70,16 +69,8 @@ abstract class TriumphPlugin : JavaPlugin() {
     override fun onDisable() = disable()
 
     /**
-     * Gets the config, overridden from the spigot one
-     */
-    @Throws(UnsupportedOperationException::class)
-    override fun getConfig(): FileConfiguration {
-        // TODO Handle this better later
-        throw UnsupportedOperationException()
-    }
-
-    /**
-     *
+     *  "Registers" a config to the plugin's configs
+     *  Uses a [ConfigFactory] which usually is a companion object, for easy creation of the config
      */
     protected fun config(configFactory: ConfigFactory) {
         configFactory.create(this).also {

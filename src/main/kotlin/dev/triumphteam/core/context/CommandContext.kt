@@ -11,6 +11,7 @@ import me.mattstudios.mf.base.components.ParameterResolver
  * Command builder for starting up command related things in the main class
  */
 class CommandContext<T : TriumphPlugin>(val plugin: T) {
+
     private val commandManager = plugin.commandManager
 
     /**

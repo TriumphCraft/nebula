@@ -1,23 +1,20 @@
 package dev.triumphteam.core.configuration
 
 import me.mattstudios.config.properties.Property
-import org.bukkit.configuration.file.YamlConfiguration
 
 /**
- * Config handler for all plugins
- * *Extends [YamlConfiguration] just to override JavaPlugin's `getConfig`*
- * **Never uses anything from [YamlConfiguration]**
+ * Simple config interface
+ * All configs registered by the main plugin must implement this
  */
-@Suppress("MemberVisibilityCanBePrivate")
 interface Config {
 
     /**
-     * Gets a property
+     * Gets a property from the config
      */
     operator fun <T> get(property: Property<T>): T
 
     /**
-     * Gets a property
+     * Sets a property value to the config, requires [save] for the setting to be affective in the file
      */
     operator fun <T : Any> set(property: Property<T>, value: T)
 
