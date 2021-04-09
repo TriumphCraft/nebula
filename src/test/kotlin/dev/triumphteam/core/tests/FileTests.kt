@@ -11,6 +11,7 @@ import java.nio.file.Paths
 class FileTests {
 
     private val resources = Paths.get("src", "test", "resources").toFile()
+
     //private val config = AbstractConfig(resources)
     private val locale = Locale(resources)
 

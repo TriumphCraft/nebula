@@ -81,8 +81,8 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Gets a config that has been registered before
      */
-    inline fun <reified T : Config> config(): Config {
-        return configs[T::class] ?: throw UnregisteredConfigException(T::class)
+    inline fun <reified T : Config> config(): T {
+        return (configs[T::class] ?: throw UnregisteredConfigException(T::class)) as T
     }
 
     /**
@@ -95,22 +95,22 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Creates a [CommandContext] and applies the logic from enable
      */
-    fun <T : TriumphPlugin> T.commands(context: CommandContext<T>.() -> Unit) {
+    inline fun <T : TriumphPlugin> T.commands(context: CommandContext<T>.() -> Unit) {
         CommandContext(this).apply(context)
     }
 
     /**
      * Simple initializer for doing the above but not clog up the main class
      */
-    fun <T> T.initialize(initializer: Initializer<TriumphPlugin>) {
-        initializer.initialize(this@TriumphPlugin)
+    protected fun <T : TriumphPlugin> T.initialize(initializer: Initializer<T>) {
+        initializer.initialize(this)
     }
 
 
     /**
      * Creates a [ListenerContext] and applies the logic from enable
      */
-    fun <T : TriumphPlugin> T.listeners(context: ListenerContext<T>.() -> Unit) {
+    inline fun <T : TriumphPlugin> T.listeners(context: ListenerContext<T>.() -> Unit) {
         ListenerContext(this).apply(context)
     }
 
