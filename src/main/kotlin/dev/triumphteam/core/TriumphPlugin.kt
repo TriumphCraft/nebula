@@ -5,6 +5,7 @@ import dev.triumphteam.core.configuration.ConfigFactory
 import dev.triumphteam.core.configuration.UnregisteredConfigException
 import dev.triumphteam.core.context.CommandContext
 import dev.triumphteam.core.context.ListenerContext
+import dev.triumphteam.core.func.Checker
 import dev.triumphteam.core.func.Initializer
 import dev.triumphteam.core.locale.Language
 import dev.triumphteam.core.locale.Locale
@@ -104,6 +105,13 @@ abstract class TriumphPlugin : JavaPlugin() {
      */
     protected fun <T : TriumphPlugin> T.initialize(initializer: Initializer<T>) {
         initializer.initialize(this)
+    }
+
+    /**
+     * Util for doing enable checks, like dependency checks and things like that
+     */
+    protected fun <T : TriumphPlugin> T.check(checker: Checker<T>): Boolean {
+        return checker.check(this)
     }
 
 
