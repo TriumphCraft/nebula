@@ -10,7 +10,7 @@ import java.nio.file.Path
  * Simple config
  * All configs registered by the main plugin must extend this
  */
-abstract class Config(
+abstract class BaseConfig(
     path: Path,
     holder: Class<out SettingsHolder>,
     propertyMapper: PropertyMapper? = null,

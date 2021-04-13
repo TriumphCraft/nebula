@@ -10,6 +10,6 @@ interface ConfigFactory {
     /**
      * Factory for creating the config
      */
-    fun create(plugin: TriumphPlugin): Config
+    fun create(plugin: TriumphPlugin): BaseConfig
 
 }

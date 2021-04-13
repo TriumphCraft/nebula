@@ -1,6 +1,6 @@
 package dev.triumphteam.core
 
-import dev.triumphteam.core.configuration.Config
+import dev.triumphteam.core.configuration.BaseConfig
 import dev.triumphteam.core.configuration.ConfigFactory
 import dev.triumphteam.core.configuration.UnregisteredConfigException
 import dev.triumphteam.core.context.CommandContext
@@ -22,7 +22,7 @@ abstract class TriumphPlugin : JavaPlugin() {
 
     // Config map for saving all the configs used by the main plugin
     // Unfortunately it's required to be public due to the reified inline function for the getter
-    val configs = mutableMapOf<KClass<out Config>, Config>()
+    val configs = mutableMapOf<KClass<out BaseConfig>, BaseConfig>()
 
     // Command manager from MF
     internal lateinit var commandManager: CommandManager
@@ -82,7 +82,7 @@ abstract class TriumphPlugin : JavaPlugin() {
     /**
      * Gets a config that has been registered before
      */
-    inline fun <reified T : Config> config(): T {
+    inline fun <reified T : BaseConfig> config(): T {
         return (configs[T::class] ?: throw UnregisteredConfigException(T::class)) as T
     }
 
