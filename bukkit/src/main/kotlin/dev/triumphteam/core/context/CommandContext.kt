@@ -1,16 +1,9 @@
 package dev.triumphteam.core.context
 
-import dev.triumphteam.core.TriumphPlugin
-import dev.triumphteam.core.func.Initializer
-import me.mattstudios.mf.base.CommandBase
-import me.mattstudios.mf.base.components.CompletionResolver
-import me.mattstudios.mf.base.components.MessageResolver
-import me.mattstudios.mf.base.components.ParameterResolver
-
 /**
  * Command builder for starting up command related things in the main class
  */
-class CommandContext<T : TriumphPlugin>(val plugin: T) {
+/*class CommandContext<T : TriumphPlugin>(val plugin: T) {
 
     private val commandManager = plugin.commandManager
 
@@ -56,4 +49,4 @@ class CommandContext<T : TriumphPlugin>(val plugin: T) {
         initializer.initialize(plugin)
     }
 
-}
+}*/
