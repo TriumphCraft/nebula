@@ -2,9 +2,9 @@ package dev.triumphteam.core.locale
 
 /**
  * Enum with all the possible supported [Language]s
- * ***Need to add more***
+ * ***TODO Need to add more***
  */
-enum class Language(val file: String) {
+public enum class Language(public val file: String) {
 
     ENGLISH("en_US"),
     PORTUGUESE("pt_BR"),

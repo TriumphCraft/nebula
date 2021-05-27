@@ -10,10 +10,10 @@ import java.nio.file.Paths
  * **Locale** handler for all plugins
  */
 @Suppress("MemberVisibilityCanBePrivate")
-class Locale(private val folder: File) {
+public class Locale(private val folder: File) {
 
     // Current being used language
-    var language = Language.ENGLISH
+    public var language: Language = Language.ENGLISH
         private set
 
     // The settings holder of the languages
@@ -25,7 +25,7 @@ class Locale(private val folder: File) {
     /**
      * Sets the message [SettingsHolder] to be used for the [Locale]
      */
-    fun setHolder(messageClass: Class<out SettingsHolder>): Locale {
+    public fun setHolder(messageClass: Class<out SettingsHolder>): Locale {
         this.messageClass = messageClass
         return this
     }
@@ -33,7 +33,7 @@ class Locale(private val folder: File) {
     /**
      * Sets the current [Language]
      */
-    fun setLocale(language: Language): Locale {
+    public fun setLocale(language: Language): Locale {
         this.language = language
         return this
     }
@@ -41,7 +41,7 @@ class Locale(private val folder: File) {
     /**
      * Creates the [SettingsManager]
      */
-    fun create() {
+    public fun create() {
         settingsManager = SettingsManager.from(Paths.get(folder.path, "lang/${language.file}.yml"))
             .configurationData(messageClass)
             .create()
@@ -50,11 +50,13 @@ class Locale(private val folder: File) {
     /**
      * Gets a message from the locale file
      */
-    operator fun <T> get(property: Property<T>) = settingsManager[property]
+    public operator fun <T> get(property: Property<T>): T = settingsManager[property]
 
     /**
      * Used to reload the lang file
      */
-    fun reload() = settingsManager.reload()
+    public fun reload() {
+        settingsManager.reload()
+    }
 
 }
