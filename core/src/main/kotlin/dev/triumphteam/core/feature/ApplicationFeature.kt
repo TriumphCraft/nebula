@@ -25,4 +25,5 @@ public interface ApplicationFeature<
      * @param configure A configuration, that can be anything
      */
     public fun install(application: A, configure: C.() -> Unit): F
+    
 }

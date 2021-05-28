@@ -1,7 +1,5 @@
 package dev.triumphteam.core
 
-import dev.triumphteam.core.configuration.BaseConfig
-import dev.triumphteam.core.feature.attribute.AttributeKey
 import dev.triumphteam.core.feature.attribute.HashMapAttributes
 import dev.triumphteam.core.feature.attribute.attributesOf
 import org.bukkit.plugin.java.JavaPlugin
@@ -14,43 +12,43 @@ import java.io.File
  */
 public abstract class BukkitPlugin<P : TriumphApplication>(
     private val module: P.() -> Unit,
-    private val common: (TriumphApplication.() -> Unit)? = null
+    private val common: TriumphApplication.() -> Unit = {}
 ) : JavaPlugin(), TriumphApplication {
 
     override val attributes: HashMapAttributes = attributesOf()
-    override val configs: MutableMap<AttributeKey<*>, BaseConfig> = mutableMapOf()
     override val applicationFolder: File = dataFolder
 
-    private var load: () -> Unit = {}
-    private var enable: () -> Unit = {}
-    private var disable: () -> Unit = {}
+    private var loadFunctions: MutableList<() -> Unit> = mutableListOf()
+    private var enableFunctions: MutableList<() -> Unit> = mutableListOf()
+    private var disableFunctions: MutableList<() -> Unit> = mutableListOf()
+    private val test: () -> Unit = {}
 
     init {
         build()
     }
 
     override fun onLoad() {
-        load()
+        loadFunctions.forEach { it() }
     }
 
     override fun onEnable() {
-        enable()
+        enableFunctions.forEach { it() }
     }
 
     override fun onDisable() {
-        disable()
+        enableFunctions.forEach { it() }
     }
 
     public override fun onLoad(load: () -> Unit) {
-        this.load = load
+        loadFunctions.add(load)
     }
 
     public override fun onEnable(enable: () -> Unit) {
-        this.enable = enable
+        enableFunctions.add(enable)
     }
 
     public override fun onDisable(disable: () -> Unit) {
-        this.disable = disable
+        disableFunctions.add(disable)
     }
 
     /**
@@ -58,8 +56,8 @@ public abstract class BukkitPlugin<P : TriumphApplication>(
      */
     @Suppress("UNCHECKED_CAST")
     private fun build() {
+        common(this)
         module(this as P)
-        common?.let { it(this) }
     }
 
 }

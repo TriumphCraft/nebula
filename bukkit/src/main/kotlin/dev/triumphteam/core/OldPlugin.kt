@@ -1,11 +1,9 @@
 package dev.triumphteam.core
 
-import dev.triumphteam.core.locale.Language
-import dev.triumphteam.core.locale.Locale
-import me.mattstudios.config.SettingsHolder
 import me.mattstudios.mf.base.CommandManager
 import me.mattstudios.mf.base.components.MessageResolver
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.Locale
 
 /**
  * Adds many pre-made functionalities to make life easier
@@ -51,8 +49,6 @@ public abstract class OldPlugin : JavaPlugin() {
      * Calls [JavaPlugin]'s onEnable, initialize some values and call the main [enable]
      */
     override fun onEnable() {
-        locale = Locale(dataFolder)
-
         commandManager = CommandManager(this, true)
 
         // Calls the plugin enable
@@ -72,13 +68,6 @@ public abstract class OldPlugin : JavaPlugin() {
     /*public inline fun <reified T : BaseConfig> config(): T {
         return (configs[T::class] ?: throw UnregisteredConfigException(T::class)) as T
     }*/
-
-    /**
-     * Sets the setting holder and the language of the [Locale] and creates the file
-     */
-    protected fun locale(holder: SettingsHolder, language: Language) {
-        locale.setHolder(holder::class.java).setLocale(language).create()
-    }
 
     /**
      * Creates a [CommandContext] and applies the logic from enable

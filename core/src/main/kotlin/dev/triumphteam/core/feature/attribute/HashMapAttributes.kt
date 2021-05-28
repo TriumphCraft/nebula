@@ -31,3 +31,7 @@ public class HashMapAttributes : Attributes {
 public fun attributesOf(): HashMapAttributes {
     return HashMapAttributes()
 }
+
+public fun <T> key(name: String): AttributeKey<T> {
+    return AttributeKey(name)
+}
