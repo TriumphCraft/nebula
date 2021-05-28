@@ -1,6 +1,5 @@
 package dev.triumphteam.core
 
-import dev.triumphteam.core.configuration.ConfigFactory
 import dev.triumphteam.core.locale.Language
 import dev.triumphteam.core.locale.Locale
 import me.mattstudios.config.SettingsHolder
@@ -65,16 +64,6 @@ public abstract class OldPlugin : JavaPlugin() {
      */
     override fun onDisable() {
         disable()
-    }
-
-    /**
-     *  "Registers" a config to the plugin's configs
-     *  Uses a [ConfigFactory] which usually is a companion object, for easy creation of the config
-     */
-    protected fun config(configFactory: ConfigFactory) {
-        /*configFactory.create(this).also {
-            configs[it::class] = it
-        }*/
     }
 
     /**

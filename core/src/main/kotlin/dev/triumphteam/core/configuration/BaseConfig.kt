@@ -10,7 +10,7 @@ import java.nio.file.Path
  * Simple config
  * All configs registered by the main plugin must extend this
  */
-/*abstract class BaseConfig(
+public abstract class BaseConfig(
     path: Path,
     holder: Class<out SettingsHolder>,
     propertyMapper: PropertyMapper? = null,
@@ -27,24 +27,30 @@ import java.nio.file.Path
     /**
      * Gets a property from the config
      */
-    operator fun <T> get(property: Property<T>): T = config[property]
+    public operator fun <T> get(property: Property<T>): T = config[property]
 
 
     /**
-     * Sets a property value to the config, requires [save] for the setting to be affective in the file
+     * Sets a property value to the config
+     * @param property The property key
+     * @param value The new value
      */
-    operator fun <T : Any> set(property: Property<T>, value: T) {
+    public operator fun <T : Any> set(property: Property<T>, value: T) {
         config[property] = value
     }
 
     /**
      * Reloads the config
      */
-    fun reload() = config.reload()
+    public fun reload() {
+        config.reload()
+    }
 
     /**
      * Saves the config
      */
-    fun save() = config.save()
+    public fun save() {
+        config.save()
+    }
 
-}*/
+}

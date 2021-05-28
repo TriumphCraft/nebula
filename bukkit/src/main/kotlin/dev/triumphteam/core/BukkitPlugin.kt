@@ -1,7 +1,11 @@
 package dev.triumphteam.core
 
-import dev.triumphteam.core.feature.HashMapAttributes
+import dev.triumphteam.core.configuration.BaseConfig
+import dev.triumphteam.core.feature.attribute.AttributeKey
+import dev.triumphteam.core.feature.attribute.HashMapAttributes
+import dev.triumphteam.core.feature.attribute.attributesOf
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 
 /**
  * Main implementation for Bukkit
@@ -13,7 +17,9 @@ public abstract class BukkitPlugin<P : TriumphApplication>(
     private val common: (TriumphApplication.() -> Unit)? = null
 ) : JavaPlugin(), TriumphApplication {
 
-    override val attributes: HashMapAttributes = HashMapAttributes()
+    override val attributes: HashMapAttributes = attributesOf()
+    override val configs: MutableMap<AttributeKey<*>, BaseConfig> = mutableMapOf()
+    override val applicationFolder: File = dataFolder
 
     private var load: () -> Unit = {}
     private var enable: () -> Unit = {}
@@ -35,15 +41,15 @@ public abstract class BukkitPlugin<P : TriumphApplication>(
         disable()
     }
 
-    public fun load(load: () -> Unit) {
+    public override fun onLoad(load: () -> Unit) {
         this.load = load
     }
 
-    public fun enable(enable: () -> Unit) {
+    public override fun onEnable(enable: () -> Unit) {
         this.enable = enable
     }
 
-    public fun disable(disable: () -> Unit) {
+    public override fun onDisable(disable: () -> Unit) {
         this.disable = disable
     }
 

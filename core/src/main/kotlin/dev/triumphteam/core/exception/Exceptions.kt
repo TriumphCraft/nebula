@@ -1,6 +1,6 @@
 package dev.triumphteam.core.exception
 
-import dev.triumphteam.core.feature.AttributeKey
+import dev.triumphteam.core.feature.attribute.AttributeKey
 
 public class DuplicateFeatureException(override val message: String) : IllegalStateException()
 

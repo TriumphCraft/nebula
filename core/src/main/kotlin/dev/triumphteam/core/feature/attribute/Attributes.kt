@@ -1,31 +1,8 @@
-package dev.triumphteam.core.feature
+package dev.triumphteam.core.feature.attribute
 
-public data class AttributeKey<T>(public val name: String) {
-    override fun toString(): String = if (name.isEmpty()) super.toString() else "AttributeKey: $name"
-}
-
-public class HashMapAttributes : Attributes {
-
-    private val map: MutableMap<AttributeKey<*>, Any> = HashMap()
-
-    @Suppress("UNCHECKED_CAST")
-    public override fun <T : Any> getOrNull(key: AttributeKey<T>): T? = map[key] as T?
-
-    public override operator fun contains(key: AttributeKey<*>): Boolean = map.containsKey(key)
-
-    public override fun <T : Any> put(key: AttributeKey<T>, value: T) {
-        map[key] = value
-    }
-
-    public override fun <T : Any> remove(key: AttributeKey<T>) {
-        map.remove(key)
-    }
-
-    public override val allKeys: List<AttributeKey<*>>
-        get() = map.keys.toList()
-
-}
-
+/**
+ * Application attributes
+ */
 public interface Attributes {
 
     /**
