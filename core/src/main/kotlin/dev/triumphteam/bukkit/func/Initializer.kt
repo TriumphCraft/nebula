@@ -1,4 +1,4 @@
-package dev.triumphteam.core.func
+package dev.triumphteam.bukkit.func
 
 /**
  * Initializer for simply adding specific "utils" for initializing values in the main class

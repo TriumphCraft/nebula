@@ -1,6 +1,6 @@
-package dev.triumphteam.core.exception
+package dev.triumphteam.bukkit.exception
 
-import dev.triumphteam.core.feature.attribute.AttributeKey
+import dev.triumphteam.bukkit.feature.attribute.AttributeKey
 import kotlin.reflect.KClass
 
 public class DuplicateFeatureException(override val message: String) : IllegalStateException()

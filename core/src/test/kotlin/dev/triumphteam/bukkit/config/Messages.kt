@@ -1,4 +1,4 @@
-package dev.triumphteam.core.config
+package dev.triumphteam.bukkit.config
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Path

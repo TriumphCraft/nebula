@@ -1,4 +1,4 @@
-package dev.triumphteam.core.func
+package dev.triumphteam.bukkit.func
 
 import java.io.IOException
 import java.nio.file.Files

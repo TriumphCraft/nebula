@@ -1,6 +1,6 @@
-package dev.triumphteam.core.config
+package dev.triumphteam.bukkit.config
 
-import dev.triumphteam.core.locale.Language
+import dev.triumphteam.bukkit.locale.Language
 
 enum class Defaults(private val en: String, private val pt: String) {
 

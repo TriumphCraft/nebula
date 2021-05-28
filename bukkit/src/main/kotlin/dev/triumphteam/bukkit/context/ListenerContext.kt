@@ -1,4 +1,4 @@
-package dev.triumphteam.core.context
+package dev.triumphteam.bukkit.context
 
 /**
  * Handles registering listeners in a simple way

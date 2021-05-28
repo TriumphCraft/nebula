@@ -1,9 +1,9 @@
-package dev.triumphteam.core.locale
+package dev.triumphteam.bukkit.locale
 
-import dev.triumphteam.core.TriumphApplication
-import dev.triumphteam.core.feature.ApplicationFeature
-import dev.triumphteam.core.feature.attribute.AttributeKey
-import dev.triumphteam.core.feature.attribute.key
+import dev.triumphteam.bukkit.TriumphApplication
+import dev.triumphteam.bukkit.feature.ApplicationFeature
+import dev.triumphteam.bukkit.feature.attribute.AttributeKey
+import dev.triumphteam.bukkit.feature.attribute.key
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.properties.Property
@@ -11,21 +11,28 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 /**
- * **Locale** feature for all applications
+ * **Locale** feature for all applications.
  */
 public class Locale(private val configuration: LocaleConfiguration) {
 
-    // Current being used language
+    /**
+     * Current being used [Language].
+     */
     public var language: Language = configuration.language
 
-    // The message [SettingHolder]
+    /**
+     * The message [SettingsHolder].
+     */
     private var messageHolder: Class<out SettingsHolder> = configuration.holder::class.java
 
-    // The settings holder of the languages
+    /**
+     * A [SettingsManager] for the config.
+     * It's a `var` because when language is changed a new [SettingsManager] must be created.
+     */
     private var settingsManager: SettingsManager = create()
 
     /**
-     * Creates the [SettingsManager]
+     * Creates the [SettingsManager].
      */
     private fun create(): SettingsManager {
         return SettingsManager.from(Paths.get(configuration.folder.toString(), "${language.file}.yml"))
@@ -34,52 +41,56 @@ public class Locale(private val configuration: LocaleConfiguration) {
     }
 
     /**
-     * Gets a message from the locale file
+     * Gets a message from the locale file.
+     * @param T The type of the Property.
+     * @param property The property to get the value from the [SettingsManager].
      */
     public operator fun <T> get(property: Property<T>): T = settingsManager[property]
 
     /**
-     * Used to reload the lang file
+     * Used to reload the lang file.
      */
     public fun reload() {
         settingsManager.reload()
     }
 
     /**
-     * The configuration to be used by the feature
-     * @param application [TriumphApplication] to get the folder from
+     * The configuration to be used by the feature.
+     * @param application [TriumphApplication] to get the folder from.
      */
     public class LocaleConfiguration(application: TriumphApplication) {
 
         /**
-         * Default language
+         * Default [Language].
          */
         public var language: Language = Language.ENGLISH
 
         /**
-         * Holder which must be initialized
+         * The [SettingsHolder] which must be initialized.
          */
         public lateinit var holder: SettingsHolder
 
         /**
-         * The folder [Path] or default
+         * The folder [Path] or default.
          */
         public var folder: Path = Paths.get(application.applicationFolder.path, "lang/")
 
     }
 
     /**
-     * Feature companion
+     * Feature companion, which is a factory for the [Locale].
      */
     public companion object Feature : ApplicationFeature<TriumphApplication, LocaleConfiguration, Locale> {
 
         /**
-         * The locale key
+         * The locale [AttributeKey].
          */
         override val key: AttributeKey<Locale> = key("Locale")
 
         /**
-         * Installation function to create a [Locale] feature
+         * Installation function to create a [Locale] feature.
+         * @param application The current application, platform agnostic.
+         * @param configure A [LocaleConfiguration] to configure the [Locale].
          */
         override fun install(application: TriumphApplication, configure: LocaleConfiguration.() -> Unit): Locale {
             return Locale(LocaleConfiguration(application).apply(configure))

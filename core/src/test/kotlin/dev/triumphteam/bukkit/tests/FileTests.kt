@@ -1,9 +1,9 @@
-package dev.triumphteam.core.tests
+package dev.triumphteam.bukkit.tests
 
-import dev.triumphteam.core.config.Defaults
-import dev.triumphteam.core.config.Messages
-import dev.triumphteam.core.locale.Language
-import dev.triumphteam.core.locale.Locale
+import dev.triumphteam.bukkit.config.Defaults
+import dev.triumphteam.bukkit.config.Messages
+import dev.triumphteam.bukkit.locale.Language
+import dev.triumphteam.bukkit.locale.Locale
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.nio.file.Paths

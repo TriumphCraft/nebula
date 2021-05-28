@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package dev.triumphteam.core.func
+package dev.triumphteam.bukkit.func
 
-import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.bukkit.BukkitPlugin
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask

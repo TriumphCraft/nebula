@@ -1,4 +1,4 @@
-package dev.triumphteam.core.context
+package dev.triumphteam.bukkit.context
 
 /**
  * Command builder for starting up command related things in the main class

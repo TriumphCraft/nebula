@@ -3,8 +3,8 @@ rootProject.name = "triumph-core"
 include("core")
 project(":core").name = rootProject.name
 
-listOf("bukkit").forEach(::includeProject)
-listOf("config").forEach(::includeFeature)
+listOf("bukkit", "jda").forEach(::includeProject)
+listOf("config", "locale").forEach(::includeFeature)
 
 fun includeProject(name: String) {
     include(name) {

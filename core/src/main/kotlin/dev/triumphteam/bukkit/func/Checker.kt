@@ -1,4 +1,4 @@
-package dev.triumphteam.core.func
+package dev.triumphteam.bukkit.func
 
 /**
  * Like the [Initializer], this is used for organizing the main class better

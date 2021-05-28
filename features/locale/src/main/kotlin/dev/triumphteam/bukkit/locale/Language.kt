@@ -1,8 +1,8 @@
-package dev.triumphteam.core.locale
+package dev.triumphteam.bukkit.locale
 
 /**
- * Enum with all the possible supported [Language]s
- * ***TODO Need to add more***
+ * Enum with all the possible supported [Language]s.
+ * ***TODO Need to add more***.
  */
 public enum class Language(public val file: String) {
 
