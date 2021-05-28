@@ -16,7 +16,7 @@ public abstract class BaseConfig(
     propertyMapper: PropertyMapper? = null,
 ) {
 
-    protected val config: SettingsManager
+    private val config: SettingsManager
 
     init {
         val configBuilder = SettingsManager.from(path)

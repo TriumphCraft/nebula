@@ -6,4 +6,4 @@ import dev.triumphteam.core.feature.ApplicationFeature
 /**
  * Simple config factory for using with companion objects
  */
-public interface ConfigFeature<in A : TriumphApplication, out C : Any> : ApplicationFeature<A, C, BaseConfig>
+public interface ConfigFeature<in A : TriumphApplication, out C : Any, F : BaseConfig> : ApplicationFeature<A, C, F>

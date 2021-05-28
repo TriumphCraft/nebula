@@ -3,7 +3,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":core"))
+    api(project(":triumph-core"))
 
     compileOnly("org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT")
 
