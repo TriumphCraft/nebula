@@ -1,7 +1,7 @@
-package dev.triumphteam.core
+package dev.triumphteam.bukkit
 
-import dev.triumphteam.core.feature.attribute.HashMapAttributes
-import dev.triumphteam.core.feature.attribute.attributesOf
+import dev.triumphteam.bukkit.feature.attribute.HashMapAttributes
+import dev.triumphteam.bukkit.feature.attribute.attributesOf
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 

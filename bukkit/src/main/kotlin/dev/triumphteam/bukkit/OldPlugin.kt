@@ -1,4 +1,4 @@
-package dev.triumphteam.core
+package dev.triumphteam.bukkit
 
 import me.mattstudios.mf.base.CommandManager
 import me.mattstudios.mf.base.components.MessageResolver
