@@ -4,6 +4,7 @@ val javaVersion = "1.8"
 
 plugins {
     kotlin("jvm") version "1.5.10"
+    id("com.github.hierynomus.license") version "0.16.1"
     `maven-publish`
 }
 
@@ -23,6 +24,7 @@ subprojects {
     apply {
         plugin("org.jetbrains.kotlin.jvm")
         plugin("maven-publish")
+        plugin("com.github.hierynomus.license")
     }
 
     dependencies {
@@ -41,6 +43,13 @@ subprojects {
     }
 
     val kotlinComponent: SoftwareComponent = components["kotlin"]
+
+    license {
+        header = rootProject.file("LICENSE")
+        encoding = "UTF-8"
+        mapping("kotlin", "JAVADOC_STYLE")
+        include("**/*.kt")
+    }
 
     tasks {
 
