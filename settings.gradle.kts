@@ -4,7 +4,10 @@ include("core")
 project(":core").name = rootProject.name
 
 listOf("bukkit", "jda").forEach(::includeProject)
-listOf("config", "locale").forEach(::includeFeature)
+listOf("config", "locale", "commands").forEach(::includeFeature)
+listOf("commands").forEach { includePlatformFeature(it, "bukkit") }
+
+include("testing")
 
 fun includeProject(name: String) {
     include(name) {
@@ -15,7 +18,14 @@ fun includeProject(name: String) {
 fun includeFeature(name: String) {
     include(name) {
         this.name = "${rootProject.name}-feature-$name"
-        this.projectDir = file("features/$name")
+        this.projectDir = file("features/common/$name")
+    }
+}
+
+fun includePlatformFeature(name: String, platform: String) {
+    include(name) {
+        this.name = "${rootProject.name}-feature-$platform-$name"
+        this.projectDir = file("features/$platform/$name")
     }
 }
 
