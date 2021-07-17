@@ -23,8 +23,6 @@
  */
 package dev.triumphteam.bukkit
 
-import me.mattstudios.mf.base.CommandManager
-import me.mattstudios.mf.base.components.MessageResolver
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.Locale
 
@@ -39,8 +37,8 @@ public abstract class OldPlugin : JavaPlugin() {
     //public val configs: MutableMap<KClass<out BaseConfig>, BaseConfig> = mutableMapOf()
 
     // Command manager from MF
-    internal lateinit var commandManager: CommandManager
-        private set
+    //internal lateinit var commandManager: CommandManager
+       // private set
 
     // Locale object for message handling
     public lateinit var locale: Locale
@@ -72,7 +70,7 @@ public abstract class OldPlugin : JavaPlugin() {
      * Calls [JavaPlugin]'s onEnable, initialize some values and call the main [enable]
      */
     override fun onEnable() {
-        commandManager = CommandManager(this, true)
+        //commandManager = CommandManager(this, true)
 
         // Calls the plugin enable
         enable()
@@ -121,7 +119,7 @@ public abstract class OldPlugin : JavaPlugin() {
         ListenerContext(this).apply(context)
     }*/
 
-    private fun registerMessages(vararg pairs: Pair<String, MessageResolver>) =
-        pairs.forEach { pair -> commandManager.messageHandler.register(pair.first, pair.second) }
+    //private fun registerMessages(vararg pairs: Pair<String, MessageResolver>) =
+        //pairs.forEach { pair -> commandManager.messageHandler.register(pair.first, pair.second) }
 
 }

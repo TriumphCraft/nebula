@@ -29,7 +29,6 @@ subprojects {
 
     dependencies {
         // Remove this one later
-        api("me.mattstudios.utils:matt-framework:1.4.6")
         api("me.mattstudios:triumph-config:1.0.5-SNAPSHOT")
 
         compileOnly(kotlin("stdlib"))

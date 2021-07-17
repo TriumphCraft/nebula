@@ -33,7 +33,7 @@ import java.io.File
  * @param P Implementation that extends [BukkitPlugin]
  * @param module The main module of the plugin (might add support for multiple)
  */
-public abstract class BukkitPlugin<P : TriumphApplication>(
+public abstract class BukkitPlugin<out P : TriumphApplication>(
     private val module: P.() -> Unit,
     private val common: TriumphApplication.() -> Unit = {}
 ) : JavaPlugin(), TriumphApplication {

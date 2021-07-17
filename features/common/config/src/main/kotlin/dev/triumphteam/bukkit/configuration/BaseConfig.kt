@@ -21,55 +21,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.bukkit.context
+package dev.triumphteam.bukkit.configuration
+
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.SettingsManager
+import me.mattstudios.config.beanmapper.PropertyMapper
+import me.mattstudios.config.properties.Property
+import java.nio.file.Path
 
 /**
- * Command builder for starting up command related things in the main class
+ * Simple config.
+ * All configs registered by the main plugin must extend this.
  */
-/*class CommandContext<T : TriumphPlugin>(val plugin: T) {
+public abstract class BaseConfig(
+    path: Path,
+    holder: Class<out SettingsHolder>,
+    propertyMapper: PropertyMapper? = null,
+) {
 
-    private val commandManager = plugin.commandManager
+    private val config: SettingsManager
 
-    /**
-     * Registers a new command
-     */
-    fun register(command: CommandBase) {
-        commandManager.register(command)
+    init {
+        val configBuilder = SettingsManager.from(path)
+        if (propertyMapper != null) configBuilder.propertyMapper(propertyMapper)
+        config = configBuilder.configurationData(holder).create()
     }
 
     /**
-     * Registers a new command
+     * Gets a property from the config.
      */
-    fun register(vararg commands: CommandBase) {
-        commands.forEach(this::register)
+    public operator fun <T> get(property: Property<T>): T = config[property]
+
+
+    /**
+     * Sets a property value to the config.
+     * @param property The property key.
+     * @param value The new value.
+     */
+    public operator fun <T : Any> set(property: Property<T>, value: T) {
+        config[property] = value
     }
 
     /**
-     * Register a completion to be used in the commands
+     * Reloads the config.
      */
-    fun completion(id: String, resolver: CompletionResolver) {
-        commandManager.completionHandler.register(id, resolver)
+    public fun reload() {
+        config.reload()
     }
 
     /**
-     * Register a parameter type to be used in the commands
+     * Saves the config.
      */
-    fun parameter(type: Class<*>, resolver: ParameterResolver) {
-        commandManager.parameterHandler.register(type, resolver)
+    public fun save() {
+        config.save()
     }
 
-    /**
-     * Registers a command message
-     */
-    fun message(id: String, resolver: MessageResolver) {
-        commandManager.messageHandler.register(id, resolver)
-    }
-
-    /**
-     * Simple initializer for doing the above but not clog up the main class
-     */
-    fun initialize(initializer: Initializer<T>) {
-        initializer.initialize(plugin)
-    }
-
-}*/
+}
