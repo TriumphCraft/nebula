@@ -8,24 +8,26 @@ plugins {
     `maven-publish`
 }
 
-group = "me.mattstudios"
-version = "2.0.0-SNAPSHOT"
+group = "dev.triumphteam"
+version = "2.0.0"
 
 allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
-        maven("https://repo.mattstudios.me/artifactory/public/")
+        maven("https://repo.triumphteam.dev/artifactory/public/")
     }
 }
 
 subprojects {
-
     apply {
         plugin("org.jetbrains.kotlin.jvm")
         plugin("maven-publish")
         plugin("com.github.hierynomus.license")
     }
+
+    group = parent?.group ?: return@subprojects
+    version = parent?.version ?: return@subprojects
 
     dependencies {
         // Remove this one later
@@ -97,7 +99,7 @@ subprojects {
                     pom {
                         name.set("TriumphCore")
                         description.set("Adds utils and required classes to plugins")
-                        url.set("https://github.com/TriumphTeam/core")
+                        url.set("https://github.com/TriumphTeam/triumph-core")
 
                         licenses {
                             license {
@@ -115,9 +117,9 @@ subprojects {
 
                         // Change later
                         scm {
-                            connection.set("scm:git:git://github.com/TriumphTeam/core.git")
-                            developerConnection.set("scm:git:ssh://github.com:TriumphTeam/core.git")
-                            url.set("http://github.com/TriumphTeam/core")
+                            connection.set("scm:git:git://github.com/TriumphTeam/triumph-core.git")
+                            developerConnection.set("scm:git:ssh://github.com:TriumphTeam/triumph-core.git")
+                            url.set("http://github.com/TriumphTeam/triumph-core")
                         }
                     }
                 }
@@ -130,7 +132,7 @@ subprojects {
                         password = System.getenv("REPO_PASS")
                     }
 
-                    url = uri("https://repo.mattstudios.me/artifactory/public")
+                    url = uri("https://repo.triumphteam.dev/artifactory/public")
                 }
             }
 

@@ -7,7 +7,7 @@ listOf("bukkit", "jda").forEach(::includeProject)
 listOf("config", "locale", "commands").forEach(::includeFeature)
 listOf("commands", "listeners").forEach { includePlatformFeature(it, "bukkit") }
 
-include("testing")
+//include("testing")
 
 fun includeProject(name: String) {
     include(name) {

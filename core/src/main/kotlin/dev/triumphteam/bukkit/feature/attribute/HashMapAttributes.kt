@@ -73,6 +73,9 @@ public class HashMapAttributes : Attributes {
     public override val allKeys: List<AttributeKey<*>>
         get() = map.keys.toList()
 
+    override fun clear() {
+        map.clear()
+    }
 }
 
 /**

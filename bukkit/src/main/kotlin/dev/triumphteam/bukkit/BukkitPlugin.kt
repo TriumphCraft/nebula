@@ -75,7 +75,8 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
      * Main Bukkit's disable function, that'll run the disable functions
      */
     override fun onDisable() {
-        enableFunctions.forEach { it() }
+        disableFunctions.forEach { it() }
+        attributes.clear()
     }
 
     /**

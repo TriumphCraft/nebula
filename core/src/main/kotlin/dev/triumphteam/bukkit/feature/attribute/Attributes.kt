@@ -81,4 +81,5 @@ public interface Attributes {
      */
     public val allKeys: List<AttributeKey<*>>
 
+    public fun clear()
 }

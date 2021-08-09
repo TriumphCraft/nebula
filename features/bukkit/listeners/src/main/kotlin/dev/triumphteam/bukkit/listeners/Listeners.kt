@@ -31,9 +31,18 @@ import dev.triumphteam.bukkit.feature.attribute.key
 import dev.triumphteam.bukkit.feature.featureOrNull
 import dev.triumphteam.bukkit.feature.install
 import org.bukkit.Bukkit
+import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
-public class Listeners(private val plugin: BukkitPlugin<*>) {
+public class Listeners(public val plugin: BukkitPlugin<*>) {
+
+    init {
+        println("fuck")
+    }
+
+    public val triumphListener: TriumphListener = TriumphListener()
 
     public fun register(listener: Listener) {
         Bukkit.getPluginManager().registerEvents(listener, plugin)
@@ -41,6 +50,23 @@ public class Listeners(private val plugin: BukkitPlugin<*>) {
 
     public fun register(vararg listeners: Listener) {
         listeners.forEach(::register)
+    }
+
+    public inline fun <reified E : Event> on(
+        priority: EventPriority = EventPriority.NORMAL,
+        cancel: Boolean = false,
+        crossinline function: E.() -> Unit
+    ) {
+        Bukkit.getPluginManager().registerEvent(
+            E::class.java,
+            triumphListener,
+            priority,
+            { _, event ->
+                if (cancel && event is Cancellable) event.isCancelled = true
+                function(event as E)
+            },
+            plugin
+        )
     }
 
     /**
@@ -67,7 +93,7 @@ public class Listeners(private val plugin: BukkitPlugin<*>) {
          * @param configure A [Listeners] to configure the [Listeners].
          */
         public override fun install(application: BukkitPlugin<*>, configure: Listeners.() -> Unit): Listeners {
-            return Listeners(application)
+            return Listeners(application).apply(configure)
         }
 
     }
@@ -77,3 +103,5 @@ public class Listeners(private val plugin: BukkitPlugin<*>) {
 @TriumphDsl
 public fun <P : BukkitPlugin<P>> BukkitPlugin<P>.listeners(configuration: Listeners.() -> Unit): Listeners =
     featureOrNull(Listeners)?.apply(configuration) ?: install(Listeners, configuration)
+
+public class TriumphListener : Listener
