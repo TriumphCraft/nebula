@@ -38,7 +38,7 @@ import dev.triumphteam.cmd.core.requirement.RequirementKey
 import dev.triumphteam.cmd.core.requirement.RequirementResolver
 import dev.triumphteam.cmd.slash.SlashCommandManager
 import dev.triumphteam.cmd.slash.sender.SlashSender
-import dev.triumphteam.jda.JdaApplication
+import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.entities.Guild
 
 public class SlashCommands(application: JdaApplication) {

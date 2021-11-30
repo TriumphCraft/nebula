@@ -29,7 +29,7 @@ import dev.triumphteam.core.feature.attribute.AttributeKey
 import dev.triumphteam.core.feature.attribute.key
 import dev.triumphteam.core.feature.featureOrNull
 import dev.triumphteam.core.feature.install
-import dev.triumphteam.jda.JdaApplication
+import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 

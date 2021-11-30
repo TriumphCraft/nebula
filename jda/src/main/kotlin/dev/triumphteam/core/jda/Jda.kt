@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.jda
+package dev.triumphteam.core.jda
 
 import dev.triumphteam.core.TriumphApplication
 import dev.triumphteam.core.feature.attribute.Attributes
