@@ -57,9 +57,14 @@ public abstract class JdaApplication(
     public override val attributes: Attributes = attributesOf()
 
     /**
+     * Runs on the start of the application.
+     */
+    public open fun onStart() {}
+
+    /**
      * Runs when [JDA] is ready.
      */
-    public abstract fun onReady()
+    public open fun onReady() {}
 
     /**
      * Runs when a [Guild] is ready.
@@ -67,10 +72,12 @@ public abstract class JdaApplication(
     public open fun onGuildReady(guild: Guild) {}
 
     private fun createJda(): JDA {
+        onStart()
         return JDABuilder.create(token, intents)
             .addEventListeners(JdaApplicationListener(this, extra))
             .apply(builder)
             .build()
+            .awaitReady()
     }
 
 }

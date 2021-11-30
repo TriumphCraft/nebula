@@ -83,7 +83,7 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
      * Load function from [TriumphApplication] to add a load function to the set
      * @param load Function to be executed when [onLoad] is called
      */
-    public override fun onLoad(load: () -> Unit) {
+    public fun onLoad(load: () -> Unit) {
         loadFunctions.add(load)
     }
 
@@ -91,7 +91,7 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
      * Enable function from [TriumphApplication] to add a enable function to the set
      * @param enable Function to be executed when [onEnable] is called
      */
-    public override fun onEnable(enable: () -> Unit) {
+    public fun onEnable(enable: () -> Unit) {
         enableFunctions.add(enable)
     }
 
@@ -99,7 +99,7 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
      * Disable function from [TriumphApplication] to add a disable function to the set
      * @param disable Function to be executed when [onDisable] is called
      */
-    public override fun onDisable(disable: () -> Unit) {
+    public fun onDisable(disable: () -> Unit) {
         disableFunctions.add(disable)
     }
 
