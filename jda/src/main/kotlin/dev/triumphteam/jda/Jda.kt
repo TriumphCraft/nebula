@@ -23,9 +23,9 @@
  */
 package dev.triumphteam.jda
 
-import dev.triumphteam.bukkit.TriumphApplication
-import dev.triumphteam.bukkit.feature.attribute.Attributes
-import dev.triumphteam.bukkit.feature.attribute.attributesOf
+import dev.triumphteam.core.TriumphApplication
+import dev.triumphteam.core.feature.attribute.Attributes
+import dev.triumphteam.core.feature.attribute.attributesOf
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Guild
