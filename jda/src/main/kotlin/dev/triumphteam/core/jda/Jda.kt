@@ -47,14 +47,14 @@ public abstract class JdaApplication(
 ) : TriumphApplication {
 
     /**
-     * Gets the [JDA] instance.
-     */
-    public val jda: JDA = createJda()
-
-    /**
      * Gets all application attributes.
      */
     public override val attributes: Attributes = attributesOf()
+
+    /**
+     * Gets the [JDA] instance.
+     */
+    public val jda: JDA = createJda()
 
     /**
      * Runs on the start of the application.
