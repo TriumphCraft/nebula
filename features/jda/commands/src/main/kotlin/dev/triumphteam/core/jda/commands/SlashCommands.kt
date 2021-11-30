@@ -23,12 +23,6 @@
  */
 package dev.triumphteam.core.jda.commands
 
-import dev.triumphteam.core.dsl.TriumphDsl
-import dev.triumphteam.core.feature.ApplicationFeature
-import dev.triumphteam.core.feature.attribute.AttributeKey
-import dev.triumphteam.core.feature.attribute.key
-import dev.triumphteam.core.feature.featureOrNull
-import dev.triumphteam.core.feature.install
 import dev.triumphteam.cmd.core.BaseCommand
 import dev.triumphteam.cmd.core.argument.ArgumentResolver
 import dev.triumphteam.cmd.core.message.MessageKey
@@ -38,10 +32,16 @@ import dev.triumphteam.cmd.core.requirement.RequirementKey
 import dev.triumphteam.cmd.core.requirement.RequirementResolver
 import dev.triumphteam.cmd.slash.SlashCommandManager
 import dev.triumphteam.cmd.slash.sender.SlashSender
+import dev.triumphteam.core.dsl.TriumphDsl
+import dev.triumphteam.core.feature.ApplicationFeature
+import dev.triumphteam.core.feature.attribute.AttributeKey
+import dev.triumphteam.core.feature.attribute.key
+import dev.triumphteam.core.feature.featureOrNull
+import dev.triumphteam.core.feature.install
 import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.entities.Guild
 
-public class SlashCommands(application: JdaApplication) {
+public class SlashCommands private constructor(application: JdaApplication) {
 
     private val commandManager = SlashCommandManager.createDefault(application.jda)
 

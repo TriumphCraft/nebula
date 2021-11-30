@@ -36,7 +36,7 @@ import java.nio.file.Paths
 /**
  * **Locale** feature for all applications.
  */
-public class Locale(private val configuration: LocaleConfiguration) {
+public class Locale private constructor(private val configuration: LocaleConfiguration) {
 
     /**
      * Current being used [Language].

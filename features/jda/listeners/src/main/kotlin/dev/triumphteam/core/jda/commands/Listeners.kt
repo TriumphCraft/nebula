@@ -33,7 +33,7 @@ import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
-public class Listeners(private val jda: JDA) {
+public class Listeners private constructor(private val jda: JDA) {
 
     /**
      * Registers a listener.

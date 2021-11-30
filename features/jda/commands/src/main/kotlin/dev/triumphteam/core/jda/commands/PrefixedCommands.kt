@@ -41,7 +41,7 @@ import dev.triumphteam.core.feature.install
 import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.entities.Guild
 
-public class PrefixedCommands(application: JdaApplication) {
+public class PrefixedCommands private constructor(application: JdaApplication) {
 
     private val commandManager = PrefixedCommandManager.createDefault(application.jda)
 
