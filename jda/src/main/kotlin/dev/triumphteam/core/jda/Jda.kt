@@ -41,8 +41,7 @@ import java.io.File
 public abstract class JdaApplication(
     private val token: String,
     private val intents: Collection<GatewayIntent> = emptyList(),
-    public override val applicationFolder: File = File(""),
-    private val builder: JDABuilder.() -> Unit = {},
+    public override val applicationFolder: File = File("data"),
     private val extra: TriumphApplication.() -> Unit = {},
 ) : TriumphApplication {
 
@@ -55,6 +54,10 @@ public abstract class JdaApplication(
      * Gets the [JDA] instance.
      */
     public val jda: JDA = createJda()
+
+    init {
+        startApplication()
+    }
 
     /**
      * Runs on the start of the application.
@@ -72,12 +75,13 @@ public abstract class JdaApplication(
     public open fun onGuildReady(guild: Guild) {}
 
     private fun createJda(): JDA {
-        onStart()
-        return JDABuilder.create(token, intents)
+        return JDABuilder.createDefault(token, intents)
             .addEventListeners(JdaApplicationListener(this, extra))
-            .apply(builder)
             .build()
-            .awaitReady()
+    }
+
+    private fun startApplication() {
+        onStart()
     }
 
 }
