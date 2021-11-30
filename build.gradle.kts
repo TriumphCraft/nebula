@@ -3,13 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val javaVersion = "1.8"
 
 plugins {
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.6.0"
     id("com.github.hierynomus.license") version "0.16.1"
     `maven-publish`
 }
-
-group = "dev.triumphteam"
-version = "2.0.0"
 
 allprojects {
     repositories {
@@ -26,12 +23,12 @@ subprojects {
         plugin("com.github.hierynomus.license")
     }
 
-    group = parent?.group ?: return@subprojects
-    version = parent?.version ?: return@subprojects
+    group = "dev.triumphteam"
+    version = "2.0.1-SNAPSHOT"
 
     dependencies {
         // Remove this one later
-        api("me.mattstudios:triumph-config:1.0.5-SNAPSHOT")
+        //api("me.mattstudios:triumph-config:1.0.5-SNAPSHOT")
 
         compileOnly(kotlin("stdlib"))
 

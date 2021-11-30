@@ -28,37 +28,68 @@ import dev.triumphteam.bukkit.feature.attribute.Attributes
 import dev.triumphteam.bukkit.feature.attribute.attributesOf
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.events.ReadyEvent
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent
+import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.requests.GatewayIntent
 import java.io.File
 
 /**
- * Creates a [JdaApplication] using a specified module.
- * @param module The [TriumphApplication] module to be used.
- * @param token The discord token.
- * @param intents A [Collection] of [GatewayIntent] to pass to JDA.
- * @param builder A instance of [JDABuilder] so users can customize the JDA.
+ * Main JDA implementation of the [TriumphApplication].
  */
-public fun jda(
-    module: JdaApplication.() -> Unit,
-    token: String,
-    intents: Collection<GatewayIntent> = emptyList(),
-    applicationFolder: File = File(""),
-    builder: JDABuilder.() -> Unit = {}
-) {
-    val jda = JDABuilder.create(token, intents).apply(builder).build()
-    module(JdaApplication(jda, applicationFolder))
+public abstract class JdaApplication(
+    private val token: String,
+    private val intents: Collection<GatewayIntent> = emptyList(),
+    public override val applicationFolder: File = File(""),
+    private val builder: JDABuilder.() -> Unit = {},
+    private val extra: TriumphApplication.() -> Unit = {},
+) : TriumphApplication {
+
+    /**
+     * Gets the [JDA] instance.
+     */
+    public val jda: JDA = createJda()
+
+    /**
+     * Gets all application attributes.
+     */
+    public override val attributes: Attributes = attributesOf()
+
+    /**
+     * Runs when [JDA] is ready.
+     */
+    public abstract fun onReady()
+
+    /**
+     * Runs when a [Guild] is ready.
+     */
+    public open fun onGuildReady(guild: Guild) {}
+
+    private fun createJda(): JDA {
+        return JDABuilder.create(token, intents)
+            .addEventListeners(JdaApplicationListener(this, extra))
+            .apply(builder)
+            .build()
+    }
+
 }
 
 /**
- * Main JDA implementation of the [TriumphApplication].
- * @param jda A [JDA] instance.
- * @param applicationFolder A folder that is the default for the application, similar to bukkit's dataFolder.
+ * Listener for ready events.
  */
-public class JdaApplication(
-    public val jda: JDA,
-    public override val applicationFolder: File
-) : TriumphApplication {
+private class JdaApplicationListener(
+    private val jdaApplication: JdaApplication,
+    private val module: TriumphApplication.() -> Unit
+) : ListenerAdapter() {
 
-    public override val attributes: Attributes = attributesOf()
+    override fun onReady(event: ReadyEvent) {
+        module(jdaApplication)
+        jdaApplication.onReady()
+    }
+
+    override fun onGuildReady(event: GuildReadyEvent) {
+        jdaApplication.onGuildReady(event.guild)
+    }
 
 }

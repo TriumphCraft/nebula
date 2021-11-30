@@ -24,12 +24,9 @@
 package dev.triumphteam.bukkit.commands
 
 import dev.triumphteam.bukkit.BukkitPlugin
-import dev.triumphteam.bukkit.dsl.TriumphDsl
 import dev.triumphteam.bukkit.feature.ApplicationFeature
 import dev.triumphteam.bukkit.feature.attribute.AttributeKey
 import dev.triumphteam.bukkit.feature.attribute.key
-import dev.triumphteam.bukkit.feature.featureOrNull
-import dev.triumphteam.bukkit.feature.install
 import me.mattstudios.mf.base.CommandBase
 import me.mattstudios.mf.base.CommandManager
 import me.mattstudios.mf.base.components.CompletionResolver
@@ -41,7 +38,7 @@ public class Commands(plugin: BukkitPlugin<*>) {
     private val commandManager = CommandManager(plugin)
 
     private fun register(command: CommandBase) {
-        commandManager.register(command)
+        //commandManager.register(command)
     }
 
     public fun register(vararg commands: CommandBase) {
@@ -49,21 +46,21 @@ public class Commands(plugin: BukkitPlugin<*>) {
     }
 
     public fun completion(id: String, resolver: CompletionResolver) {
-        commandManager.completionHandler.register(id, resolver)
+        //commandManager.completionHandler.register(id, resolver)
     }
 
     /**
      * Register a parameter type to be used in the commands
      */
     public fun parameter(type: Class<*>, resolver: ParameterResolver) {
-        commandManager.parameterHandler.register(type, resolver)
+       // commandManager.parameterHandler.register(type, resolver)
     }
 
     /**
      * Registers a command message
      */
     public fun message(id: String, resolver: MessageResolver) {
-        commandManager.messageHandler.register(id, resolver)
+        //commandManager.messageHandler.register(id, resolver)
     }
 
     /**
@@ -96,6 +93,6 @@ public class Commands(plugin: BukkitPlugin<*>) {
 
 }
 
-@TriumphDsl
-public fun <P : BukkitPlugin<P>> BukkitPlugin<P>.commands(configuration: Commands.() -> Unit): Commands =
-    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)
+//@TriumphDsl
+/*public fun <P : BukkitPlugin<P>> BukkitPlugin<P>.commands(configuration: Commands.() -> Unit): Commands =
+    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)*/

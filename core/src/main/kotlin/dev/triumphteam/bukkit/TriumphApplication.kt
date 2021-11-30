@@ -42,7 +42,7 @@ public interface TriumphApplication {
     public val applicationFolder: File
 
     /**
-     * Load function, that should be ran when the application is loading.
+     * Load function, that should be run when the application is loading.
      * Depending on the platform this won't be needed, or might be called different.
      * @param load Function to be executed when the application loads.
      */
