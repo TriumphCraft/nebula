@@ -38,10 +38,6 @@ import org.bukkit.event.Listener
 
 public class Listeners(public val plugin: BukkitPlugin<*>) {
 
-    init {
-        println("fuck")
-    }
-
     public val triumphListener: TriumphListener = TriumphListener()
 
     public fun register(listener: Listener) {

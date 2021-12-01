@@ -16,7 +16,6 @@ public class DayTimeSchedule(
     }
 
     public override fun shouldRun(nowDateTime: LocalDateTime): Boolean {
-        println(nowDateTime)
         if (nowDateTime.dayOfWeek !in days) return false
         return nowDateTime.toLocalTime() == time
     }
