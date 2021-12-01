@@ -22,13 +22,13 @@ public class TimerSchedule(
     public override fun shouldRun(nowDateTime: LocalDateTime): Boolean {
         counter++
 
-        if (!delayOver && counter % delay == 0L) {
+        if (!delayOver && (delay == 0L || counter % delay == 0L)) {
             delayOver = true
             return true
         }
 
         if (!delayOver) return false
-
+        if (period == 0L) return false
         if (counter % period == 0L) return true
         return false
     }
