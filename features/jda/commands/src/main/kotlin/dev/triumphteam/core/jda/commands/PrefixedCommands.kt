@@ -41,6 +41,9 @@ import dev.triumphteam.core.feature.install
 import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.entities.Guild
 
+/**
+ * Feature for simplifying the creation of prefixed commands.
+ */
 public class PrefixedCommands private constructor(application: JdaApplication) {
 
     private val commandManager = PrefixedCommandManager.createDefault(application.jda)
@@ -110,7 +113,7 @@ public class PrefixedCommands private constructor(application: JdaApplication) {
          */
         public override fun install(
             application: JdaApplication,
-            configure: PrefixedCommands.() -> Unit
+            configure: PrefixedCommands.() -> Unit,
         ): PrefixedCommands {
             return PrefixedCommands(application)
         }

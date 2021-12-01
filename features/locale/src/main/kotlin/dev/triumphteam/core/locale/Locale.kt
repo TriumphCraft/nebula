@@ -65,8 +65,6 @@ public class Locale private constructor(private val configuration: LocaleConfigu
 
     /**
      * Gets a message from the locale file.
-     * @param T The type of the Property.
-     * @param property The property to get the value from the [SettingsManager].
      */
     public operator fun <T> get(property: Property<T>): T = settingsManager[property]
 
@@ -79,7 +77,6 @@ public class Locale private constructor(private val configuration: LocaleConfigu
 
     /**
      * The configuration to be used by the feature.
-     * @param application [TriumphApplication] to get the folder from.
      */
     public class LocaleConfiguration(application: TriumphApplication) {
 
@@ -112,8 +109,6 @@ public class Locale private constructor(private val configuration: LocaleConfigu
 
         /**
          * Installation function to create a [Locale] feature.
-         * @param application The current application, platform agnostic.
-         * @param configure A [LocaleConfiguration] to configure the [Locale].
          */
         override fun install(application: TriumphApplication, configure: LocaleConfiguration.() -> Unit): Locale {
             return Locale(LocaleConfiguration(application).apply(configure))

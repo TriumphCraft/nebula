@@ -36,23 +36,17 @@ public class HashMapAttributes : Attributes {
 
     /**
      * Gets a value of the attribute for the specified [key], or return `null` if an attribute doesn't exist.
-     * @param T Any class that is considered a feature.
-     * @param key The feature [AttributeKey].
      */
     @Suppress("UNCHECKED_CAST")
     public override fun <T : Any> getOrNull(key: AttributeKey<T>): T? = map[key] as T?
 
     /**
      * Checks if an attribute with the specified [key] exists.
-     * @param key The feature [AttributeKey].
      */
     public override operator fun contains(key: AttributeKey<*>): Boolean = map.containsKey(key)
 
     /**
      * Creates or changes an attribute with the specified [key] using [value].
-     * @param T Any class that is considered a feature.
-     * @param key The feature [AttributeKey].
-     * @param value A feature to be added.
      */
     public override fun <T : Any> put(key: AttributeKey<T>, value: T) {
         map[key] = value
@@ -60,8 +54,6 @@ public class HashMapAttributes : Attributes {
 
     /**
      * Removes an attribute with the specified [key].
-     * @param T Any class that is considered a feature.
-     * @param key The feature [AttributeKey].
      */
     public override fun <T : Any> remove(key: AttributeKey<T>) {
         map.remove(key)

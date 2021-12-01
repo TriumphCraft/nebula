@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly(project(":triumph-core-jda"))
+    api(project(":triumph-core-jda"))
 }

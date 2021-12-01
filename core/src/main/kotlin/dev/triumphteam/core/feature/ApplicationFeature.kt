@@ -30,9 +30,6 @@ import dev.triumphteam.core.feature.attribute.AttributeKey
 
 /**
  * Defines a installable feature.
- * @param A The application, can be a plugin or anything.
- * @param C A configuration, can be anything even [F].
- * @param F The [ApplicationFeature] you want to return.
  */
 public interface ApplicationFeature<
         in A : TriumphApplication,
@@ -46,8 +43,6 @@ public interface ApplicationFeature<
 
     /**
      * Feature installation, works like a factory.
-     * @param application The current application [A].
-     * @param configure A configuration, that can be anything.
      */
     public fun install(application: A, configure: C.() -> Unit): F
 
@@ -55,9 +50,6 @@ public interface ApplicationFeature<
 
 /**
  * Installs a feature into a [TriumphApplication].
- * @param A The application to use, be a plugin or not.
- * @param C The configuration to be used by the installer.
- * @param F The feature that'll be created.
  */
 public fun <A : TriumphApplication, C : Any, F : Any> A.install(
     feature: ApplicationFeature<A, C, F>,
@@ -76,8 +68,6 @@ public fun <A : TriumphApplication, C : Any, F : Any> A.install(
 
 /**
  * Gets feature instance for this application, or fails with [MissingFeatureException] if the feature is not installed.
- * @throws MissingFeatureException
- * @param feature application feature to lookup.
  */
 public fun <A : TriumphApplication, C : Any, F : Any> A.feature(feature: ApplicationFeature<A, C, F>): F {
     return attributes.getOrNull(feature.key) ?: throw MissingFeatureException(feature.key)

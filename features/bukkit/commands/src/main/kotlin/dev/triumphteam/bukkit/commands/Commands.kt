@@ -83,8 +83,6 @@ public class Commands(plugin: BukkitPlugin<*>) {
 
         /**
          * Installation function to create a [Commands] feature.
-         * @param application The current application, Bukkit specific.
-         * @param configure A [Commands] to configure the [Commands].
          */
         public override fun install(application: BukkitPlugin<*>, configure: Commands.() -> Unit): Commands {
             return Commands(application)

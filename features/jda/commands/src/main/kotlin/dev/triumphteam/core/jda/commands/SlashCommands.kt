@@ -41,6 +41,9 @@ import dev.triumphteam.core.feature.install
 import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.entities.Guild
 
+/**
+ * Feature for simplifying the creation of slash commands.
+ */
 public class SlashCommands private constructor(application: JdaApplication) {
 
     private val commandManager = SlashCommandManager.createDefault(application.jda)
@@ -94,7 +97,7 @@ public class SlashCommands private constructor(application: JdaApplication) {
         guild: Guild,
         vararg commands: BaseCommand,
         enabledRoles: List<Long>,
-        disabledRoles: List<Long>
+        disabledRoles: List<Long>,
     ) {
         commands.forEach { register(guild, it, enabledRoles, disabledRoles) }
     }
@@ -143,7 +146,7 @@ public class SlashCommands private constructor(application: JdaApplication) {
          */
         public override fun install(
             application: JdaApplication,
-            configure: SlashCommands.() -> Unit
+            configure: SlashCommands.() -> Unit,
         ): SlashCommands {
             return SlashCommands(application)
         }

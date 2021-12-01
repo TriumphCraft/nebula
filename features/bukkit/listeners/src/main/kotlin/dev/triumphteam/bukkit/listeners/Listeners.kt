@@ -89,8 +89,6 @@ public class Listeners(public val plugin: BukkitPlugin<*>) {
 
         /**
          * Installation function to create a [Listeners] feature.
-         * @param application The current application, Bukkit specific.
-         * @param configure A [Listeners] to configure the [Listeners].
          */
         public override fun install(application: BukkitPlugin<*>, configure: Listeners.() -> Unit): Listeners {
             return Listeners(application).apply(configure)

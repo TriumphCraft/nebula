@@ -29,9 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 /**
- * Main implementation for Bukkit
- * @param P Implementation that extends [BukkitPlugin]
- * @param module The main module of the plugin (might add support for multiple)
+ * Main implementation for Bukkit.
  */
 public abstract class BukkitPlugin<out P : TriumphApplication>(
     private val module: P.() -> Unit,
@@ -39,14 +37,14 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
 ) : JavaPlugin(), TriumphApplication {
 
     /**
-     * Attributes holder for all the features
+     * Attributes holder for all the features.
      */
     public override val attributes: HashMapAttributes = attributesOf()
     public override val applicationFolder: File = dataFolder
 
     /**
-     * Holders for multiple functions containing load, enable, and disable
-     * This is needed so the common module and the main module can be ran together
+     * Holders for multiple functions containing load, enable, and disable.
+     * This is needed so the common module and the main module can be run together.
      */
 
     private var loadFunctions: MutableSet<() -> Unit> = mutableSetOf()
@@ -58,21 +56,21 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
     }
 
     /**
-     * Main Bukkit's load function, that'll run the load functions
+     * Main Bukkit's load function, that'll run the load functions.
      */
     override fun onLoad() {
         loadFunctions.forEach { it() }
     }
 
     /**
-     * Main Bukkit's enable function, that'll run the enable functions
+     * Main Bukkit's enable function, that'll run the enable functions.
      */
     override fun onEnable() {
         enableFunctions.forEach { it() }
     }
 
     /**
-     * Main Bukkit's disable function, that'll run the disable functions
+     * Main Bukkit's disable function, that'll run the disable functions.
      */
     override fun onDisable() {
         disableFunctions.forEach { it() }
@@ -80,31 +78,28 @@ public abstract class BukkitPlugin<out P : TriumphApplication>(
     }
 
     /**
-     * Load function from [TriumphApplication] to add a load function to the set
-     * @param load Function to be executed when [onLoad] is called
+     * Load function from [TriumphApplication] to add a load function to the set.
      */
     public fun onLoad(load: () -> Unit) {
         loadFunctions.add(load)
     }
 
     /**
-     * Enable function from [TriumphApplication] to add a enable function to the set
-     * @param enable Function to be executed when [onEnable] is called
+     * Enable function from [TriumphApplication] to add a enable function to the set.
      */
     public fun onEnable(enable: () -> Unit) {
         enableFunctions.add(enable)
     }
 
     /**
-     * Disable function from [TriumphApplication] to add a disable function to the set
-     * @param disable Function to be executed when [onDisable] is called
+     * Disable function from [TriumphApplication] to add a disable function to the set.
      */
     public fun onDisable(disable: () -> Unit) {
         disableFunctions.add(disable)
     }
 
     /**
-     * Not happy with the init and the unchecked cast, but hey
+     * Not happy with the init and the unchecked cast, but hey.
      */
     @Suppress("UNCHECKED_CAST")
     private fun runModules() {
