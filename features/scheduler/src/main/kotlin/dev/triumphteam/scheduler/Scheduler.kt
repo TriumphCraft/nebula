@@ -53,22 +53,22 @@ public class Scheduler : CoroutineScope {
     /**
      * Runs task after a given duration.
      */
-    public fun runTaskIn(time: Duration, action: suspend () -> Unit) {
-        schedules.add(TimerSchedule(0, time.inWholeSeconds, false, action))
+    public fun runTaskIn(time: Duration, task: suspend () -> Unit) {
+        schedules.add(TimerSchedule(0, time.inWholeSeconds, false, task))
     }
 
     /**
      * Runs task every `x` duration after `y` duration.
      */
-    public fun runTaskEvery(period: Duration, delay: Duration, action: suspend () -> Unit) {
-        schedules.add(TimerSchedule(period.inWholeSeconds, delay.inWholeSeconds, true, action))
+    public fun runTaskEvery(period: Duration, delay: Duration, task: suspend () -> Unit) {
+        schedules.add(TimerSchedule(period.inWholeSeconds, delay.inWholeSeconds, true, task))
     }
 
     /**
      * Runs task every given days at a given time.
      */
-    public fun runTaskEvery(days: Set<DayOfWeek>, at: LocalTime, action: suspend () -> Unit) {
-        schedules.add(DayTimeSchedule(days, at, true, action))
+    public fun runTaskEvery(days: Set<DayOfWeek>, at: LocalTime, task: suspend () -> Unit) {
+        schedules.add(DayTimeSchedule(days, at, true, task))
     }
 
     /**
@@ -137,61 +137,61 @@ public class Scheduler : CoroutineScope {
  * Runs task after a given duration.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskIn(time: Duration, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskIn(time: Duration, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskIn(time, block)
+    return scheduler.runTaskIn(time, task)
 }
 
 /**
  * Runs a task at a given date time.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskAt(date: LocalDateTime, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskAt(date: LocalDateTime, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskAt(date, block)
+    return scheduler.runTaskAt(date, task)
 }
 
 /**
  * Runs a task at a given time.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskAt(time: LocalTime, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskAt(time: LocalTime, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskAt(time.atDate(LocalDateTime.now().toLocalDate()), block)
+    return scheduler.runTaskAt(time.atDate(LocalDateTime.now().toLocalDate()), task)
 }
 
 /**
  * Runs task every `x` duration after `y` duration.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(period: Duration, delay: Duration = 0.seconds, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskEvery(period: Duration, delay: Duration = 0.seconds, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskEvery(period, delay, block)
+    return scheduler.runTaskEvery(period, delay, task)
 }
 
 /**
  * Runs task every given days at a given time.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(days: Set<DayOfWeek>, at: LocalTime, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskEvery(days: Set<DayOfWeek>, at: LocalTime, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskEvery(days, at, block)
+    return scheduler.runTaskEvery(days, at, task)
 }
 
 /**
  * Runs task every given days at a given time.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(vararg days: DayOfWeek, at: LocalTime, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskEvery(vararg days: DayOfWeek, at: LocalTime, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskEvery(days.toCollection(EnumSet.noneOf(DayOfWeek::class.java)), at, block)
+    return scheduler.runTaskEvery(days.toCollection(EnumSet.noneOf(DayOfWeek::class.java)), at, task)
 }
 
 /**
  * Runs task every given day at a given time.
  */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(day: DayOfWeek, at: LocalTime, block: suspend () -> Unit) {
+public fun TriumphApplication.runTaskEvery(day: DayOfWeek, at: LocalTime, task: suspend () -> Unit) {
     val scheduler = featureOrNull(Scheduler) ?: install(Scheduler)
-    return scheduler.runTaskEvery(EnumSet.of(day), at, block)
+    return scheduler.runTaskEvery(EnumSet.of(day), at, task)
 }
