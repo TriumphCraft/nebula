@@ -63,7 +63,7 @@ public class Listeners private constructor(private val jda: JDA) {
          * Installation function to create a [Listeners] feature.
          */
         public override fun install(application: JdaApplication, configure: Listeners.() -> Unit): Listeners {
-            return Listeners(application.jda)
+            return Listeners(application.jda).apply(configure)
         }
     }
 
