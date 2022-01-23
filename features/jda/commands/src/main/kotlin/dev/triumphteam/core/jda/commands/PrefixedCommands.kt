@@ -46,7 +46,7 @@ import net.dv8tion.jda.api.entities.Guild
  */
 public class PrefixedCommands private constructor(application: JdaApplication) {
 
-    private val commandManager = PrefixedCommandManager.createDefault(application.jda)
+    private val commandManager = PrefixedCommandManager.create(application.jda)
 
     /**
      * Registers a global command.

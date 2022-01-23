@@ -30,6 +30,8 @@ import dev.triumphteam.cmd.core.message.MessageResolver
 import dev.triumphteam.cmd.core.message.context.MessageContext
 import dev.triumphteam.cmd.core.requirement.RequirementKey
 import dev.triumphteam.cmd.core.requirement.RequirementResolver
+import dev.triumphteam.cmd.core.suggestion.SuggestionKey
+import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
 import dev.triumphteam.cmd.slash.SlashCommandManager
 import dev.triumphteam.cmd.slash.sender.SlashSender
 import dev.triumphteam.core.dsl.TriumphDsl
@@ -46,7 +48,7 @@ import net.dv8tion.jda.api.entities.Guild
  */
 public class SlashCommands private constructor(application: JdaApplication) {
 
-    private val commandManager = SlashCommandManager.createDefault(application.jda)
+    private val commandManager = SlashCommandManager.create(application.jda)
 
     /**
      * Registers a global command.
@@ -122,6 +124,13 @@ public class SlashCommands private constructor(application: JdaApplication) {
      */
     public fun requirement(key: RequirementKey, resolver: RequirementResolver<SlashSender>) {
         commandManager.registerRequirement(key, resolver)
+    }
+
+    /**
+     * Registers a suggestion resolver.
+     */
+    public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver) {
+        commandManager.registerSuggestion(key, resolver)
     }
 
     /**
