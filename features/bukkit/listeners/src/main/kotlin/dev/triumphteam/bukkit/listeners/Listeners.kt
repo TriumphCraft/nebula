@@ -30,6 +30,9 @@ import dev.triumphteam.bukkit.feature.attribute.AttributeKey
 import dev.triumphteam.bukkit.feature.attribute.key
 import dev.triumphteam.bukkit.feature.featureOrNull
 import dev.triumphteam.bukkit.feature.install
+import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.feature.ApplicationFeature
+import dev.triumphteam.core.feature.attribute.AttributeKey
 import org.bukkit.Bukkit
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event

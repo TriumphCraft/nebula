@@ -1,3 +1,8 @@
+dependencyResolutionManagement {
+    includeBuild("build-logic")
+    repositories.gradlePluginPortal()
+}
+
 rootProject.name = "triumph-core"
 
 include("core")
@@ -5,10 +10,10 @@ project(":core").name = rootProject.name
 
 listOf("bukkit", "jda").forEach(::includeProject)
 listOf("config", "locale", "scheduler").forEach(::includeFeature)
-//listOf("commands", "listeners").forEach { includePlatformFeature(it, "bukkit") }
+listOf("commands", "listeners").forEach { includePlatformFeature(it, "bukkit") }
 listOf("commands", "listeners").forEach { includePlatformFeature(it, "jda") }
 
-//include("testing")
+include("testing")
 
 fun includeProject(name: String) {
     include(name) {
@@ -34,3 +39,5 @@ fun include(name: String, block: ProjectDescriptor.() -> Unit) {
     include(name)
     project(":$name").apply(block)
 }
+
+enableFeaturePreview("VERSION_CATALOGS")

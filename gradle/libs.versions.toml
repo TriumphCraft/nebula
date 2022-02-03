@@ -1,0 +1,29 @@
+[versions]
+# Minecraft
+spigot = "1.18.1-R0.1-SNAPSHOT"
+
+# My libs
+cmd = "2.0.0-SNAPSHOT"
+config = "1.0.5-SNAPSHOT"
+
+# Discord
+jda = "5.0.0-alpha.5"
+
+# KT
+coroutines = "1.6.0"
+
+[libraries]
+# Minecraft
+spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+
+# My libs
+cmd-bukkit = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "cmd" }
+cmd-slash = { module = "dev.triumphteam:triumph-cmd-jda-slash", version.ref = "cmd" }
+cmd-prefixed = { module = "dev.triumphteam:triumph-cmd-jda-prefixed", version.ref = "cmd" }
+config = { module = "me.mattstudios:triumph-config", version.ref = "config" }
+
+# Discord
+jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
+
+# KT
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }

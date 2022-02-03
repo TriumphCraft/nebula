@@ -1,4 +1,8 @@
+plugins {
+    id("core.base-conventions")
+}
+
 dependencies {
-    implementation(project(":triumph-core"))
-    api("me.mattstudios:triumph-config:1.0.5-SNAPSHOT")
+    api(project(":triumph-core"))
+    api(libs.config)
 }
