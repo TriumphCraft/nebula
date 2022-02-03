@@ -23,23 +23,20 @@
  */
 package dev.triumphteam.bukkit.listeners
 
-import dev.triumphteam.bukkit.BukkitPlugin
-import dev.triumphteam.bukkit.dsl.TriumphDsl
-import dev.triumphteam.bukkit.feature.ApplicationFeature
-import dev.triumphteam.bukkit.feature.attribute.AttributeKey
-import dev.triumphteam.bukkit.feature.attribute.key
-import dev.triumphteam.bukkit.feature.featureOrNull
-import dev.triumphteam.bukkit.feature.install
 import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.dsl.TriumphDsl
 import dev.triumphteam.core.feature.ApplicationFeature
 import dev.triumphteam.core.feature.attribute.AttributeKey
+import dev.triumphteam.core.feature.attribute.key
+import dev.triumphteam.core.feature.featureOrNull
+import dev.triumphteam.core.feature.install
 import org.bukkit.Bukkit
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
-public class Listeners(public val plugin: BukkitPlugin<*>) {
+public class Listeners(public val plugin: BukkitPlugin) {
 
     public val triumphListener: TriumphListener = TriumphListener()
 
@@ -79,7 +76,7 @@ public class Listeners(public val plugin: BukkitPlugin<*>) {
     /**
      * Feature companion, which is a factory for the [Listeners].
      */
-    public companion object Feature : ApplicationFeature<BukkitPlugin<*>, Listeners, Listeners> {
+    public companion object Feature : ApplicationFeature<BukkitPlugin, Listeners, Listeners> {
 
         /**
          * The locale [AttributeKey].
@@ -89,16 +86,14 @@ public class Listeners(public val plugin: BukkitPlugin<*>) {
         /**
          * Installation function to create a [Listeners] feature.
          */
-        public override fun install(application: BukkitPlugin<*>, configure: Listeners.() -> Unit): Listeners {
+        public override fun install(application: BukkitPlugin, configure: Listeners.() -> Unit): Listeners {
             return Listeners(application).apply(configure)
         }
-
     }
-
 }
 
 @TriumphDsl
-public fun <P : BukkitPlugin<P>> BukkitPlugin<P>.listeners(configuration: Listeners.() -> Unit): Listeners =
+public fun <P : BukkitPlugin> P.listeners(configuration: Listeners.() -> Unit): Listeners =
     featureOrNull(Listeners)?.apply(configuration) ?: install(Listeners, configuration)
 
 public class TriumphListener : Listener

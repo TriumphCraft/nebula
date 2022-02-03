@@ -23,29 +23,29 @@
  */
 package dev.triumphteam.bukkit.commands
 
-import dev.triumphteam.bukkit.BukkitPlugin
-import dev.triumphteam.bukkit.feature.ApplicationFeature
-import dev.triumphteam.bukkit.feature.attribute.AttributeKey
-import dev.triumphteam.bukkit.feature.attribute.key
-import me.mattstudios.mf.base.CommandBase
-import me.mattstudios.mf.base.CommandManager
-import me.mattstudios.mf.base.components.CompletionResolver
-import me.mattstudios.mf.base.components.MessageResolver
-import me.mattstudios.mf.base.components.ParameterResolver
+import dev.triumphteam.cmd.bukkit.BukkitCommandManager
+import dev.triumphteam.cmd.core.BaseCommand
+import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.dsl.TriumphDsl
+import dev.triumphteam.core.feature.ApplicationFeature
+import dev.triumphteam.core.feature.attribute.AttributeKey
+import dev.triumphteam.core.feature.attribute.key
+import dev.triumphteam.core.feature.featureOrNull
+import dev.triumphteam.core.feature.install
 
-public class Commands(plugin: BukkitPlugin<*>) {
+public class Commands(plugin: BukkitPlugin) {
 
-    private val commandManager = CommandManager(plugin)
+    private val commandManager = BukkitCommandManager.create(plugin)
 
-    private fun register(command: CommandBase) {
+    private fun register(command: BaseCommand) {
         //commandManager.register(command)
     }
 
-    public fun register(vararg commands: CommandBase) {
+    public fun register(vararg commands: BaseCommand) {
         commands.forEach(::register)
     }
 
-    public fun completion(id: String, resolver: CompletionResolver) {
+    /*public fun completion(id: String, resolver: SuggestionResolver<CommandSender>) {
         //commandManager.completionHandler.register(id, resolver)
     }
 
@@ -54,14 +54,14 @@ public class Commands(plugin: BukkitPlugin<*>) {
      */
     public fun parameter(type: Class<*>, resolver: ParameterResolver) {
        // commandManager.parameterHandler.register(type, resolver)
-    }
+    }*/
 
     /**
      * Registers a command message
      */
-    public fun message(id: String, resolver: MessageResolver) {
+    /*public fun message(id: String, resolver: MessageResolver) {
         //commandManager.messageHandler.register(id, resolver)
-    }
+    }*/
 
     /**
      * TODO
@@ -74,7 +74,7 @@ public class Commands(plugin: BukkitPlugin<*>) {
     /**
      * Feature companion, which is a factory for the [Commands].
      */
-    public companion object Feature : ApplicationFeature<BukkitPlugin<*>, Commands, Commands> {
+    public companion object Feature : ApplicationFeature<BukkitPlugin, Commands, Commands> {
 
         /**
          * The locale [AttributeKey].
@@ -84,13 +84,13 @@ public class Commands(plugin: BukkitPlugin<*>) {
         /**
          * Installation function to create a [Commands] feature.
          */
-        public override fun install(application: BukkitPlugin<*>, configure: Commands.() -> Unit): Commands {
+        public override fun install(application: BukkitPlugin, configure: Commands.() -> Unit): Commands {
             return Commands(application)
         }
     }
 
 }
 
-//@TriumphDsl
-/*public fun <P : BukkitPlugin<P>> BukkitPlugin<P>.commands(configuration: Commands.() -> Unit): Commands =
-    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)*/
+@TriumphDsl
+public fun <P : BukkitPlugin> P.commands(configuration: Commands.() -> Unit): Commands =
+    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)

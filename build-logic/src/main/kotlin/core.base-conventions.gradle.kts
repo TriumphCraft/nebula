@@ -30,6 +30,9 @@ java {
 }
 
 tasks {
+    kotlin {
+        explicitApi()
+    }
 
     withType<KotlinCompile> {
         kotlinOptions {

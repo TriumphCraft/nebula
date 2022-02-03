@@ -34,7 +34,8 @@ import dev.triumphteam.core.feature.attribute.AttributeKey
 public interface ApplicationFeature<
         in A : TriumphApplication,
         out C : Any,
-        F : Any> {
+        F : Any,
+        > {
 
     /**
      * Key that defines the specific feature.
@@ -53,7 +54,7 @@ public interface ApplicationFeature<
  */
 public fun <A : TriumphApplication, C : Any, F : Any> A.install(
     feature: ApplicationFeature<A, C, F>,
-    configure: C.() -> Unit = {}
+    configure: C.() -> Unit = {},
 ): F {
     if (attributes.getOrNull(feature.key) != null) {
         throw DuplicateFeatureException(
@@ -64,6 +65,13 @@ public fun <A : TriumphApplication, C : Any, F : Any> A.install(
     val installed = feature.install(this, configure)
     attributes.put(feature.key, installed)
     return installed
+}
+
+/**
+ * Gets feature instance for this application, or fails with [MissingFeatureException] if the feature is not installed.
+ */
+public operator fun <A : TriumphApplication, C : Any, F : Any> A.get(feature: ApplicationFeature<A, C, F>): F {
+    return feature(feature)
 }
 
 /**

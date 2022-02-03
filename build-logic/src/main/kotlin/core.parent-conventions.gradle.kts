@@ -1,3 +1,4 @@
+import gradle.kotlin.dsl.accessors._6e48cf63c4199ca482c2391b69d3f2de.java
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -8,6 +9,11 @@ plugins {
 repositories {
     mavenCentral()
     mavenLocal()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks {

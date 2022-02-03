@@ -30,9 +30,8 @@ import dev.triumphteam.cmd.core.message.MessageResolver
 import dev.triumphteam.cmd.core.message.context.MessageContext
 import dev.triumphteam.cmd.core.requirement.RequirementKey
 import dev.triumphteam.cmd.core.requirement.RequirementResolver
-import dev.triumphteam.cmd.core.suggestion.SuggestionKey
-import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
 import dev.triumphteam.cmd.slash.SlashCommandManager
+import dev.triumphteam.cmd.slash.choices.ChoiceKey
 import dev.triumphteam.cmd.slash.sender.SlashSender
 import dev.triumphteam.core.dsl.TriumphDsl
 import dev.triumphteam.core.feature.ApplicationFeature
@@ -42,6 +41,7 @@ import dev.triumphteam.core.feature.featureOrNull
 import dev.triumphteam.core.feature.install
 import dev.triumphteam.core.jda.JdaApplication
 import net.dv8tion.jda.api.entities.Guild
+import java.util.function.Supplier
 
 /**
  * Feature for simplifying the creation of slash commands.
@@ -127,10 +127,10 @@ public class SlashCommands private constructor(application: JdaApplication) {
     }
 
     /**
-     * Registers a suggestion resolver.
+     * Registers a choice resolver.
      */
-    public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver) {
-        commandManager.registerSuggestion(key, resolver)
+    public fun choice(key: ChoiceKey, resolver: Supplier<List<String>>) {
+        commandManager.registerChoices(key, resolver)
     }
 
     /**
