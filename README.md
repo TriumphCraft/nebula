@@ -1,9 +1,9 @@
 <img src="https://i.imgur.com/3subxPr.png" alt="banner" />
 <h1 align="center">Welcome to triumph-core 👋</h1>
 <p>
-  <img src="https://img.shields.io/github/license/TriumphTeam/triumph-gui?color=blue&style=flat-square"  alt="license"/>
+  <img src="https://img.shields.io/github/license/TriumphTeam/triumph-core?color=blue&style=flat-square"  alt="license"/>
   <img src="https://img.shields.io/github/languages/top/TriumphTeam/triumph-core?color=%23766DB2&style=flat-square"  alt="language"/>
-  <img src="https://img.shields.io/github/v/release/TriumphTeam/triumph-gui?color=green&style=flat-square" alt="release">
+  <img src="https://img.shields.io/github/v/release/TriumphTeam/triumph-core?color=green&style=flat-square" alt="release">
   <a href="https://mattstudios.me/discord"><img src="https://img.shields.io/discord/493380790718038028?label=discord&style=flat-square"  alt="language"/></a>
 </p>
 
