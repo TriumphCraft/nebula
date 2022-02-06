@@ -41,7 +41,7 @@ import dev.triumphteam.core.feature.featureOrNull
 import dev.triumphteam.core.feature.install
 import org.bukkit.command.CommandSender
 
-public abstract class Commands<S>(
+public abstract class AbstractCommandWrapper<S>(
     plugin: BukkitApplication,
     mapper: SenderMapper<CommandSender, S>,
     validator: SenderValidator<S>,
@@ -77,20 +77,16 @@ public abstract class Commands<S>(
 /**
  * Command feature is used for specifying the sender of the command.
  */
-public interface CommandFeature<S, in A : TriumphApplication, out C : Any, F : Commands<S>> :
+public interface CommandFeature<S, in A : TriumphApplication, out C : Any, F : AbstractCommandWrapper<S>> :
     ApplicationFeature<A, C, F>
 
 /**
  * Command utility for easier setup of the commands.
  */
 @TriumphDsl
-public fun <P : BukkitApplication, S, C : Commands<S>> P.commands(
+public fun <P : BukkitApplication, S, C : AbstractCommandWrapper<S>> P.commands(
     commands: CommandFeature<S, P, C, C>,
     config: C.() -> Unit,
 ) {
     featureOrNull(commands)?.apply(config) ?: install(commands, config)
 }
-
-/*@TriumphDsl
-public fun <P : BukkitPlugin> P.commands(configuration: Commands.() -> Unit): Commands =
-    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)*/
