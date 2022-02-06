@@ -23,7 +23,7 @@
  */
 package dev.triumphteam.bukkit.listeners
 
-import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.BukkitApplication
 import dev.triumphteam.core.dsl.TriumphDsl
 import dev.triumphteam.core.feature.ApplicationFeature
 import dev.triumphteam.core.feature.attribute.AttributeKey
@@ -36,7 +36,7 @@ import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
-public class Listeners(public val plugin: BukkitPlugin) {
+public class Listeners(public val plugin: BukkitApplication) {
 
     public val triumphListener: TriumphListener = TriumphListener()
 
@@ -68,7 +68,7 @@ public class Listeners(public val plugin: BukkitPlugin) {
     /**
      * Feature companion, which is a factory for the [Listeners].
      */
-    public companion object Feature : ApplicationFeature<BukkitPlugin, Listeners, Listeners> {
+    public companion object Feature : ApplicationFeature<BukkitApplication, Listeners, Listeners> {
 
         /**
          * The locale [AttributeKey].
@@ -78,14 +78,14 @@ public class Listeners(public val plugin: BukkitPlugin) {
         /**
          * Installation function to create a [Listeners] feature.
          */
-        public override fun install(application: BukkitPlugin, configure: Listeners.() -> Unit): Listeners {
+        public override fun install(application: BukkitApplication, configure: Listeners.() -> Unit): Listeners {
             return Listeners(application).apply(configure)
         }
     }
 }
 
 @TriumphDsl
-public fun <P : BukkitPlugin> P.listeners(configuration: Listeners.() -> Unit): Listeners =
+public fun <P : BukkitApplication> P.listeners(configuration: Listeners.() -> Unit): Listeners =
     featureOrNull(Listeners)?.apply(configuration) ?: install(Listeners, configuration)
 
 public class TriumphListener : Listener

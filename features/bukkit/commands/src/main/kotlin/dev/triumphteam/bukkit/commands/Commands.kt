@@ -33,17 +33,16 @@ import dev.triumphteam.cmd.core.sender.SenderMapper
 import dev.triumphteam.cmd.core.sender.SenderValidator
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
-import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.BukkitApplication
 import dev.triumphteam.core.TriumphApplication
 import dev.triumphteam.core.dsl.TriumphDsl
 import dev.triumphteam.core.feature.ApplicationFeature
 import dev.triumphteam.core.feature.featureOrNull
 import dev.triumphteam.core.feature.install
 import org.bukkit.command.CommandSender
-import org.checkerframework.checker.units.qual.C
 
 public abstract class Commands<S>(
-    plugin: BukkitPlugin,
+    plugin: BukkitApplication,
     mapper: SenderMapper<CommandSender, S>,
     validator: SenderValidator<S>,
 ) {
@@ -85,7 +84,7 @@ public interface CommandFeature<S, in A : TriumphApplication, out C : Any, F : C
  * Command utility for easier setup of the commands.
  */
 @TriumphDsl
-public fun <P : BukkitPlugin, S, C : Commands<S>> P.commands(
+public fun <P : BukkitApplication, S, C : Commands<S>> P.commands(
     commands: CommandFeature<S, P, C, C>,
     config: C.() -> Unit,
 ) {

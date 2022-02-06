@@ -31,7 +31,7 @@ import java.io.File
 /**
  * Main implementation for Bukkit.
  */
-public abstract class BukkitPlugin : JavaPlugin(), TriumphApplication {
+public abstract class BukkitApplication : JavaPlugin(), TriumphApplication {
 
     public override val attributes: HashMapAttributes = attributesOf()
 

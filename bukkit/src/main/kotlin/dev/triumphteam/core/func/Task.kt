@@ -25,7 +25,7 @@
 
 package dev.triumphteam.core.func
 
-import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.BukkitApplication
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
@@ -35,7 +35,7 @@ import org.bukkit.scheduler.BukkitTask
  */
 public object Task {
 
-    private val plugin = JavaPlugin.getPlugin(BukkitPlugin::class.java)
+    private val plugin = JavaPlugin.getPlugin(BukkitApplication::class.java)
 
     /**
      * Better syntax for running sync tasks
