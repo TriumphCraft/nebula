@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021 Mateus Moreira
+ * Copyright (c) 2021-2022 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,14 +64,6 @@ public class Listeners(public val plugin: BukkitPlugin) {
             plugin
         )
     }
-
-    /**
-     * TODO
-     * Simple initializer for doing the above but not clog up the main class
-     */
-    /*public fun initialize(initializer: Initializer<T>) {
-        initializer.initialize(plugin)
-    }*/
 
     /**
      * Feature companion, which is a factory for the [Listeners].

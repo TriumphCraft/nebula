@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021 Mateus Moreira
+ * Copyright (c) 2021-2022 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,72 +25,73 @@ package dev.triumphteam.bukkit.commands
 
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager
 import dev.triumphteam.cmd.core.BaseCommand
+import dev.triumphteam.cmd.core.argument.ArgumentResolver
+import dev.triumphteam.cmd.core.message.MessageKey
+import dev.triumphteam.cmd.core.message.MessageResolver
+import dev.triumphteam.cmd.core.message.context.MessageContext
+import dev.triumphteam.cmd.core.sender.SenderMapper
+import dev.triumphteam.cmd.core.sender.SenderValidator
+import dev.triumphteam.cmd.core.suggestion.SuggestionKey
+import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
 import dev.triumphteam.core.BukkitPlugin
+import dev.triumphteam.core.TriumphApplication
 import dev.triumphteam.core.dsl.TriumphDsl
 import dev.triumphteam.core.feature.ApplicationFeature
-import dev.triumphteam.core.feature.attribute.AttributeKey
-import dev.triumphteam.core.feature.attribute.key
 import dev.triumphteam.core.feature.featureOrNull
 import dev.triumphteam.core.feature.install
+import org.bukkit.command.CommandSender
+import org.checkerframework.checker.units.qual.C
 
-public class Commands(plugin: BukkitPlugin) {
+public abstract class Commands<S>(
+    plugin: BukkitPlugin,
+    mapper: SenderMapper<CommandSender, S>,
+    validator: SenderValidator<S>,
+) {
 
-    private val commandManager = BukkitCommandManager.create(plugin)
+    public val commandManager: BukkitCommandManager<S> = BukkitCommandManager.create(plugin, mapper, validator)
 
     private fun register(command: BaseCommand) {
-        //commandManager.register(command)
+        commandManager.registerCommand(command)
     }
 
     public fun register(vararg commands: BaseCommand) {
         commands.forEach(::register)
     }
 
-    /*public fun completion(id: String, resolver: SuggestionResolver<CommandSender>) {
-        //commandManager.completionHandler.register(id, resolver)
+    public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver<S>) {
+        commandManager.registerSuggestion(key, resolver)
     }
 
-    /**
-     * Register a parameter type to be used in the commands
-     */
-    public fun parameter(type: Class<*>, resolver: ParameterResolver) {
-       // commandManager.parameterHandler.register(type, resolver)
-    }*/
-
-    /**
-     * Registers a command message
-     */
-    /*public fun message(id: String, resolver: MessageResolver) {
-        //commandManager.messageHandler.register(id, resolver)
-    }*/
-
-    /**
-     * TODO
-     * Simple initializer for doing the above but not clog up the main class
-     */
-    /*public fun initialize(initializer: Initializer<T>) {
-        initializer.initialize(plugin)
-    }*/
-
-    /**
-     * Feature companion, which is a factory for the [Commands].
-     */
-    public companion object Feature : ApplicationFeature<BukkitPlugin, Commands, Commands> {
-
-        /**
-         * The locale [AttributeKey].
-         */
-        public override val key: AttributeKey<Commands> = key("Commands")
-
-        /**
-         * Installation function to create a [Commands] feature.
-         */
-        public override fun install(application: BukkitPlugin, configure: Commands.() -> Unit): Commands {
-            return Commands(application)
-        }
+    public fun argument(type: Class<*>, resolver: ArgumentResolver<S>) {
+        commandManager.registerArgument(type, resolver)
     }
 
+    public inline fun <reified T> argument(resolver: ArgumentResolver<S>) {
+        commandManager.registerArgument(T::class.java, resolver)
+    }
+
+    public fun <C : MessageContext> message(key: MessageKey<C>, messageResolver: MessageResolver<S, C>) {
+        commandManager.registerMessage(key, messageResolver)
+    }
 }
 
+/**
+ * Command feature is used for specifying the sender of the command.
+ */
+public interface CommandFeature<S, in A : TriumphApplication, out C : Any, F : Commands<S>> :
+    ApplicationFeature<A, C, F>
+
+/**
+ * Command utility for easier setup of the commands.
+ */
 @TriumphDsl
+public fun <P : BukkitPlugin, S, C : Commands<S>> P.commands(
+    commands: CommandFeature<S, P, C, C>,
+    config: C.() -> Unit,
+) {
+    featureOrNull(commands)?.apply(config) ?: install(commands, config)
+}
+
+/*@TriumphDsl
 public fun <P : BukkitPlugin> P.commands(configuration: Commands.() -> Unit): Commands =
-    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)
+    featureOrNull(Commands)?.apply(configuration) ?: install(Commands, configuration)*/

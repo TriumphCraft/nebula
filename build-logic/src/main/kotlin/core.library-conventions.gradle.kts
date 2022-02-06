@@ -48,12 +48,16 @@ tasks {
 
         repositories {
             maven {
+                url = if (version.toString().endsWith("-SNAPSHOT")) {
+                    uri("https://repo.triumphteam.dev/snapshots/")
+                } else {
+                    uri("https://repo.triumphteam.dev/releases/")
+                }
+
                 credentials {
                     username = System.getenv("REPO_USER")
                     password = System.getenv("REPO_PASS")
                 }
-
-                url = uri("https://repo.triumphteam.dev/releases/")
             }
         }
     }
