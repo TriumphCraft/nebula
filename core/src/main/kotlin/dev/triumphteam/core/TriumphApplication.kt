@@ -41,4 +41,14 @@ public interface TriumphApplication {
      */
     public val applicationFolder: File
 
+    /**
+     * Function to be called when the application starts.
+     */
+    public fun onStart()
+
+    /**
+     * Function to be called when the application stops.
+     */
+    public fun onStop()
+
 }

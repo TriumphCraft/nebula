@@ -59,10 +59,9 @@ public abstract class JdaApplication(
         startApplication()
     }
 
-    /**
-     * Runs on the start of the application.
-     */
-    public open fun onStart() {}
+    public override fun onStart() {}
+
+    public override fun onStop() {}
 
     /**
      * Runs when [JDA] is ready.
@@ -91,7 +90,7 @@ public abstract class JdaApplication(
  */
 private class JdaApplicationListener(
     private val jdaApplication: JdaApplication,
-    private val module: TriumphApplication.() -> Unit
+    private val module: TriumphApplication.() -> Unit,
 ) : ListenerAdapter() {
 
     override fun onReady(event: ReadyEvent) {

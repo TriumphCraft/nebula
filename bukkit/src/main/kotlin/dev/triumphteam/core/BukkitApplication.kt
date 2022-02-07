@@ -31,10 +31,27 @@ import java.io.File
 /**
  * Main implementation for Bukkit.
  */
-public abstract class BukkitApplication : JavaPlugin(), TriumphApplication {
+public abstract class BukkitApplication(
+    private val start: TriumphApplication.() -> Unit = {},
+    private val stop: TriumphApplication.() -> Unit = {},
+) : JavaPlugin(), TriumphApplication {
 
     public override val attributes: HashMapAttributes = attributesOf()
 
     public override val applicationFolder: File = dataFolder
+
+    public override fun onEnable() {
+        start()
+        onStart()
+    }
+
+    public override fun onDisable() {
+        stop()
+        onStop()
+    }
+
+    public override fun onStart() {}
+
+    public override fun onStop() {}
 
 }
