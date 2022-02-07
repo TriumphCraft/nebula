@@ -31,12 +31,9 @@ import dev.triumphteam.core.feature.attribute.key
 import dev.triumphteam.core.feature.featureOrNull
 import dev.triumphteam.core.feature.install
 import org.bukkit.Bukkit
-import org.bukkit.event.Cancellable
-import org.bukkit.event.Event
-import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
-public class Listeners(public val plugin: BukkitApplication) {
+public class Listeners(private val plugin: BukkitApplication) {
 
     public val triumphListener: TriumphListener = TriumphListener()
 
@@ -46,23 +43,6 @@ public class Listeners(public val plugin: BukkitApplication) {
 
     public fun register(vararg listeners: Listener) {
         listeners.forEach(::register)
-    }
-
-    public inline fun <reified E : Event> on(
-        priority: EventPriority = EventPriority.NORMAL,
-        cancel: Boolean = false,
-        crossinline function: E.() -> Unit
-    ) {
-        Bukkit.getPluginManager().registerEvent(
-            E::class.java,
-            triumphListener,
-            priority,
-            { _, event ->
-                if (cancel && event is Cancellable) event.isCancelled = true
-                function(event as E)
-            },
-            plugin
-        )
     }
 
     /**
