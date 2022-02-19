@@ -5,7 +5,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":triumph-core-bukkit"))
-    api(libs.cmd.bukkit)
-    compileOnly(libs.spigot)
+    api(project(":triumph-core"))
+    api(libs.cmd.core)
 }

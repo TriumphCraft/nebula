@@ -23,18 +23,12 @@
  */
 package dev.triumphteam.core
 
-import dev.triumphteam.core.feature.attribute.Attributes
 import java.io.File
 
 /**
  * An application, this represents any type of application for any platform.
  */
 public interface TriumphApplication {
-
-    /**
-     * Main attributes for all features.
-     */
-    public val attributes: Attributes
 
     /**
      * A folder where the application wants to store data, similar to Bukkit's "dataFolder".
@@ -50,5 +44,4 @@ public interface TriumphApplication {
      * Function to be called when the application stops.
      */
     public fun onStop()
-
 }

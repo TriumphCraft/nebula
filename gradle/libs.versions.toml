@@ -17,6 +17,7 @@ coroutines = "1.6.0"
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 
 # My libs
+cmd-core = { module = "dev.triumphteam:triumph-cmd-core", version.ref = "cmd" }
 cmd-bukkit = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "cmd" }
 cmd-slash = { module = "dev.triumphteam:triumph-cmd-jda-slash", version.ref = "cmd" }
 cmd-prefixed = { module = "dev.triumphteam:triumph-cmd-jda-prefixed", version.ref = "cmd" }

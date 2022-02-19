@@ -24,8 +24,6 @@
 package dev.triumphteam.core.jda
 
 import dev.triumphteam.core.TriumphApplication
-import dev.triumphteam.core.feature.attribute.Attributes
-import dev.triumphteam.core.feature.attribute.attributesOf
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Guild
@@ -44,11 +42,6 @@ public abstract class JdaApplication(
     public override val applicationFolder: File = File("data"),
     private val extra: TriumphApplication.() -> Unit = {},
 ) : TriumphApplication {
-
-    /**
-     * Gets all application attributes.
-     */
-    public override val attributes: Attributes = attributesOf()
 
     /**
      * Gets the [JDA] instance.
@@ -82,7 +75,6 @@ public abstract class JdaApplication(
     private fun startApplication() {
         onStart()
     }
-
 }
 
 /**

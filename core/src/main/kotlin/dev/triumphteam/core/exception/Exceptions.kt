@@ -23,12 +23,11 @@
  */
 package dev.triumphteam.core.exception
 
-import dev.triumphteam.core.feature.attribute.AttributeKey
 import kotlin.reflect.KClass
 
 public class DuplicateFeatureException(override val message: String) : IllegalStateException()
 
-public class MissingFeatureException(key: AttributeKey<*>) : IllegalStateException() {
+public class MissingFeatureException(key: Class<*>) : IllegalStateException() {
     override val message: String = "Application feature ${key.name} is not installed"
 }
 

@@ -25,8 +25,6 @@ package dev.triumphteam.core.locale
 
 import dev.triumphteam.core.TriumphApplication
 import dev.triumphteam.core.feature.ApplicationFeature
-import dev.triumphteam.core.feature.attribute.AttributeKey
-import dev.triumphteam.core.feature.attribute.key
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.properties.Property
@@ -101,11 +99,6 @@ public class Locale private constructor(private val configuration: LocaleConfigu
      * Feature companion, which is a factory for the [Locale].
      */
     public companion object Feature : ApplicationFeature<TriumphApplication, LocaleConfiguration, Locale> {
-
-        /**
-         * The locale [AttributeKey].
-         */
-        override val key: AttributeKey<Locale> = key("Locale")
 
         /**
          * Installation function to create a [Locale] feature.

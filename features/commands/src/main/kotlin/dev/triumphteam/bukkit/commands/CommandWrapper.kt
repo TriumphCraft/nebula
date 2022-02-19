@@ -23,31 +23,14 @@
  */
 package dev.triumphteam.bukkit.commands
 
-import dev.triumphteam.cmd.bukkit.BukkitCommandManager
 import dev.triumphteam.cmd.core.BaseCommand
+import dev.triumphteam.cmd.core.CommandManager
 import dev.triumphteam.cmd.core.argument.ArgumentResolver
 import dev.triumphteam.cmd.core.message.MessageKey
 import dev.triumphteam.cmd.core.message.MessageResolver
 import dev.triumphteam.cmd.core.message.context.MessageContext
-import dev.triumphteam.cmd.core.sender.SenderMapper
-import dev.triumphteam.cmd.core.sender.SenderValidator
-import dev.triumphteam.cmd.core.suggestion.SuggestionKey
-import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
-import dev.triumphteam.core.BukkitApplication
-import dev.triumphteam.core.TriumphApplication
-import dev.triumphteam.core.dsl.TriumphDsl
-import dev.triumphteam.core.feature.ApplicationFeature
-import dev.triumphteam.core.feature.featureOrNull
-import dev.triumphteam.core.feature.install
-import org.bukkit.command.CommandSender
 
-public abstract class AbstractCommandWrapper<S>(
-    plugin: BukkitApplication,
-    mapper: SenderMapper<CommandSender, S>,
-    validator: SenderValidator<S>,
-) {
-
-    public val commandManager: BukkitCommandManager<S> = BukkitCommandManager.create(plugin, mapper, validator)
+public abstract class CommandWrapper<DS, S>(public val commandManager: CommandManager<DS, S>) {
 
     private fun register(command: BaseCommand) {
         commandManager.registerCommand(command)
@@ -57,9 +40,9 @@ public abstract class AbstractCommandWrapper<S>(
         commands.forEach(::register)
     }
 
-    public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver<S>) {
+    /*public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver<CommandSender>) {
         commandManager.registerSuggestion(key, resolver)
-    }
+    }*/
 
     public fun argument(type: Class<*>, resolver: ArgumentResolver<S>) {
         commandManager.registerArgument(type, resolver)
@@ -72,21 +55,4 @@ public abstract class AbstractCommandWrapper<S>(
     public fun <C : MessageContext> message(key: MessageKey<C>, messageResolver: MessageResolver<S, C>) {
         commandManager.registerMessage(key, messageResolver)
     }
-}
-
-/**
- * Command feature is used for specifying the sender of the command.
- */
-public interface CommandFeature<S, in A : TriumphApplication, out C : Any, F : AbstractCommandWrapper<S>> :
-    ApplicationFeature<A, C, F>
-
-/**
- * Command utility for easier setup of the commands.
- */
-@TriumphDsl
-public fun <P : BukkitApplication, S, C : AbstractCommandWrapper<S>> P.commands(
-    commands: CommandFeature<S, P, C, C>,
-    config: C.() -> Unit,
-) {
-    featureOrNull(commands)?.apply(config) ?: install(commands, config)
 }

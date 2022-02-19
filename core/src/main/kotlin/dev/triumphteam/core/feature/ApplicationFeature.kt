@@ -24,9 +24,9 @@
 package dev.triumphteam.core.feature
 
 import dev.triumphteam.core.TriumphApplication
-import dev.triumphteam.core.exception.DuplicateFeatureException
 import dev.triumphteam.core.exception.MissingFeatureException
-import dev.triumphteam.core.feature.attribute.AttributeKey
+import dev.triumphteam.core.feature.attribute.FeatureRegistry.getOrNull
+import dev.triumphteam.core.feature.attribute.FeatureRegistry.put
 
 /**
  * Defines a installable feature.
@@ -34,15 +34,9 @@ import dev.triumphteam.core.feature.attribute.AttributeKey
 public interface ApplicationFeature<in A : TriumphApplication, out C : Any, F : Any> {
 
     /**
-     * Key that defines the specific feature.
-     */
-    public val key: AttributeKey<F>
-
-    /**
      * Feature installation, works like a factory.
      */
     public fun install(application: A, configure: C.() -> Unit): F
-
 }
 
 /**
@@ -52,34 +46,21 @@ public fun <A : TriumphApplication, C : Any, F : Any> A.install(
     feature: ApplicationFeature<A, C, F>,
     configure: C.() -> Unit = {},
 ): F {
-    if (attributes.getOrNull(feature.key) != null) {
-        throw DuplicateFeatureException(
-            "Conflicting feature is already installed with the same key as `${feature.key.name}`"
-        )
-    }
-
     val installed = feature.install(this, configure)
-    attributes.put(feature.key, installed)
+    put(feature.javaClass, installed)
     return installed
 }
 
 /**
- * Gets feature instance for this application, or fails with [MissingFeatureException] if the feature is not installed.
+ * Retrieves a specific feature.
  */
-public operator fun <A : TriumphApplication, C : Any, F : Any> A.get(feature: ApplicationFeature<A, C, F>): F {
-    return feature(feature)
+public inline fun <reified F : Any> feature(): Lazy<F> = lazy {
+    getOrNull(F::class.java) ?: throw MissingFeatureException(F::class.java)
 }
 
 /**
- * Gets feature instance for this application, or fails with [MissingFeatureException] if the feature is not installed.
+ * Retrieves a specific feature or null if it doesn't exist.
  */
-public fun <A : TriumphApplication, C : Any, F : Any> A.feature(feature: ApplicationFeature<A, C, F>): F {
-    return attributes.getOrNull(feature.key) ?: throw MissingFeatureException(feature.key)
-}
-
-/**
- * Returns feature instance for this application, or null if feature is not installed.
- */
-public fun <M : TriumphApplication, C : Any, F : Any> M.featureOrNull(feature: ApplicationFeature<M, C, F>): F? {
-    return attributes.getOrNull(feature.key)
+public inline fun <reified F : Any> featureOrNull(feature: ApplicationFeature<*, *, F>): Lazy<F?> = lazy {
+    getOrNull(F::class.java)
 }

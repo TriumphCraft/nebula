@@ -23,56 +23,48 @@
  */
 package dev.triumphteam.core.feature.attribute
 
+import dev.triumphteam.core.TriumphApplication
+
 /**
  * Map like implementation for holding the needed attributes.
  * TODO Create concurrent map implementation.
  */
-public class HashMapAttributes : Attributes {
+public object FeatureRegistry {
 
     /**
      * Map holding the features.
      */
-    private val map: MutableMap<AttributeKey<*>, Any> = HashMap()
+    private val map: MutableMap<Class<*>, Any> = HashMap()
 
     /**
-     * Gets a value of the attribute for the specified [key], or return `null` if an attribute doesn't exist.
+     * Gets a value of the attribute for the specified [klass], or return `null` if an attribute doesn't exist.
      */
     @Suppress("UNCHECKED_CAST")
-    public override fun <T : Any> getOrNull(key: AttributeKey<T>): T? = map[key] as T?
+    public fun <T : Any> getOrNull(klass: Class<out T>): T? = map[klass] as T?
 
     /**
-     * Checks if an attribute with the specified [key] exists.
+     * Checks if an attribute with the specified [klass] exists.
      */
-    public override operator fun contains(key: AttributeKey<*>): Boolean = map.containsKey(key)
+    public operator fun contains(klass: Class<*>): Boolean = map.containsKey(klass)
 
     /**
-     * Creates or changes an attribute with the specified [key] using [value].
+     * Creates or changes an attribute with the specified [klass] using [value].
      */
-    public override fun <T : Any> put(key: AttributeKey<T>, value: T) {
-        map[key] = value
+    public fun <T : Any> TriumphApplication.put(klass: Class<out T>, value: T) {
+        map[klass] = value
     }
 
     /**
-     * Removes an attribute with the specified [key].
+     * Removes an attribute with the specified [klass].
      */
-    public override fun <T : Any> remove(key: AttributeKey<T>) {
-        map.remove(key)
+    public fun <T : Any> TriumphApplication.remove(klass: Class<out T>) {
+        map.remove(klass)
     }
 
     /**
-     * Returns [List] of all [AttributeKey] instances in this map.
+     * Clears all the features.
      */
-    public override val allKeys: List<AttributeKey<*>>
-        get() = map.keys.toList()
-
-    override fun clear() {
+    public fun TriumphApplication.clear() {
         map.clear()
     }
-}
-
-/**
- * Simple function for creating a new [Attributes].
- */
-public fun attributesOf(): HashMapAttributes {
-    return HashMapAttributes()
 }

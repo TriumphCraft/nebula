@@ -23,8 +23,8 @@
  */
 package dev.triumphteam.core
 
-import dev.triumphteam.core.feature.attribute.HashMapAttributes
-import dev.triumphteam.core.feature.attribute.attributesOf
+import dev.triumphteam.core.feature.install
+import dev.triumphteam.core.func.BukkitLogger
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -36,11 +36,11 @@ public abstract class BukkitApplication(
     private val stop: TriumphApplication.() -> Unit = {},
 ) : JavaPlugin(), TriumphApplication {
 
-    public override val attributes: HashMapAttributes = attributesOf()
-
     public override val applicationFolder: File = dataFolder
 
     public override fun onEnable() {
+        install(BukkitLogger)
+
         start()
         onStart()
     }
