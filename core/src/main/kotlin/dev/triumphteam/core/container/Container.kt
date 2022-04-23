@@ -29,9 +29,7 @@ import dev.triumphteam.core.feature.registry.InjectionRegistry
 import dev.triumphteam.core.feature.registry.SimpleInjectionRegistry
 import dev.triumphteam.core.key.Keyed
 
-/**
- * Represents a keyed container, which holders a parent and an injection registry.
- */
+/** Represents a keyed container, which holders a parent and an injection registry. */
 public interface Container : Keyed {
 
     /**

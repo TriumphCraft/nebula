@@ -30,9 +30,7 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
-/**
- * Main implementation for Bukkit plugins.
- */
+/** Main implementation for Bukkit plugins. */
 public abstract class BukkitApplication(
     /** Block of common code to be run on start. */
     private val start: TriumphApplication.() -> Unit = {},
@@ -43,24 +41,33 @@ public abstract class BukkitApplication(
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
+    /** Scope key, the highest scope in the application. */
     public override val key: String = "plugin"
 
+    /** Plugin has no parent container. */
     public override val parent: Container? = null
 
     public override val applicationFolder: File = dataFolder
 
     public override fun onEnable() {
+        // Makes plugin instance injectable.
         registry.put(Plugin::class.java, this)
+        // Calls common start block.
         start()
+        // Calls main start block.
         onStart()
     }
 
     public override fun onDisable() {
+        // Calls common stop block.
         stop()
+        // Calls main stop block.
         onStop()
     }
 
+    /** Function to be called when the plugin is starting (enable). */
     public override fun onStart() {}
 
+    /** Function to be called when the plugin is stopping (disable). */
     public override fun onStop() {}
 }

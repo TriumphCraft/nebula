@@ -23,9 +23,7 @@
  */
 package dev.triumphteam.core.feature.registry
 
-/**
- * A registry for storing, adding, and getting injection objects.
- */
+/** A registry for storing, adding, and getting injection objects. */
 public interface InjectionRegistry {
 
     /** A read only map containing all the objects that can be injected in the container. */
