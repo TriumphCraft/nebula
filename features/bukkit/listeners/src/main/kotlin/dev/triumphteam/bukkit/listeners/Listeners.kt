@@ -24,48 +24,46 @@
 package dev.triumphteam.bukkit.listeners
 
 import dev.triumphteam.core.BukkitApplication
+import dev.triumphteam.core.container.Container
+import dev.triumphteam.core.container.inject
 import dev.triumphteam.core.dsl.TriumphDsl
-import dev.triumphteam.core.feature.ApplicationFeature
-import dev.triumphteam.core.feature.attribute.AttributeKey
-import dev.triumphteam.core.feature.attribute.key
-import dev.triumphteam.core.feature.featureOrNull
+import dev.triumphteam.core.feature.Feature
+import dev.triumphteam.core.feature.FeatureFactory
 import dev.triumphteam.core.feature.install
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
+import org.bukkit.plugin.Plugin
 
-public class Listeners(private val plugin: BukkitApplication) {
+/** Simplifies registration of [Listener]s. */
+public class Listeners(container: Container) : Feature(container) {
 
-    public val triumphListener: TriumphListener = TriumphListener()
+    /** Scope key. */
+    override val key: String = "listeners"
 
-    public fun register(listener: Listener) {
-        Bukkit.getPluginManager().registerEvents(listener, plugin)
-    }
+    private val plugin: Plugin by inject()
 
-    public fun register(vararg listeners: Listener) {
-        listeners.forEach(::register)
-    }
+    /** Registers a bukkit [Listener]. */
+    public fun register(listener: Listener): Unit = Bukkit.getPluginManager().registerEvents(listener, plugin)
 
-    /**
-     * Feature companion, which is a factory for the [Listeners].
-     */
-    public companion object Feature : ApplicationFeature<BukkitApplication, Listeners, Listeners> {
+    /** Registers a bukkit [Listener], but provides the parent container. */
+    public fun register(block: (Container) -> Listener): Unit =
+        Bukkit.getPluginManager().registerEvents(block(parent), plugin)
 
-        /**
-         * The locale [AttributeKey].
-         */
-        public override val key: AttributeKey<Listeners> = key("Listeners")
+    /** Registers multiple listeners in a row. */
+    public fun register(vararg listeners: Listener): Unit = listeners.forEach(::register)
 
-        /**
-         * Installation function to create a [Listeners] feature.
-         */
-        public override fun install(application: BukkitApplication, configure: Listeners.() -> Unit): Listeners {
-            return Listeners(application).apply(configure)
+    /** Feature companion, which is a factory for the [Listeners]. */
+    public companion object : FeatureFactory<Listeners> {
+        override fun install(container: Container): Listeners {
+            return Listeners(container)
         }
     }
 }
 
+/**
+ * Simplifies adding new listeners.
+ * It's a feature that installs itself when used.
+ */
 @TriumphDsl
 public fun <P : BukkitApplication> P.listeners(configuration: Listeners.() -> Unit): Listeners =
-    featureOrNull(Listeners)?.apply(configuration) ?: install(Listeners, configuration)
-
-public class TriumphListener : Listener
+    install(Listeners, configuration)

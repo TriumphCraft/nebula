@@ -21,23 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.core.config
+package dev.triumphteam.core.feature.registry
 
-import dev.triumphteam.core.locale.Language
+/**
+ * A registry for storing, adding, and getting injection objects.
+ */
+public interface InjectionRegistry {
 
-enum class Defaults(private val en: String, private val pt: String) {
+    /** A read only map containing all the objects that can be injected in the container. */
+    public val values: Map<Class<*>, Any>
 
-    MESSAGE_TEST("Custom English Message", "Mensagem Customizada Em Portugues");
+    /** Gets an object based on a class. */
+    public fun <T : Any> get(klass: Class<out T>): T?
 
-    fun getDefaultMessage(): String {
-        return when (lang) {
-            Language.PORTUGUESE -> pt
-            else -> en
-        }
-    }
-
-    companion object {
-        var lang: Language = Language.ENGLISH
-    }
-
+    /** Puts an object in the values map. */
+    public fun <T : Any> put(klass: Class<out T>, value: T)
 }

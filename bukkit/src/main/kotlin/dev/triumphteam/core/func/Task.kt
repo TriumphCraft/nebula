@@ -71,5 +71,4 @@ public object Task {
         Bukkit.getScheduler().runTaskTimerAsynchronously(
             plugin, task, delay, period
         )
-
 }

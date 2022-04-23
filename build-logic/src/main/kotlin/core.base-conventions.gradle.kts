@@ -38,6 +38,7 @@ tasks {
         kotlinOptions {
             jvmTarget = "1.8"
             javaParameters = true
+            freeCompilerArgs = listOf("-Xcontext-receivers")
         }
     }
 }

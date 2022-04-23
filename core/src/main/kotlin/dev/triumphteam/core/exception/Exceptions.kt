@@ -23,17 +23,9 @@
  */
 package dev.triumphteam.core.exception
 
-import kotlin.reflect.KClass
+import dev.triumphteam.core.container.Container
 
-public class DuplicateFeatureException(override val message: String) : IllegalStateException()
-
-public class MissingFeatureException(key: Class<*>) : IllegalStateException() {
-    override val message: String = "Application feature ${key.name} is not installed"
-}
-
-/**
- * Simple exception for trying to use an unregistered Config
- */
-public class UnregisteredConfigException(clazz: KClass<*>) : RuntimeException() {
-    override val message: String = "No Config found for class: `${clazz.simpleName}`."
+/** Thrown when trying to inject a feature that is not present in the current [Container] scope. */
+public class MissingFeatureException(key: Class<*>, score: String = "global") : IllegalStateException() {
+    override val message: String = "Application feature '${key.name}' is not installed in the current scope '$score'."
 }

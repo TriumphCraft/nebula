@@ -21,15 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.core.config
+package dev.triumphteam.core.key
 
-import me.mattstudios.config.SettingsHolder
-import me.mattstudios.config.annotations.Path
-import me.mattstudios.config.properties.Property
+/** Represents an object that can be identified by a key. */
+public interface Keyed {
 
-object Settings : SettingsHolder {
-
-    @Path("test")
-    val TEST_PROPERTY = Property.create("Default value")
-
+    /** The simple key value. */
+    public val key: String
 }

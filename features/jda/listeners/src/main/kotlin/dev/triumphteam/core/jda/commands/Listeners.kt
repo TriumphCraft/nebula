@@ -24,7 +24,7 @@
 package dev.triumphteam.core.jda.commands
 
 import dev.triumphteam.core.dsl.TriumphDsl
-import dev.triumphteam.core.feature.ApplicationFeature
+import dev.triumphteam.core.feature.FeatureFactory
 import dev.triumphteam.core.feature.attribute.AttributeKey
 import dev.triumphteam.core.feature.attribute.key
 import dev.triumphteam.core.feature.featureOrNull
@@ -52,7 +52,7 @@ public class Listeners private constructor(private val jda: JDA) {
     /**
      * Feature companion, which is a factory for the [Listeners].
      */
-    public companion object Feature : ApplicationFeature<JdaApplication, Listeners, Listeners> {
+    public companion object Feature : FeatureFactory<JdaApplication, Listeners, Listeners> {
 
         /**
          * The locale [AttributeKey].

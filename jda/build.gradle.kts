@@ -8,6 +8,6 @@ repositories {
 }
 
 dependencies {
-    api(project(":triumph-core"))
+    api(project(":nebula"))
     api(libs.jda)
 }

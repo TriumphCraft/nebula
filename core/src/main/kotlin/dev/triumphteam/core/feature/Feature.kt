@@ -21,50 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.core.feature.attribute
+package dev.triumphteam.core.feature
 
 import dev.triumphteam.core.TriumphApplication
+import dev.triumphteam.core.container.BaseContainer
+import dev.triumphteam.core.container.Container
 
 /**
- * Map like implementation for holding the needed attributes.
- * TODO Create concurrent map implementation.
+ * A feature representation.
+ * Idk there isn't much to it just yet.
+ * Will have soon:tm: though.
  */
-public object FeatureRegistry {
+public abstract class Feature(parent: Container) : BaseContainer(parent)
+
+/**
+ * Defines a installable feature.
+ */
+public interface FeatureFactory<F : Any> {
 
     /**
-     * Map holding the features.
+     * Feature installation, works like a factory.
      */
-    private val map: MutableMap<Class<*>, Any> = HashMap()
-
-    /**
-     * Gets a value of the attribute for the specified [klass], or return `null` if an attribute doesn't exist.
-     */
-    @Suppress("UNCHECKED_CAST")
-    public fun <T : Any> getOrNull(klass: Class<out T>): T? = map[klass] as T?
-
-    /**
-     * Checks if an attribute with the specified [klass] exists.
-     */
-    public operator fun contains(klass: Class<*>): Boolean = map.containsKey(klass)
-
-    /**
-     * Creates or changes an attribute with the specified [klass] using [value].
-     */
-    public fun <T : Any> TriumphApplication.put(klass: Class<out T>, value: T) {
-        map[klass] = value
-    }
-
-    /**
-     * Removes an attribute with the specified [klass].
-     */
-    public fun <T : Any> TriumphApplication.remove(klass: Class<out T>) {
-        map.remove(klass)
-    }
-
-    /**
-     * Clears all the features.
-     */
-    public fun TriumphApplication.clear() {
-        map.clear()
-    }
+    public fun install(container: Container): F
 }
+
+/**
+ * Installs a feature into a [TriumphApplication].
+ */
+context(TriumphApplication)
+        public fun <F : Any> Container.install(
+    feature: FeatureFactory<F>,
+    configure: F.() -> Unit = {},
+): F = feature.install(this).apply(configure).also { registry.put(it.javaClass, it) }
+
+/**
+ * Installs a feature into a [TriumphApplication].
+ */
+context(TriumphApplication)
+        public fun <F : Feature> Container.install(block: (Container) -> F): F =
+    block(this).also { registry.put(it.javaClass, it) }

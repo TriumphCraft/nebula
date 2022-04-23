@@ -23,25 +23,20 @@
  */
 package dev.triumphteam.core
 
+import dev.triumphteam.core.container.Container
 import java.io.File
 
 /**
  * An application, this represents any type of application for any platform.
  */
-public interface TriumphApplication {
+public interface TriumphApplication : Container {
 
-    /**
-     * A folder where the application wants to store data, similar to Bukkit's "dataFolder".
-     */
+    /** A folder where the application wants to store data, similar to Bukkit's "dataFolder". */
     public val applicationFolder: File
 
-    /**
-     * Function to be called when the application starts.
-     */
+    /** Function to be called when the application starts. */
     public fun onStart()
 
-    /**
-     * Function to be called when the application stops.
-     */
+    /** Function to be called when the application stops. */
     public fun onStop()
 }

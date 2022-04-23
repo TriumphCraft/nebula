@@ -3,17 +3,17 @@ dependencyResolutionManagement {
     repositories.gradlePluginPortal()
 }
 
-rootProject.name = "triumph-core"
+rootProject.name = "nebula"
 
 include("core")
 project(":core").name = rootProject.name
 
 listOf("bukkit", "jda").forEach(::includeProject)
-listOf("config", "locale", "scheduler", "commands").forEach(::includeFeature)
+listOf("scheduler", "commands").forEach(::includeFeature)
 listOf("listeners").forEach { includePlatformFeature(it, "bukkit") }
-listOf("listeners").forEach { includePlatformFeature(it, "jda") }
+// listOf("listeners").forEach { includePlatformFeature(it, "jda") }
 
-include("testing")
+include("test-module")
 
 fun includeProject(name: String) {
     include(name) {
@@ -39,5 +39,3 @@ fun include(name: String, block: ProjectDescriptor.() -> Unit) {
     include(name)
     project(":$name").apply(block)
 }
-
-enableFeaturePreview("VERSION_CATALOGS")

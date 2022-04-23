@@ -5,6 +5,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":triumph-core-bukkit"))
+    api(project(":nebula-bukkit"))
     compileOnly(libs.spigot)
 }

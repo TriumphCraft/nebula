@@ -23,24 +23,34 @@
  */
 package dev.triumphteam.core
 
-import dev.triumphteam.core.feature.install
-import dev.triumphteam.core.func.BukkitLogger
+import dev.triumphteam.core.container.Container
+import dev.triumphteam.core.feature.registry.GlobalInjectionRegistry
+import dev.triumphteam.core.feature.registry.InjectionRegistry
+import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 /**
- * Main implementation for Bukkit.
+ * Main implementation for Bukkit plugins.
  */
 public abstract class BukkitApplication(
+    /** Block of common code to be run on start. */
     private val start: TriumphApplication.() -> Unit = {},
+    /** Block of common code to be run on stop. */
     private val stop: TriumphApplication.() -> Unit = {},
 ) : JavaPlugin(), TriumphApplication {
+
+    /** Plugin uses the global registry. */
+    public override val registry: InjectionRegistry = GlobalInjectionRegistry
+
+    public override val key: String = "plugin"
+
+    public override val parent: Container? = null
 
     public override val applicationFolder: File = dataFolder
 
     public override fun onEnable() {
-        install(BukkitLogger)
-
+        registry.put(Plugin::class.java, this)
         start()
         onStart()
     }
@@ -53,5 +63,4 @@ public abstract class BukkitApplication(
     public override fun onStart() {}
 
     public override fun onStop() {}
-
 }
