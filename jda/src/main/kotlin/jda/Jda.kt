@@ -23,7 +23,7 @@
  */
 package dev.triumphteam.nebula.jda
 
-import TriumphApplication
+import dev.triumphteam.nebula.TriumphApplication
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Guild
