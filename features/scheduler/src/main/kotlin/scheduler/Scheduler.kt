@@ -27,7 +27,7 @@ import dev.triumphteam.nebula.TriumphApplication
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.dsl.TriumphDsl
-import dev.triumphteam.nebula.feature.Feature
+import dev.triumphteam.nebula.feature.BaseFeature
 import dev.triumphteam.nebula.feature.FeatureFactory
 import dev.triumphteam.nebula.scheduler.schedule.DateSchedule
 import dev.triumphteam.nebula.scheduler.schedule.DayTimeSchedule
@@ -53,7 +53,7 @@ import kotlin.time.Duration.Companion.seconds
 /**
  * Simple coroutine based scheduler.
  */
-public class Scheduler(container: Container) : Feature(container), CoroutineScope {
+public class Scheduler(container: Container) : BaseFeature(container), CoroutineScope {
 
     /** Scope key. */
     public override val key: String = "scheduler"

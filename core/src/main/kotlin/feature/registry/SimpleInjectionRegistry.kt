@@ -30,18 +30,18 @@ import java.util.concurrent.ConcurrentHashMap
 public open class SimpleInjectionRegistry(default: InjectionRegistry? = null) : InjectionRegistry {
 
     /** Map holding the features. */
-    override val values: MutableMap<Class<*>, Any> =
-        if (default == null) ConcurrentHashMap() else ConcurrentHashMap(default.values)
+    override val instances: MutableMap<Class<*>, Any> =
+        if (default == null) ConcurrentHashMap() else ConcurrentHashMap(default.instances)
 
     /**
      * Gets a value of the attribute for the specified [klass].
      * Or return `null` if an object doesn't exist.
      */
-    override fun <T : Any> get(klass: Class<out T>): T? = values[klass] as T?
+    override fun <T : Any> get(klass: Class<out T>): T? = instances[klass] as T?
 
     /** Creates or changes an attribute with the specified [klass] using [value]. */
     override fun <T : Any> put(klass: Class<out T>, value: T) {
-        values[klass] = value
+        instances[klass] = value
     }
 }
 

@@ -23,10 +23,10 @@
  */
 package dev.triumphteam.nebula
 
-import TriumphApplication
-import container.Container
-import feature.registry.GlobalInjectionRegistry
-import feature.registry.InjectionRegistry
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.feature.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.feature.registry.InjectionRegistry
+import dev.triumphteam.nebula.registerable.Registerable
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
@@ -57,6 +57,8 @@ public abstract class BukkitApplication(
         start()
         // Calls main start block.
         onStart()
+        // Registers all installed registerables.
+        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
     }
 
     public override fun onDisable() {
@@ -64,6 +66,8 @@ public abstract class BukkitApplication(
         stop()
         // Calls main stop block.
         onStop()
+        // Unregisters all installed registerables.
+        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
     }
 
     /** Function to be called when the plugin is starting (enable). */

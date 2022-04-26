@@ -27,7 +27,7 @@ package dev.triumphteam.nebula.feature.registry
 public interface InjectionRegistry {
 
     /** A read only map containing all the objects that can be injected in the container. */
-    public val values: Map<Class<*>, Any>
+    public val instances: Map<Class<*>, Any>
 
     /** Gets an object based on a class. */
     public fun <T : Any> get(klass: Class<out T>): T?

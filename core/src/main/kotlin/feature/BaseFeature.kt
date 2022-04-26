@@ -26,13 +26,42 @@ package dev.triumphteam.nebula.feature
 import dev.triumphteam.nebula.TriumphApplication
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.registerable.Registerable
+
+private typealias RegisterAction = () -> Unit
 
 /**
  * A feature representation.
- * Idk there isn't much to it just yet.
- * Will have soon:tm: though.
+ * It contains registering of things.
+ * Allows you to run things when features are registered and unregistered.
  */
-public abstract class Feature(parent: Container) : BaseContainer(parent)
+public abstract class BaseFeature(parent: Container) : BaseContainer(parent), Registerable {
+
+    private val registering: MutableList<RegisterAction> = mutableListOf()
+    private val unregistering: MutableList<RegisterAction> = mutableListOf()
+
+    /** Adds actions to be run when the feature is registering. */
+    protected fun onRegister(block: RegisterAction) {
+        registering.add(block)
+    }
+
+    /** Adds actions to be run when the feature is unregistering. */
+    protected fun onUnregister(block: RegisterAction) {
+        unregistering.add(block)
+    }
+
+    /** Registers the current feature and its children. */
+    public override fun register() {
+        registering.forEach(RegisterAction::invoke)
+        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
+    }
+
+    /** Unregisters the current feature and its children. */
+    public override fun unregister() {
+        unregistering.forEach(RegisterAction::invoke)
+        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
+    }
+}
 
 /** Defines a installable feature. */
 public interface FeatureFactory<F : Any> {
@@ -43,12 +72,12 @@ public interface FeatureFactory<F : Any> {
 
 /** Installs a feature into a [TriumphApplication]. */
 context(TriumphApplication)
-public fun <F : Any> Container.install(
+        public fun <F : Any> Container.install(
     feature: FeatureFactory<F>,
     configure: F.() -> Unit = {},
 ): F = feature.install(this).apply(configure).also { registry.put(it.javaClass, it) }
 
 /** Installs a feature into a [TriumphApplication]. */
 context(TriumphApplication)
-public fun <F : Feature> Container.install(block: (Container) -> F): F =
+        public fun <F : BaseFeature> Container.install(block: (Container) -> F): F =
     block(this).also { registry.put(it.javaClass, it) }

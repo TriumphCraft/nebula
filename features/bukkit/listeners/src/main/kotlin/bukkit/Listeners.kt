@@ -27,7 +27,7 @@ import dev.triumphteam.nebula.BukkitApplication
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.dsl.TriumphDsl
-import dev.triumphteam.nebula.feature.Feature
+import dev.triumphteam.nebula.feature.BaseFeature
 import dev.triumphteam.nebula.feature.FeatureFactory
 import dev.triumphteam.nebula.feature.install
 import org.bukkit.Bukkit
@@ -35,7 +35,7 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 
 /** Simplifies registration of [Listener]s. */
-public class Listeners(container: Container) : Feature(container) {
+public class Listeners(container: Container) : BaseFeature(container) {
 
     /** Scope key. */
     override val key: String = "listeners"
