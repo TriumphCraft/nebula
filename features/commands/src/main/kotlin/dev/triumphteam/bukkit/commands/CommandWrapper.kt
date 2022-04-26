@@ -29,8 +29,15 @@ import dev.triumphteam.cmd.core.argument.ArgumentResolver
 import dev.triumphteam.cmd.core.message.MessageKey
 import dev.triumphteam.cmd.core.message.MessageResolver
 import dev.triumphteam.cmd.core.message.context.MessageContext
+import dev.triumphteam.cmd.core.suggestion.SuggestionKey
+import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
+import dev.triumphteam.core.container.Container
+import dev.triumphteam.core.feature.Feature
 
-public abstract class CommandWrapper<DS, S>(public val commandManager: CommandManager<DS, S>) {
+public abstract class CommandWrapper<DS, S>(
+    container: Container,
+    public val commandManager: CommandManager<DS, S>,
+) : Feature(container) {
 
     private fun register(command: BaseCommand) {
         commandManager.registerCommand(command)
@@ -40,9 +47,13 @@ public abstract class CommandWrapper<DS, S>(public val commandManager: CommandMa
         commands.forEach(::register)
     }
 
-    /*public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver<CommandSender>) {
+    public fun suggestion(key: SuggestionKey, resolver: SuggestionResolver<S>) {
         commandManager.registerSuggestion(key, resolver)
-    }*/
+    }
+
+    public fun suggestion(type: Class<*>, resolver: SuggestionResolver<S>) {
+        commandManager.registerSuggestion(type, resolver)
+    }
 
     public fun argument(type: Class<*>, resolver: ArgumentResolver<S>) {
         commandManager.registerArgument(type, resolver)

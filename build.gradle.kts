@@ -1,3 +1,3 @@
 plugins {
-    id("core.parent-conventions")
+    id("nebula.parent-conventions")
 }

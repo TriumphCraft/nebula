@@ -1,7 +1,7 @@
 plugins {
-    id("core.base-conventions")
-    id("core.bukkit-conventions")
-    id("core.library-conventions")
+    id("nebula.base-conventions")
+    id("nebula.bukkit-conventions")
+    id("nebula.library-conventions")
 }
 
 dependencies {
