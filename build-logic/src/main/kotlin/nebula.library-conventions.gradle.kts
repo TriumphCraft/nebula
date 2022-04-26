@@ -18,9 +18,9 @@ tasks {
                     }
                 }
                 pom {
-                    name.set("triumph-core")
+                    name.set("nebula")
                     description.set("Core library and features for Triumph plugins.")
-                    url.set("https://github.com/TriumphTeam/triumph-core")
+                    url.set("https://github.com/TriumphTeam/nebula")
 
                     licenses {
                         license {
@@ -38,9 +38,9 @@ tasks {
 
                     // Change later
                     scm {
-                        connection.set("scm:git:git://github.com/TriumphTeam/triumph-core.git")
-                        developerConnection.set("scm:git:ssh://github.com:TriumphTeam/triumph-core.git")
-                        url.set("http://github.com/TriumphTeam/triumph-core")
+                        connection.set("scm:git:git://github.com/TriumphTeam/nebula.git")
+                        developerConnection.set("scm:git:ssh://github.com:TriumphTeam/nebula.git")
+                        url.set("http://github.com/TriumphTeam/nebula")
                     }
                 }
             }

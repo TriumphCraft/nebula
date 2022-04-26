@@ -12,6 +12,10 @@ repositories {
     maven("https://repo.triumphteam.dev/snapshots/")
 }
 
+dependencies {
+    implementation(kotlin("stdlib"))
+}
+
 license  {
     header = rootProject.file("LICENSE")
     encoding = "UTF-8"
@@ -37,8 +41,9 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = "1.8"
+            languageVersion = "1.6"
             javaParameters = true
-            freeCompilerArgs = listOf("-Xcontext-receivers")
+            freeCompilerArgs = listOf("-Xcontext-receivers", "-Xskip-prerelease-check")
         }
     }
 }
