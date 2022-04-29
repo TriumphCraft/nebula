@@ -10,7 +10,7 @@ project(":core").name = rootProject.name
 
 listOf("bukkit", "jda").forEach(::includeProject)
 listOf("scheduler", "commands").forEach(::includeFeature)
-listOf("listeners").forEach { includePlatformFeature(it, "bukkit") }
+// listOf("commands").forEach { includePlatformFeature(it, "bukkit") }
 // listOf("listeners").forEach { includePlatformFeature(it, "jda") }
 
 include("test-module")

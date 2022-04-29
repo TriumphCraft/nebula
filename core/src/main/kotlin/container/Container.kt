@@ -49,7 +49,11 @@ public interface Container : Keyed {
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
 public abstract class BaseContainer(override val parent: Container) : Container {
 
+    /** Simple injection registry of this container. */
     public override val registry: InjectionRegistry = SimpleInjectionRegistry()
+
+    /** Defaults to the class name to be easier. */
+    override val key: String = javaClass.simpleName
 }
 
 /**
