@@ -71,13 +71,13 @@ public interface FeatureFactory<F : Any> {
 }
 
 /** Installs a feature into a [TriumphApplication]. */
-context(TriumphApplication)
-        public fun <F : Any> Container.install(
+// context(TriumphApplication)
+public fun <F : Any> Container.install(
     feature: FeatureFactory<F>,
     configure: F.() -> Unit = {},
 ): F = feature.install(this).apply(configure).also { registry.put(it.javaClass, it) }
 
 /** Installs a feature into a [TriumphApplication]. */
-context(TriumphApplication)
-        public fun <F : BaseFeature> Container.install(block: (Container) -> F): F =
+// context(TriumphApplication)
+public fun <F : BaseFeature> Container.install(block: (Container) -> F): F =
     block(this).also { registry.put(it.javaClass, it) }

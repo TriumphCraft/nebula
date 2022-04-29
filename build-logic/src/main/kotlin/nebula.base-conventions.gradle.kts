@@ -43,7 +43,7 @@ tasks {
             jvmTarget = "1.8"
             languageVersion = "1.6"
             javaParameters = true
-            freeCompilerArgs = listOf("-Xcontext-receivers", "-Xskip-prerelease-check")
+            // freeCompilerArgs = listOf("-Xcontext-receivers", "-Xskip-prerelease-check")
         }
     }
 }
