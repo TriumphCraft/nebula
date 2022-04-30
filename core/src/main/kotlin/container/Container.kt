@@ -43,7 +43,7 @@ public interface Container : Keyed {
 
     /** Gets a specific object from this container or from its parent. */
     public fun <T : Any> get(klass: Class<T>): T =
-        registry.get(klass) ?: parent?.get(klass) ?: throw MissingModuleException(klass)
+        registry.get(klass, this) ?: parent?.get(klass) ?: throw MissingModuleException(klass)
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
@@ -72,4 +72,4 @@ public inline fun <reified T : Any> Container.inject(
  */
 public inline fun <reified T : Any> inject(
     mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-): Lazy<T> = lazy(mode) { GlobalInjectionRegistry.get(T::class.java) ?: throw MissingModuleException(T::class.java) }
+): Lazy<T> = lazy(mode) { GlobalInjectionRegistry.get(T::class.java, null) ?: throw MissingModuleException(T::class.java) }

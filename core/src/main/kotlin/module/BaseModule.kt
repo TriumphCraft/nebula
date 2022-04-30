@@ -72,12 +72,12 @@ public interface ModuleFactory<F : Any> {
 
 /** Installs a module into a [ModularApplication]. */
 // context(TriumphApplication)
-public fun <F : Any> Container.install(
-    module: ModuleFactory<F>,
-    configure: F.() -> Unit = {},
-): F = module.install(this).apply(configure).also { registry.put(it.javaClass, it) }
+public fun <T : Any> Container.install(
+    module: ModuleFactory<T>,
+    configure: T.() -> Unit = {},
+): T = module.install(this).apply(configure).also { registry.put(it.javaClass, it) }
 
 /** Installs a module into a [ModularApplication]. */
 // context(TriumphApplication)
-public fun <F : BaseModule> Container.install(block: (Container) -> F): F =
+public fun <T : BaseModule> Container.install(block: (Container) -> T): T =
     block(this).also { registry.put(it.javaClass, it) }
