@@ -42,8 +42,8 @@ public interface Container : Keyed {
     public val parent: Container?
 
     /** Gets a specific object from this container or from its parent. */
-    public fun <T : Any> get(klass: Class<T>): T =
-        registry.get(klass, this) ?: parent?.get(klass) ?: throw MissingModuleException(klass)
+    public fun <T : Any> get(klass: Class<T>, target: Container?): T =
+        registry.get(klass, target) ?: parent?.get(klass, target) ?: throw MissingModuleException(klass)
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
@@ -63,7 +63,7 @@ public abstract class BaseContainer(override val parent: Container) : Container 
  */
 public inline fun <reified T : Any> Container.inject(
     mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-): Lazy<T> = lazy(mode) { get(T::class.java) }
+): Lazy<T> = lazy(mode) { get(T::class.java, this) }
 
 /**
  * Injection function that allows for lazy injection of objects, modules, or containers.
