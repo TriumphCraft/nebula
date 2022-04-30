@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.feature
+package dev.triumphteam.nebula.module
 
-import dev.triumphteam.nebula.TriumphApplication
+import dev.triumphteam.nebula.ModularApplication
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.registerable.Registerable
@@ -31,53 +31,53 @@ import dev.triumphteam.nebula.registerable.Registerable
 private typealias RegisterAction = () -> Unit
 
 /**
- * A feature representation.
+ * A module to be extended.
  * It contains registering of things.
- * Allows you to run things when features are registered and unregistered.
+ * Allows you to run things when modules are registered and unregistered.
  */
-public abstract class BaseFeature(parent: Container) : BaseContainer(parent), Registerable {
+public abstract class BaseModule(parent: Container) : BaseContainer(parent), Registerable {
 
     private val registering: MutableList<RegisterAction> = mutableListOf()
     private val unregistering: MutableList<RegisterAction> = mutableListOf()
 
-    /** Adds actions to be run when the feature is registering. */
+    /** Adds actions to be run when the module is registering. */
     protected fun onRegister(block: RegisterAction) {
         registering.add(block)
     }
 
-    /** Adds actions to be run when the feature is unregistering. */
+    /** Adds actions to be run when the module is unregistering. */
     protected fun onUnregister(block: RegisterAction) {
         unregistering.add(block)
     }
 
-    /** Registers the current feature and its children. */
+    /** Registers the current module and its children. */
     public override fun register() {
         registering.forEach(RegisterAction::invoke)
         registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
     }
 
-    /** Unregisters the current feature and its children. */
+    /** Unregisters the current module and its children. */
     public override fun unregister() {
         unregistering.forEach(RegisterAction::invoke)
         registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
     }
 }
 
-/** Defines a installable feature. */
-public interface FeatureFactory<F : Any> {
+/** Defines a installable module. */
+public interface ModuleFactory<F : Any> {
 
-    /** Feature installation, works like a factory. */
+    /** Module installation, works like a factory. */
     public fun install(container: Container): F
 }
 
-/** Installs a feature into a [TriumphApplication]. */
+/** Installs a module into a [ModularApplication]. */
 // context(TriumphApplication)
 public fun <F : Any> Container.install(
-    feature: FeatureFactory<F>,
+    module: ModuleFactory<F>,
     configure: F.() -> Unit = {},
-): F = feature.install(this).apply(configure).also { registry.put(it.javaClass, it) }
+): F = module.install(this).apply(configure).also { registry.put(it.javaClass, it) }
 
-/** Installs a feature into a [TriumphApplication]. */
+/** Installs a module into a [ModularApplication]. */
 // context(TriumphApplication)
-public fun <F : BaseFeature> Container.install(block: (Container) -> F): F =
+public fun <F : BaseModule> Container.install(block: (Container) -> F): F =
     block(this).also { registry.put(it.javaClass, it) }

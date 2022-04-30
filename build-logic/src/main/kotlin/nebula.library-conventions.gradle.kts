@@ -19,7 +19,7 @@ tasks {
                 }
                 pom {
                     name.set("nebula")
-                    description.set("Core library and features for Triumph plugins.")
+                    description.set("Core library and modules for Triumph plugins.")
                     url.set("https://github.com/TriumphTeam/nebula")
 
                     licenses {

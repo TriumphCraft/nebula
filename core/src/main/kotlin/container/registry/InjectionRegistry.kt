@@ -21,22 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula
+package dev.triumphteam.nebula.container.registry
 
-import dev.triumphteam.nebula.container.Container
-import java.io.File
+/** A registry for storing, adding, and getting injection objects. */
+public interface InjectionRegistry {
 
-/**
- * An application, this represents any type of application for any platform.
- */
-public interface TriumphApplication : Container {
+    /** A read only map containing all the objects that can be injected in the container. */
+    public val instances: Map<Class<*>, Any>
 
-    /** A folder where the application wants to store data, similar to Bukkit's "dataFolder". */
-    public val applicationFolder: File
+    /** Gets an object based on a class. */
+    public fun <T : Any> get(klass: Class<out T>): T?
 
-    /** Function to be called when the application starts. */
-    public fun onStart()
-
-    /** Function to be called when the application stops. */
-    public fun onStop()
+    /** Puts an object in the values map. */
+    public fun <T : Any> put(klass: Class<out T>, value: T)
 }

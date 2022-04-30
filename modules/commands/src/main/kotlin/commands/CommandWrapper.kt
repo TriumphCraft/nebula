@@ -32,12 +32,12 @@ import dev.triumphteam.cmd.core.message.context.MessageContext
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
 import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.feature.BaseFeature
+import dev.triumphteam.nebula.module.BaseModule
 
 public abstract class CommandWrapper<DS, S>(
     container: Container,
     public val commandManager: CommandManager<DS, S>,
-) : BaseFeature(container) {
+) : BaseModule(container) {
 
     private fun register(command: BaseCommand) {
         commandManager.registerCommand(command)

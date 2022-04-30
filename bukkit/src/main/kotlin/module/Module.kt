@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.feature
+package dev.triumphteam.nebula.module
 
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.inject
@@ -32,10 +32,10 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 
 /**
- * A Bukkit specific feature.
+ * A Bukkit specific module.
  * Will auto register any listener present in the parent Class.
  */
-public abstract class Feature(container: Container) : BaseFeature(container), Listener {
+public abstract class Module(container: Container) : BaseModule(container), Listener {
 
     private val plugin: Plugin by inject()
 

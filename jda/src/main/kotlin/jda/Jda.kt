@@ -23,7 +23,7 @@
  */
 package dev.triumphteam.nebula.jda
 
-import dev.triumphteam.nebula.TriumphApplication
+import dev.triumphteam.nebula.ModularApplication
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Guild
@@ -34,14 +34,14 @@ import net.dv8tion.jda.api.requests.GatewayIntent
 import java.io.File
 
 /**
- * Main JDA implementation of the [TriumphApplication].
+ * Main JDA implementation of the [ModularApplication].
  */
 public abstract class JdaApplication(
     private val token: String,
     private val intents: Collection<GatewayIntent> = emptyList(),
     public override val applicationFolder: File = File("data"),
-    private val extra: TriumphApplication.() -> Unit = {},
-) : TriumphApplication {
+    private val extra: ModularApplication.() -> Unit = {},
+) : ModularApplication {
 
     /**
      * Gets the [JDA] instance.
@@ -82,7 +82,7 @@ public abstract class JdaApplication(
  */
 private class JdaApplicationListener(
     private val jdaApplication: JdaApplication,
-    private val module: TriumphApplication.() -> Unit,
+    private val module: ModularApplication.() -> Unit,
 ) : ListenerAdapter() {
 
     override fun onReady(event: ReadyEvent) {

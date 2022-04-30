@@ -23,12 +23,12 @@
  */
 package dev.triumphteam.nebula.scheduler
 
-import dev.triumphteam.nebula.TriumphApplication
+import dev.triumphteam.nebula.ModularApplication
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.dsl.TriumphDsl
-import dev.triumphteam.nebula.feature.BaseFeature
-import dev.triumphteam.nebula.feature.FeatureFactory
+import dev.triumphteam.nebula.module.BaseModule
+import dev.triumphteam.nebula.module.ModuleFactory
 import dev.triumphteam.nebula.scheduler.schedule.DateSchedule
 import dev.triumphteam.nebula.scheduler.schedule.DayTimeSchedule
 import dev.triumphteam.nebula.scheduler.schedule.Schedule
@@ -53,7 +53,7 @@ import kotlin.time.Duration.Companion.seconds
 /**
  * Simple coroutine based scheduler.
  */
-public class Scheduler(container: Container) : BaseFeature(container), CoroutineScope {
+public class Scheduler(container: Container) : BaseModule(container), CoroutineScope {
 
     /** Scope key. */
     public override val key: String = "scheduler"
@@ -128,8 +128,8 @@ public class Scheduler(container: Container) : BaseFeature(container), Coroutine
         }
     }
 
-    /** Feature companion, which is a factory for the [Scheduler]. */
-    public companion object : FeatureFactory<Scheduler> {
+    /** Module companion, which is a factory for the [Scheduler]. */
+    public companion object : ModuleFactory<Scheduler> {
         override fun install(container: Container): Scheduler {
             return Scheduler(container).apply { start() }
         }
@@ -138,49 +138,49 @@ public class Scheduler(container: Container) : BaseFeature(container), Coroutine
 
 /** Runs task after a given duration. */
 @TriumphDsl
-public fun TriumphApplication.runTaskIn(time: Duration, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskIn(time: Duration, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskIn(time, task)
 }
 
 /** Runs a task at a given date time. */
 @TriumphDsl
-public fun TriumphApplication.runTaskAt(date: LocalDateTime, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskAt(date: LocalDateTime, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskAt(date, task)
 }
 
 /** Runs a task at a given time. */
 @TriumphDsl
-public fun TriumphApplication.runTaskAt(time: LocalTime, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskAt(time: LocalTime, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskAt(time.atDate(LocalDateTime.now().toLocalDate()), task)
 }
 
 /** Runs task every `x` duration after `y` duration. */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(period: Duration, delay: Duration = 0.seconds, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskEvery(period: Duration, delay: Duration = 0.seconds, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskEvery(period, delay, task)
 }
 
 /** Runs task every given days at a given time. */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(days: Set<DayOfWeek>, at: LocalTime, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskEvery(days: Set<DayOfWeek>, at: LocalTime, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskEvery(days, at, task)
 }
 
 /** Runs task every given days at a given time. */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(vararg days: DayOfWeek, at: LocalTime, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskEvery(vararg days: DayOfWeek, at: LocalTime, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskEvery(days.toCollection(EnumSet.noneOf(DayOfWeek::class.java)), at, task)
 }
 
 /** Runs task every given day at a given time. */
 @TriumphDsl
-public fun TriumphApplication.runTaskEvery(day: DayOfWeek, at: LocalTime, task: suspend () -> Unit) {
+public fun ModularApplication.runTaskEvery(day: DayOfWeek, at: LocalTime, task: suspend () -> Unit) {
     val scheduler: Scheduler by inject()
     return scheduler.runTaskEvery(EnumSet.of(day), at, task)
 }

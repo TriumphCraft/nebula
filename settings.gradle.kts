@@ -9,9 +9,9 @@ include("core")
 project(":core").name = rootProject.name
 
 listOf("bukkit", "jda").forEach(::includeProject)
-listOf("scheduler", "commands").forEach(::includeFeature)
-// listOf("commands").forEach { includePlatformFeature(it, "bukkit") }
-// listOf("listeners").forEach { includePlatformFeature(it, "jda") }
+listOf("scheduler", "commands").forEach(::includeModule)
+// listOf("commands").forEach { includePlatformModule(it, "bukkit") }
+// listOf("listeners").forEach { includePlatformModule(it, "jda") }
 
 include("test-module")
 
@@ -21,17 +21,17 @@ fun includeProject(name: String) {
     }
 }
 
-fun includeFeature(name: String) {
+fun includeModule(name: String) {
     include(name) {
-        this.name = "${rootProject.name}-feature-$name"
-        this.projectDir = file("features/$name")
+        this.name = "${rootProject.name}-module-$name"
+        this.projectDir = file("modules/$name")
     }
 }
 
-fun includePlatformFeature(name: String, platform: String) {
+fun includePlatformModule(name: String, platform: String) {
     include(name) {
-        this.name = "${rootProject.name}-feature-$platform-$name"
-        this.projectDir = file("features/$platform/$name")
+        this.name = "${rootProject.name}-module-$platform-$name"
+        this.projectDir = file("modules/$platform/$name")
     }
 }
 

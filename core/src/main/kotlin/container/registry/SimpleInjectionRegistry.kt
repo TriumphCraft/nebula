@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.feature.registry
+package dev.triumphteam.nebula.container.registry
 
 import java.util.concurrent.ConcurrentHashMap
 
@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap
 @Suppress("UNCHECKED_CAST")
 public open class SimpleInjectionRegistry(default: InjectionRegistry? = null) : InjectionRegistry {
 
-    /** Map holding the features. */
+    /** Map holding the instances. */
     override val instances: MutableMap<Class<*>, Any> =
         if (default == null) ConcurrentHashMap() else ConcurrentHashMap(default.instances)
 

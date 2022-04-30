@@ -24,20 +24,20 @@
 package dev.triumphteam.nebula
 
 import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.feature.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.feature.registry.InjectionRegistry
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.registerable.Registerable
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 /** Main implementation for Bukkit plugins. */
-public abstract class BukkitApplication(
+public abstract class ModularPlugin(
     /** Block of common code to be run on start. */
-    private val start: TriumphApplication.() -> Unit = {},
+    private val start: ModularApplication.() -> Unit = {},
     /** Block of common code to be run on stop. */
-    private val stop: TriumphApplication.() -> Unit = {},
-) : JavaPlugin(), TriumphApplication {
+    private val stop: ModularApplication.() -> Unit = {},
+) : JavaPlugin(), ModularApplication {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry

@@ -25,7 +25,7 @@ package dev.triumphteam.nebula.exception
 
 import dev.triumphteam.nebula.container.Container
 
-/** Thrown when trying to inject a feature that is not present in the current [Container] scope. */
-public class MissingFeatureException(key: Class<*>, score: String = "global") : IllegalStateException() {
-    override val message: String = "Application feature '${key.name}' is not installed in the current scope '$score'."
+/** Thrown when trying to inject a module that is not present in the current [Container] scope. */
+public class MissingModuleException(key: Class<*>, score: String = "global") : IllegalStateException() {
+    override val message: String = "Application module '${key.name}' is not installed in the current scope '$score'."
 }

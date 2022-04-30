@@ -16,7 +16,7 @@ dependencies {
     implementation(kotlin("stdlib"))
 }
 
-license  {
+license {
     header = rootProject.file("LICENSE")
     encoding = "UTF-8"
     mapping("kotlin", "JAVADOC_STYLE")
