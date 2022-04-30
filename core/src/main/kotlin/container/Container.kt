@@ -54,6 +54,9 @@ public abstract class BaseContainer(override val parent: Container) : Container 
 
     /** Defaults to the class name to be easier. */
     override val key: String = javaClass.simpleName
+
+    /** The to string of containers is their key. */
+    override fun toString(): String = key
 }
 
 /**
@@ -72,4 +75,5 @@ public inline fun <reified T : Any> Container.inject(
  */
 public inline fun <reified T : Any> inject(
     mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-): Lazy<T> = lazy(mode) { GlobalInjectionRegistry.get(T::class.java, null) ?: throw MissingModuleException(T::class.java) }
+): Lazy<T> =
+    lazy(mode) { GlobalInjectionRegistry.get(T::class.java, null) ?: throw MissingModuleException(T::class.java) }
