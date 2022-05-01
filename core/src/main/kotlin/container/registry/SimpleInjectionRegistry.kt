@@ -37,7 +37,7 @@ public open class SimpleInjectionRegistry(default: InjectionRegistry? = null) : 
         if (default == null) ConcurrentHashMap() else ConcurrentHashMap(default.instances)
 
     /**
-     * Gets a value of the attribute for the specified [klass].
+     * Gets a value of the attribute for the specified [clazz].
      * Or return `null` if an object doesn't exist.
      */
     override fun <T : Any> get(clazz: Class<out T>, target: Container?): T? {
