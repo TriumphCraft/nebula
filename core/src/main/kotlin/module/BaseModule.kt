@@ -26,6 +26,7 @@ package dev.triumphteam.nebula.module
 import dev.triumphteam.nebula.ModularApplication
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.registerable.Registerable
 
 private typealias RegisterAction = () -> Unit
@@ -53,12 +54,16 @@ public abstract class BaseModule(parent: Container) : BaseContainer(parent), Reg
     /** Registers the current module and its children. */
     public override fun register() {
         registering.forEach(RegisterAction::invoke)
+        // prevent re-registering global registerables.
+        if (registry == GlobalInjectionRegistry) return
         registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
     }
 
     /** Unregisters the current module and its children. */
     public override fun unregister() {
         unregistering.forEach(RegisterAction::invoke)
+        // prevent re-unregistering global registerables.
+        if (registry == GlobalInjectionRegistry) return
         registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
     }
 }
