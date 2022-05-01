@@ -31,6 +31,9 @@ public interface InjectionRegistry {
     /** A read only map containing all the objects that can be injected in the container. */
     public val instances: Map<Class<*>, Any>
 
+    /** A read only map containing all the objects "alias" for example, super class. */
+    public val alias: Map<Class<*>, Any>
+
     /** Gets an object based on a class. */
     public fun <T : Any> get(clazz: Class<out T>, target: Container?): T?
 

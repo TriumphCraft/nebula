@@ -30,19 +30,19 @@ import java.util.concurrent.ConcurrentHashMap
 
 /** Map like registry implementation for holding the needed attributes. */
 @Suppress("UNCHECKED_CAST")
-public open class SimpleInjectionRegistry(default: InjectionRegistry? = null) : InjectionRegistry {
+public open class SimpleInjectionRegistry : InjectionRegistry {
 
     /** Map holding the instances. */
-    override val instances: MutableMap<Class<*>, Any> =
-        if (default == null) ConcurrentHashMap() else ConcurrentHashMap(default.instances)
+    override val instances: MutableMap<Class<*>, Any> = ConcurrentHashMap()
+    override val alias: MutableMap<Class<*>, Any> = ConcurrentHashMap()
 
     /**
      * Gets a value of the attribute for the specified [clazz].
      * Or return `null` if an object doesn't exist.
      */
     override fun <T : Any> get(clazz: Class<out T>, target: Container?): T? {
-        val instance = instances[clazz] ?: return null
-        if (instance !is Provider<*>) return instances[clazz] as T?
+        val instance = instances[clazz] ?: alias[clazz] ?: return null
+        if (instance !is Provider<*>) return instance as T?
         return instance.provide(target) as T?
     }
 
@@ -50,10 +50,11 @@ public open class SimpleInjectionRegistry(default: InjectionRegistry? = null) : 
     override fun <T : Any> put(clazz: Class<out T>, value: T) {
         // Main adding.
         instances[clazz] = value
+        if (value is Provider<*>) return
         val superClass = clazz.superclass
-        if (superClass == Objects::class.java) return
+        if (superClass == null || superClass == Objects::class.java) return
         // Add as super class, if none is already present.
-        instances.putIfAbsent(superClass, value)
+        alias.putIfAbsent(superClass, value)
     }
 }
 
