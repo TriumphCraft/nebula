@@ -25,6 +25,7 @@ package dev.triumphteam.nebula.container.registry
 
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.provider.Provider
+import java.util.Objects
 import java.util.concurrent.ConcurrentHashMap
 
 /** Map like registry implementation for holding the needed attributes. */
@@ -39,15 +40,20 @@ public open class SimpleInjectionRegistry(default: InjectionRegistry? = null) : 
      * Gets a value of the attribute for the specified [klass].
      * Or return `null` if an object doesn't exist.
      */
-    override fun <T : Any> get(klass: Class<out T>, target: Container?): T? {
-        val instance = instances[klass] ?: return null
-        if (instance !is Provider<*>) return instances[klass] as T?
+    override fun <T : Any> get(clazz: Class<out T>, target: Container?): T? {
+        val instance = instances[clazz] ?: return null
+        if (instance !is Provider<*>) return instances[clazz] as T?
         return instance.provide(target) as T?
     }
 
-    /** Creates or changes an attribute with the specified [klass] using [value]. */
-    override fun <T : Any> put(klass: Class<out T>, value: T) {
-        instances[klass] = value
+    /** Creates or changes an attribute with the specified [clazz] using [value]. */
+    override fun <T : Any> put(clazz: Class<out T>, value: T) {
+        // Main adding.
+        instances[clazz] = value
+        val superClass = clazz.superclass
+        if (superClass == Objects::class.java) return
+        // Add as super class, if none is already present.
+        instances.putIfAbsent(superClass, value)
     }
 }
 

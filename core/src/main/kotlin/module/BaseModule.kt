@@ -71,6 +71,10 @@ public abstract class BaseModule(parent: Container) : BaseContainer(parent), Reg
 /** Defines a installable module. */
 public interface ModuleFactory<F : Any> {
 
+    /** Overrides the return type. */
+    public val returnType: Class<*>?
+        get() = null
+
     /** Module installation, works like a factory. */
     public fun install(container: Container): F
 }
@@ -80,7 +84,9 @@ public interface ModuleFactory<F : Any> {
 public fun <T : Any> Container.install(
     module: ModuleFactory<T>,
     configure: T.() -> Unit = {},
-): T = module.install(this).apply(configure).also { registry.put(it.javaClass, it) }
+): T = module.install(this).apply(configure).also {
+    registry.put(module.returnType ?: it.javaClass, it)
+}
 
 /** Installs a module into a [ModularApplication]. */
 // context(TriumphApplication)
