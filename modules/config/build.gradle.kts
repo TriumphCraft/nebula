@@ -1,9 +1,9 @@
 plugins {
-    id("core.base-conventions")
-    id("core.library-conventions")
+    id("nebula.base-conventions")
+    id("nebula.library-conventions")
 }
 
 dependencies {
-    api(project(":triumph-core"))
+    api(project(":nebula"))
     api(libs.config)
 }

@@ -21,8 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.core.configuration
+package dev.triumphteam.nebula.config
 
+import dev.triumphteam.nebula.container.BaseContainer
+import dev.triumphteam.nebula.container.Container
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.beanmapper.PropertyMapper
@@ -34,10 +36,11 @@ import java.nio.file.Path
  * All configs registered by the main plugin must extend this.
  */
 public abstract class BaseConfig(
+    parent: Container,
     path: Path,
     holder: Class<out SettingsHolder>,
     propertyMapper: PropertyMapper? = null,
-) {
+): BaseContainer(parent) {
 
     private val config: SettingsManager
 
@@ -73,5 +76,4 @@ public abstract class BaseConfig(
     public fun save() {
         config.save()
     }
-
 }

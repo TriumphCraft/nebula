@@ -24,10 +24,14 @@
 package dev.triumphteam.nebula.jda
 
 import dev.triumphteam.nebula.ModularApplication
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.events.ReadyEvent
+import net.dv8tion.jda.api.events.ShutdownEvent
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -43,27 +47,29 @@ public abstract class JdaApplication(
     private val extra: ModularApplication.() -> Unit = {},
 ) : ModularApplication {
 
-    /**
-     * Gets the [JDA] instance.
-     */
-    public val jda: JDA = createJda()
+    /** Main uses the global registry. */
+    public override val registry: InjectionRegistry = GlobalInjectionRegistry
+
+    /** Scope key, the highest scope in the application. */
+    public override val key: String = "jda-application"
+
+    /** Main has no parent container. */
+    public override val parent: Container? = null
 
     init {
         startApplication()
     }
 
+    /** Runs on start of the application, **not** when JDA starts. */
     public override fun onStart() {}
 
+    /** Runs when the application stops. */
     public override fun onStop() {}
 
-    /**
-     * Runs when [JDA] is ready.
-     */
+    /** Runs when [JDA] is ready. */
     public open fun onReady() {}
 
-    /**
-     * Runs when a [Guild] is ready.
-     */
+    /** Runs when a [Guild] is ready. */
     public open fun onGuildReady(guild: Guild) {}
 
     private fun createJda(): JDA {
@@ -73,25 +79,23 @@ public abstract class JdaApplication(
     }
 
     private fun startApplication() {
+        registry.put(JDA::class.java, createJda())
         onStart()
     }
-}
 
-/**
- * Listener for ready events.
- */
-private class JdaApplicationListener(
-    private val jdaApplication: JdaApplication,
-    private val module: ModularApplication.() -> Unit,
-) : ListenerAdapter() {
+    /** Listener for ready events. */
+    private class JdaApplicationListener(
+        private val jdaApplication: JdaApplication,
+        private val module: ModularApplication.() -> Unit,
+    ) : ListenerAdapter() {
 
-    override fun onReady(event: ReadyEvent) {
-        module(jdaApplication)
-        jdaApplication.onReady()
+        override fun onReady(event: ReadyEvent) {
+            module(jdaApplication)
+            jdaApplication.onReady()
+        }
+
+        override fun onShutdown(event: ShutdownEvent): Unit = jdaApplication.onStop()
+
+        override fun onGuildReady(event: GuildReadyEvent): Unit = jdaApplication.onGuildReady(event.guild)
     }
-
-    override fun onGuildReady(event: GuildReadyEvent) {
-        jdaApplication.onGuildReady(event.guild)
-    }
-
 }
