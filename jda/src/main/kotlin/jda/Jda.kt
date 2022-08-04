@@ -44,7 +44,7 @@ public abstract class JdaApplication(
     private val token: String,
     private val intents: Collection<GatewayIntent> = emptyList(),
     public override val applicationFolder: File = File("data"),
-    private val extra: ModularApplication.() -> Unit = {},
+    private val extra: JDABuilder.() -> Unit = {},
 ) : ModularApplication {
 
     /** Main uses the global registry. */
@@ -74,7 +74,8 @@ public abstract class JdaApplication(
 
     private fun createJda(): JDA {
         return JDABuilder.createDefault(token, intents)
-            .addEventListeners(JdaApplicationListener(this, extra))
+            .addEventListeners(JdaApplicationListener(this))
+            .apply(extra)
             .build()
     }
 
@@ -84,13 +85,9 @@ public abstract class JdaApplication(
     }
 
     /** Listener for ready events. */
-    private class JdaApplicationListener(
-        private val jdaApplication: JdaApplication,
-        private val module: ModularApplication.() -> Unit,
-    ) : ListenerAdapter() {
+    private class JdaApplicationListener(private val jdaApplication: JdaApplication) : ListenerAdapter() {
 
         override fun onReady(event: ReadyEvent) {
-            module(jdaApplication)
             jdaApplication.onReady()
         }
 
