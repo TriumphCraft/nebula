@@ -26,6 +26,9 @@ package dev.triumphteam.nebula.registerable
 /** An object that has registration. */
 public interface Registerable {
 
+    /** Whether the registerable has been registed already. */
+    public val isRegistered: Boolean
+
     /** Registers this registerable. */
     public fun register()
 

@@ -41,6 +41,11 @@ public abstract class BaseModule(parent: Container) : BaseContainer(parent), Reg
     private val registering: MutableList<RegisterAction> = mutableListOf()
     private val unregistering: MutableList<RegisterAction> = mutableListOf()
 
+    private var _isRegistered = false
+
+    override val isRegistered: Boolean
+        get() = _isRegistered
+
     /** Adds actions to be run when the module is registering. */
     protected fun onRegister(block: RegisterAction) {
         registering.add(block)
@@ -53,6 +58,7 @@ public abstract class BaseModule(parent: Container) : BaseContainer(parent), Reg
 
     /** Registers the current module and its children. */
     public override fun register() {
+        _isRegistered = true
         registering.forEach(RegisterAction::invoke)
         // prevent re-registering global registerables.
         if (registry == GlobalInjectionRegistry) return
@@ -61,6 +67,7 @@ public abstract class BaseModule(parent: Container) : BaseContainer(parent), Reg
 
     /** Unregisters the current module and its children. */
     public override fun unregister() {
+        _isRegistered = false
         unregistering.forEach(RegisterAction::invoke)
         // prevent re-unregistering global registerables.
         if (registry == GlobalInjectionRegistry) return
