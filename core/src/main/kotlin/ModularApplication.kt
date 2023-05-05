@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula
+package com.triumphcraft.nebula
 
-import dev.triumphteam.nebula.container.Container
+import com.triumphcraft.nebula.container.Container
 import java.io.File
 
 /**

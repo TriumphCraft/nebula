@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.key
+package com.triumphcraft.nebula.key
 
 /** Represents an object that can be identified by a key. */
 public interface Keyed {

@@ -21,13 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.module
+package com.triumphcraft.nebula.module
 
-import dev.triumphteam.nebula.ModularApplication
-import dev.triumphteam.nebula.container.BaseContainer
-import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.registerable.Registerable
+import com.triumphcraft.nebula.container.BaseContainer
+import com.triumphcraft.nebula.container.Container
+import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
+import com.triumphcraft.nebula.registerable.Registerable
 
 private typealias RegisterAction = () -> Unit
 

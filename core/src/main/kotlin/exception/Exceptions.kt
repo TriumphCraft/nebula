@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.exception
+package com.triumphcraft.nebula.exception
 
-import dev.triumphteam.nebula.container.Container
+import com.triumphcraft.nebula.container.Container
 
 /** Thrown when trying to inject a module that is not present in the current [Container] scope. */
 public class MissingModuleException(key: Class<*>, score: String = "global") : IllegalStateException() {

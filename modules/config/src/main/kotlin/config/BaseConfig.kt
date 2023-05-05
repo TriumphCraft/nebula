@@ -23,8 +23,8 @@
  */
 package dev.triumphteam.nebula.config
 
-import dev.triumphteam.nebula.container.BaseContainer
-import dev.triumphteam.nebula.container.Container
+import com.triumphcraft.nebula.container.BaseContainer
+import com.triumphcraft.nebula.container.Container
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.beanmapper.PropertyMapper

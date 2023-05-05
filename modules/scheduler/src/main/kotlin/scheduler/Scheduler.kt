@@ -24,11 +24,11 @@
 package dev.triumphteam.nebula.scheduler
 
 import dev.triumphteam.nebula.ModularApplication
-import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.container.inject
-import dev.triumphteam.nebula.dsl.TriumphDsl
-import dev.triumphteam.nebula.module.BaseModule
-import dev.triumphteam.nebula.module.ModuleFactory
+import com.triumphcraft.nebula.container.Container
+import com.triumphcraft.nebula.container.inject
+import com.triumphcraft.nebula.dsl.TriumphDsl
+import com.triumphcraft.nebula.module.BaseModule
+import com.triumphcraft.nebula.module.ModuleFactory
 import dev.triumphteam.nebula.scheduler.schedule.DateSchedule
 import dev.triumphteam.nebula.scheduler.schedule.DayTimeSchedule
 import dev.triumphteam.nebula.scheduler.schedule.Schedule

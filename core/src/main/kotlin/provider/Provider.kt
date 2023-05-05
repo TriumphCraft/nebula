@@ -1,8 +1,7 @@
-package dev.triumphteam.nebula.provider
+package com.triumphcraft.nebula.provider
 
-import dev.triumphteam.nebula.ModularApplication
-import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.module.ModuleFactory
+import com.triumphcraft.nebula.container.Container
+import com.triumphcraft.nebula.module.ModuleFactory
 
 /** A provider, allows for custom injection based on the container it's injecting from. */
 public interface Provider<T : Any> {

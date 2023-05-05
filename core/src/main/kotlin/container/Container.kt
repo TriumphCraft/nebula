@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.container
+package com.triumphcraft.nebula.container
 
-import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.container.registry.InjectionRegistry
-import dev.triumphteam.nebula.container.registry.SimpleInjectionRegistry
-import dev.triumphteam.nebula.exception.MissingModuleException
-import dev.triumphteam.nebula.key.Keyed
+import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
+import com.triumphcraft.nebula.container.registry.InjectionRegistry
+import com.triumphcraft.nebula.container.registry.SimpleInjectionRegistry
+import com.triumphcraft.nebula.exception.MissingModuleException
+import com.triumphcraft.nebula.key.Keyed
 
 /** Represents a keyed container, which holders a parent and an injection registry. */
 public interface Container : Keyed {

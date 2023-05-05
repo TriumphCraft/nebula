@@ -23,10 +23,11 @@
  */
 package dev.triumphteam.nebula
 
-import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.container.registry.InjectionRegistry
-import dev.triumphteam.nebula.registerable.Registerable
+import com.triumphcraft.nebula.ModularApplication
+import com.triumphcraft.nebula.container.Container
+import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
+import com.triumphcraft.nebula.container.registry.InjectionRegistry
+import com.triumphcraft.nebula.registerable.Registerable
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File

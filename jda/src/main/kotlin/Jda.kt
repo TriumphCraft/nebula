@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.jda
+package com.triumphcraft.nebula.jda
 
-import dev.triumphteam.nebula.ModularApplication
-import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.container.registry.InjectionRegistry
+import com.triumphcraft.nebula.ModularApplication
+import com.triumphcraft.nebula.container.Container
+import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
+import com.triumphcraft.nebula.container.registry.InjectionRegistry
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Guild

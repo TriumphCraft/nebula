@@ -5,10 +5,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "nebula"
 
-include("core")
-project(":core").name = rootProject.name
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-listOf("bukkit", "jda").forEach(::includeProject)
+listOf("core", "bukkit", "jda").forEach(::includeProject)
 listOf("scheduler", "commands", "config").forEach(::includeModule)
 // listOf("commands").forEach { includePlatformModule(it, "bukkit") }
 // listOf("listeners").forEach { includePlatformModule(it, "jda") }

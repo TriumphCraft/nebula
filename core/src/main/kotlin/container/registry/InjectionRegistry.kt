@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.container.registry
+package com.triumphcraft.nebula.container.registry
 
-import dev.triumphteam.nebula.container.Container
+import com.triumphcraft.nebula.container.Container
 
 /** A registry for storing, adding, and getting injection objects. */
 public interface InjectionRegistry {

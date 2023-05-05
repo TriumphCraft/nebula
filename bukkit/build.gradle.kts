@@ -5,6 +5,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":nebula"))
+    api(projects.nebulaCore)
     compileOnly(libs.spigot)
 }

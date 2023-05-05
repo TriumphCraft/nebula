@@ -8,6 +8,6 @@ repositories {
 }
 
 dependencies {
-    api(project(":nebula"))
+    api(projects.nebulaCore)
     api(libs.jda)
 }
