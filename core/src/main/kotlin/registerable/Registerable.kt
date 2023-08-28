@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.triumphcraft.nebula.registerable
+package dev.triumphteam.nebula.registerable
 
 /** An object that has registration. */
 public interface Registerable {

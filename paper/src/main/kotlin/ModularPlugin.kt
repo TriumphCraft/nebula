@@ -23,22 +23,16 @@
  */
 package dev.triumphteam.nebula
 
-import com.triumphcraft.nebula.ModularApplication
-import com.triumphcraft.nebula.container.Container
-import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
-import com.triumphcraft.nebula.container.registry.InjectionRegistry
-import com.triumphcraft.nebula.registerable.Registerable
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
+import dev.triumphteam.nebula.registerable.Registerable
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 /** Main implementation for Bukkit plugins. */
-public abstract class ModularPlugin(
-    /** Block of common code to be run on start. */
-    private val start: ModularApplication.() -> Unit = {},
-    /** Block of common code to be run on stop. */
-    private val stop: ModularApplication.() -> Unit = {},
-) : JavaPlugin(), ModularApplication {
+public abstract class ModularPlugin() : JavaPlugin(), ModularApplication {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
@@ -51,25 +45,32 @@ public abstract class ModularPlugin(
 
     public override val applicationFolder: File = dataFolder
 
+    public override fun onLoad() {
+        onSetup()
+    }
+
     public override fun onEnable() {
         // Makes plugin instance injectable.
         registry.put(Plugin::class.java, this)
-        // Calls common start block.
-        start()
         // Calls main start block.
         onStart()
         // Registers all installed registerables.
-        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
+        registry.instances.values
+            .filterIsInstance<Registerable>()
+            .filterNot(Registerable::isRegistered)
+            .forEach(Registerable::register)
     }
 
     public override fun onDisable() {
-        // Calls common stop block.
-        stop()
         // Calls main stop block.
         onStop()
         // Unregisters all installed registerables.
-        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
+        registry.instances.values.filterIsInstance<Registerable>()
+            .filter(Registerable::isRegistered)
+            .forEach(Registerable::unregister)
     }
+
+    public override fun onSetup() {}
 
     /** Function to be called when the plugin is starting (enable). */
     public override fun onStart() {}

@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.triumphcraft.nebula.module
+package dev.triumphteam.nebula.module
 
-import com.triumphcraft.nebula.container.BaseContainer
-import com.triumphcraft.nebula.container.Container
-import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
-import com.triumphcraft.nebula.registerable.Registerable
+import dev.triumphteam.nebula.container.BaseContainer
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.registerable.Registerable
 
 private typealias RegisterAction = () -> Unit
 
@@ -35,7 +35,7 @@ private typealias RegisterAction = () -> Unit
  * It contains registering of things.
  * Allows you to run things when modules are registered and unregistered.
  */
-public abstract class BaseModule(parent: Container) : BaseContainer(parent), Registerable {
+public abstract class BaseModule(parent: Container? = null) : BaseContainer(parent), Registerable {
 
     private val registering: MutableList<RegisterAction> = mutableListOf()
     private val unregistering: MutableList<RegisterAction> = mutableListOf()

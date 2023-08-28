@@ -7,10 +7,8 @@ rootProject.name = "nebula"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-listOf("core", "bukkit", "jda").forEach(::includeProject)
-listOf("scheduler", "commands", "config").forEach(::includeModule)
-// listOf("commands").forEach { includePlatformModule(it, "bukkit") }
-// listOf("listeners").forEach { includePlatformModule(it, "jda") }
+listOf("core", "paper").forEach(::includeProject)
+listOf("scheduler", "commands").forEach(::includeModule)
 
 include("test-module")
 

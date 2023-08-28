@@ -31,8 +31,8 @@ import dev.triumphteam.cmd.core.message.MessageResolver
 import dev.triumphteam.cmd.core.message.context.MessageContext
 import dev.triumphteam.cmd.core.suggestion.SuggestionKey
 import dev.triumphteam.cmd.core.suggestion.SuggestionResolver
-import com.triumphcraft.nebula.container.Container
-import com.triumphcraft.nebula.module.BaseModule
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.module.BaseModule
 
 public abstract class CommandWrapper<DS, S>(
     container: Container,

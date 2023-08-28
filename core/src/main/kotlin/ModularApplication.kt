@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.triumphcraft.nebula
+package dev.triumphteam.nebula
 
-import com.triumphcraft.nebula.container.Container
+import dev.triumphteam.nebula.container.Container
 import java.io.File
 
 /**
@@ -33,6 +33,12 @@ public interface ModularApplication : Container {
 
     /** A folder where the application wants to store data, similar to Bukkit's "dataFolder". */
     public val applicationFolder: File
+
+    /**
+     * Performs the setup for the application.
+     * This method is responsible for configuring the application and preparing it for use.
+     */
+    public fun onSetup()
 
     /** Function to be called when the application starts. */
     public fun onStart()

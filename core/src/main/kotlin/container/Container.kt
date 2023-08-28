@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.triumphcraft.nebula.container
+package dev.triumphteam.nebula.container
 
-import com.triumphcraft.nebula.container.registry.GlobalInjectionRegistry
-import com.triumphcraft.nebula.container.registry.InjectionRegistry
-import com.triumphcraft.nebula.container.registry.SimpleInjectionRegistry
-import com.triumphcraft.nebula.exception.MissingModuleException
-import com.triumphcraft.nebula.key.Keyed
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
+import dev.triumphteam.nebula.container.registry.SimpleInjectionRegistry
+import dev.triumphteam.nebula.exception.MissingModuleException
+import dev.triumphteam.nebula.key.Keyed
 
 /** Represents a keyed container, which holders a parent and an injection registry. */
 public interface Container : Keyed {
@@ -47,7 +47,7 @@ public interface Container : Keyed {
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
-public abstract class BaseContainer(override val parent: Container) : Container {
+public abstract class BaseContainer(override val parent: Container? = null) : Container {
 
     /** Simple injection registry of this container. */
     public override val registry: InjectionRegistry = SimpleInjectionRegistry()

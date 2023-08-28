@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.triumphcraft.nebula.container.registry
+package dev.triumphteam.nebula.container.registry
 
-import com.triumphcraft.nebula.container.Container
-import com.triumphcraft.nebula.provider.Provider
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.provider.Provider
 import java.util.Objects
 import java.util.concurrent.ConcurrentHashMap
 
