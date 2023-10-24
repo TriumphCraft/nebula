@@ -25,7 +25,6 @@ package dev.triumphteam.nebula.key
 
 /** Represents an object that can be identified by a key. */
 public interface Keyed {
-
     /** The simple key value. */
     public val key: String
 }

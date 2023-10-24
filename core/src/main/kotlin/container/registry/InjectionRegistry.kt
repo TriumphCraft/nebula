@@ -27,7 +27,6 @@ import dev.triumphteam.nebula.container.Container
 
 /** A registry for storing, adding, and getting injection objects. */
 public interface InjectionRegistry {
-
     /** A read only map containing all the objects that can be injected in the container. */
     public val instances: Map<Class<*>, Any>
 
@@ -35,8 +34,14 @@ public interface InjectionRegistry {
     public val alias: Map<Class<*>, Any>
 
     /** Gets an object based on a class. */
-    public fun <T : Any> get(clazz: Class<out T>, target: Container?): T?
+    public fun <T : Any> get(
+        clazz: Class<out T>,
+        target: Container?,
+    ): T?
 
     /** Puts an object in the values map. */
-    public fun <T : Any> put(clazz: Class<out T>, value: T)
+    public fun <T : Any> put(
+        clazz: Class<out T>,
+        value: T,
+    )
 }

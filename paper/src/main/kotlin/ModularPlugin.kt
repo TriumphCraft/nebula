@@ -33,7 +33,6 @@ import java.io.File
 
 /** Main implementation for Bukkit plugins. */
 public abstract class ModularPlugin() : JavaPlugin(), ModularApplication {
-
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
