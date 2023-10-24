@@ -1,10 +1,13 @@
 plugins {
-    id("nebula.base-conventions")
-    id("nebula.bukkit-conventions")
-    id("nebula.library-conventions")
+    id("nebula.base")
+    id("nebula.paper")
+    id("nebula.library")
 }
 
 dependencies {
     api(projects.nebulaCore)
-    compileOnly(libs.spigot)
+}
+
+root {
+    configureKotlin(17)
 }

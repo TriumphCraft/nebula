@@ -55,8 +55,8 @@ tasks {
                 }
 
                 credentials {
-                    username = System.getenv("REPO_USER")
-                    password = System.getenv("REPO_PASS")
+                    username = providers.gradleProperty("triumph.repo.user").orNull ?: System.getenv("GITHUB_ACTOR")
+                    password = providers.gradleProperty("triumph.repo.token").orNull ?: System.getenv("GITHUB_TOKEN")
                 }
             }
         }
