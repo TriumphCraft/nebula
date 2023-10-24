@@ -31,7 +31,6 @@ import java.util.concurrent.ConcurrentHashMap
 /** Map like registry implementation for holding the needed attributes. */
 @Suppress("UNCHECKED_CAST")
 public open class SimpleInjectionRegistry : InjectionRegistry {
-
     /** Map holding the instances. */
     override val instances: MutableMap<Class<*>, Any> = ConcurrentHashMap()
     override val alias: MutableMap<Class<*>, Any> = ConcurrentHashMap()
@@ -40,14 +39,20 @@ public open class SimpleInjectionRegistry : InjectionRegistry {
      * Gets a value of the attribute for the specified [clazz].
      * Or return `null` if an object doesn't exist.
      */
-    override fun <T : Any> get(clazz: Class<out T>, target: Container?): T? {
+    override fun <T : Any> get(
+        clazz: Class<out T>,
+        target: Container?,
+    ): T? {
         val instance = instances[clazz] ?: alias[clazz] ?: return null
         if (instance !is Provider<*>) return instance as T?
         return instance.provide(target) as T?
     }
 
     /** Creates or changes an attribute with the specified [clazz] using [value]. */
-    override fun <T : Any> put(clazz: Class<out T>, value: T) {
+    override fun <T : Any> put(
+        clazz: Class<out T>,
+        value: T,
+    ) {
         // Main adding.
         instances[clazz] = value
         if (value is Provider<*>) return

@@ -30,9 +30,14 @@ import java.io.File
  * An application, this represents any type of application for any platform.
  */
 public interface ModularApplication : Container {
-
     /** A folder where the application wants to store data, similar to Bukkit's "dataFolder". */
     public val applicationFolder: File
+
+    /**
+     * Performs the setup for the application.
+     * This method is responsible for configuring the application and preparing it for use.
+     */
+    public fun onSetup()
 
     /** Function to be called when the application starts. */
     public fun onStart()

@@ -36,8 +36,7 @@ private typealias RegisterAction = () -> Unit
  * It contains registering of things.
  * Allows you to run things when modules are registered and unregistered.
  */
-public abstract class BaseModule(parent: Container) : BaseContainer(parent), Registerable {
-
+public abstract class BaseModule(parent: Container? = null) : BaseContainer(parent), Registerable {
     private val registering: MutableList<RegisterAction> = mutableListOf()
     private val unregistering: MutableList<RegisterAction> = mutableListOf()
 
@@ -77,7 +76,6 @@ public abstract class BaseModule(parent: Container) : BaseContainer(parent), Reg
 
 /** Defines a installable module. */
 public interface ModuleFactory<F : Any> {
-
     /** Overrides the return type. */
     public val returnType: Class<*>?
         get() = null
@@ -87,15 +85,13 @@ public interface ModuleFactory<F : Any> {
 }
 
 /** Installs a module into a [ModularApplication]. */
-// context(TriumphApplication)
 public fun <T : Any> Container.install(
     module: ModuleFactory<T>,
     configure: T.() -> Unit = {},
-): T = module.install(this).apply(configure).also {
-    registry.put(module.returnType ?: it.javaClass, it)
-}
+): T =
+    module.install(this).apply(configure).also {
+        registry.put(module.returnType ?: it.javaClass, it)
+    }
 
 /** Installs a module into a [ModularApplication]. */
-// context(TriumphApplication)
-public fun <T : BaseModule> Container.install(block: (Container) -> T): T =
-    block(this).also { registry.put(it.javaClass, it) }
+public fun <T : BaseModule> Container.install(block: (Container) -> T): T = block(this).also { registry.put(it.javaClass, it) }

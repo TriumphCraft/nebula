@@ -1,41 +1,26 @@
+import dev.triumphteam.root.includeProject
+
 dependencyResolutionManagement {
     includeBuild("build-logic")
-    repositories.gradlePluginPortal()
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://repo.triumphteam.dev/releases")
+    }
 }
 
 rootProject.name = "nebula"
 
-include("core")
-project(":core").name = rootProject.name
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-listOf("bukkit", "jda").forEach(::includeProject)
-listOf("scheduler", "commands", "config").forEach(::includeModule)
-// listOf("commands").forEach { includePlatformModule(it, "bukkit") }
-// listOf("listeners").forEach { includePlatformModule(it, "jda") }
-
-include("test-module")
-
-fun includeProject(name: String) {
-    include(name) {
-        this.name = "${rootProject.name}-$name"
-    }
+plugins {
+    id("dev.triumphteam.root.settings") version "0.0.1"
 }
 
-fun includeModule(name: String) {
-    include(name) {
-        this.name = "${rootProject.name}-module-$name"
-        this.projectDir = file("modules/$name")
-    }
-}
-
-fun includePlatformModule(name: String, platform: String) {
-    include(name) {
-        this.name = "${rootProject.name}-module-$platform-$name"
-        this.projectDir = file("modules/$platform/$name")
-    }
-}
-
-fun include(name: String, block: ProjectDescriptor.() -> Unit) {
-    include(name)
-    project(":$name").apply(block)
-}
+listOf("core", "paper").forEach(::includeProject)
+// listOf("scheduler", "commands").forEach(::includeModule)

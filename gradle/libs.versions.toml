@@ -1,6 +1,6 @@
 [versions]
 # Minecraft
-spigot = "1.18.1-R0.1-SNAPSHOT"
+paper = "1.20.2-R0.1-SNAPSHOT"
 
 # My libs
 cmd = "2.0.0-SNAPSHOT"
@@ -14,7 +14,7 @@ coroutines = "1.6.0"
 
 [libraries]
 # Minecraft
-spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
 # My libs
 cmd-core = { module = "dev.triumphteam:triumph-cmd-core", version.ref = "cmd" }

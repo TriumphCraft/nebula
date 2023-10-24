@@ -32,13 +32,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 /** Main implementation for Bukkit plugins. */
-public abstract class ModularPlugin(
-    /** Block of common code to be run on start. */
-    private val start: ModularApplication.() -> Unit = {},
-    /** Block of common code to be run on stop. */
-    private val stop: ModularApplication.() -> Unit = {},
-) : JavaPlugin(), ModularApplication {
-
+public abstract class ModularPlugin() : JavaPlugin(), ModularApplication {
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
@@ -50,25 +44,32 @@ public abstract class ModularPlugin(
 
     public override val applicationFolder: File = dataFolder
 
+    public override fun onLoad() {
+        onSetup()
+    }
+
     public override fun onEnable() {
         // Makes plugin instance injectable.
         registry.put(Plugin::class.java, this)
-        // Calls common start block.
-        start()
         // Calls main start block.
         onStart()
         // Registers all installed registerables.
-        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
+        registry.instances.values
+            .filterIsInstance<Registerable>()
+            .filterNot(Registerable::isRegistered)
+            .forEach(Registerable::register)
     }
 
     public override fun onDisable() {
-        // Calls common stop block.
-        stop()
         // Calls main stop block.
         onStop()
         // Unregisters all installed registerables.
-        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
+        registry.instances.values.filterIsInstance<Registerable>()
+            .filter(Registerable::isRegistered)
+            .forEach(Registerable::unregister)
     }
+
+    public override fun onSetup() {}
 
     /** Function to be called when the plugin is starting (enable). */
     public override fun onStart() {}

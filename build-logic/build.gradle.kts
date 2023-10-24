@@ -1,12 +1,15 @@
+import dev.triumphteam.root.root
+
 plugins {
     `kotlin-dsl`
-}
-
-repositories {
-    gradlePluginPortal()
+    id("dev.triumphteam.root.logic") version "0.0.1"
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
+    implementation(baseLibs.bundles.kotlin.all)
     implementation("gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.16.1")
+
+    root("0.0.1")
 }

@@ -27,5 +27,5 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2022 [TriumphTeam](https://triumphteam.dev/).  
+Copyright © 2022 [TriumphTeam](https://triumphteam.dev/).
 This project is [MIT](https://github.com/TriumphTeam/triumph-core/blob/master/LICENSE) licensed.

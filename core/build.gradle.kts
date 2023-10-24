@@ -1,4 +1,4 @@
 plugins {
-    id("nebula.base-conventions")
-    id("nebula.library-conventions")
+    id("nebula.base")
+    id("nebula.library")
 }

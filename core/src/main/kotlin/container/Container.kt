@@ -31,7 +31,6 @@ import dev.triumphteam.nebula.key.Keyed
 
 /** Represents a keyed container, which holders a parent and an injection registry. */
 public interface Container : Keyed {
-
     /**
      * The container's [InjectionRegistry], which holds the injecting required for this container.
      * Or for its children.
@@ -42,13 +41,14 @@ public interface Container : Keyed {
     public val parent: Container?
 
     /** Gets a specific object from this container or from its parent. */
-    public fun <T : Any> get(klass: Class<T>, target: Container?): T =
-        registry.get(klass, target) ?: parent?.get(klass, target) ?: throw MissingModuleException(klass)
+    public fun <T : Any> get(
+        klass: Class<T>,
+        target: Container?,
+    ): T = registry.get(klass, target) ?: parent?.get(klass, target) ?: throw MissingModuleException(klass)
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
-public abstract class BaseContainer(override val parent: Container) : Container {
-
+public abstract class BaseContainer(override val parent: Container? = null) : Container {
     /** Simple injection registry of this container. */
     public override val registry: InjectionRegistry = SimpleInjectionRegistry()
 
@@ -64,16 +64,13 @@ public abstract class BaseContainer(override val parent: Container) : Container 
  * Based on if it has or not access to the object.
  * If an object is not present in the current container, it'll search for it on its parents.
  */
-public inline fun <reified T : Any> Container.inject(
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-): Lazy<T> = lazy(mode) { get(T::class.java, this) }
+public inline fun <reified T : Any> Container.inject(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE): Lazy<T> =
+    lazy(mode) { get(T::class.java, this) }
 
 /**
  * Injection function that allows for lazy injection of objects, modules, or containers.
  * This injection can only be done with objects from the global registry.
  * Container specific objects will not be present.
  */
-public inline fun <reified T : Any> inject(
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE,
-): Lazy<T> =
+public inline fun <reified T : Any> inject(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE): Lazy<T> =
     lazy(mode) { GlobalInjectionRegistry.get(T::class.java, null) ?: throw MissingModuleException(T::class.java) }
