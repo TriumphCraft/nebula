@@ -27,34 +27,18 @@ import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.registerable.Registerable
-import org.bukkit.plugin.Plugin
-import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 
-/** Main implementation for Bukkit plugins. */
-public abstract class ModularPlugin :
-    JavaPlugin(),
-    ModularApplication,
-    ModularApplication.SetupStage,
-    ModularApplication.StopStage {
+public abstract class ModularMod : ModularApplication {
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
-
-    /** Scope key, the highest scope in the application. */
-    public override val key: String = "plugin"
 
     /** Plugin has no parent container. */
     public override val parent: Container? = null
 
-    public override val applicationFolder: File = dataFolder
+    /** Function to be called when the plugin is starting (enable). */
+    public override fun onStart() {}
 
-    public override fun onLoad() {
-        onSetup()
-    }
-
-    public override fun onEnable() {
-        // Makes plugin instance injectable.
-        bind<Plugin>()
+    protected fun initialize() {
         // Calls main start block.
         onStart()
         // Registers all installed registerables.
@@ -63,21 +47,4 @@ public abstract class ModularPlugin :
             .filterNot(Registerable::isRegistered)
             .forEach(Registerable::register)
     }
-
-    public override fun onDisable() {
-        // Calls main stop block.
-        onStop()
-        // Unregisters all installed registerables.
-        registry.instances.values.filterIsInstance<Registerable>()
-            .filter(Registerable::isRegistered)
-            .forEach(Registerable::unregister)
-    }
-
-    public override fun onSetup() {}
-
-    /** Function to be called when the plugin is starting (enable). */
-    public override fun onStart() {}
-
-    /** Function to be called when the plugin is stopping (disable). */
-    public override fun onStop() {}
 }

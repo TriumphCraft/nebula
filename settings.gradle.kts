@@ -22,5 +22,5 @@ plugins {
     id("dev.triumphteam.root.settings") version "0.0.1"
 }
 
-listOf("core", "paper").forEach(::includeProject)
+listOf("core", "paper", "fabric").forEach(::includeProject)
 // listOf("scheduler", "commands").forEach(::includeModule)

@@ -23,34 +23,19 @@
  */
 package dev.triumphteam.nebula
 
-import dev.triumphteam.nebula.container.Container
-import java.io.File
+import net.fabricmc.api.ModInitializer
 
 /**
- * An application, this represents any type of application for any platform.
+ * An abstract class representing a common entry point for a modular Minecraft mod.
+ * It extends the ModularMod class and implements the ModInitializer interface.
+ *
+ * This class provides a blueprint for initializing the mod by calling the initialize() method.
+ *
+ * @see ModularMod
+ * @see ModInitializer
  */
-public interface ModularApplication : Container {
-    /** A folder where the application wants to store data, similar to Bukkit's "dataFolder". */
-    public val applicationFolder: File
-
-    /** Function to be called when the application starts. */
-    public fun onStart()
-
-    public interface SetupStage {
-        /**
-         * Performs the setup for the application.
-         * This method is responsible for configuring the application and preparing it for use.
-         */
-        public fun onSetup()
+public abstract class CommonEntryPoint : ModularMod(), ModInitializer {
+    override fun onInitialize() {
+        initialize()
     }
-
-    public interface StopStage {
-        /** Function to be called when the application stops. */
-        public fun onStop()
-    }
-}
-
-/** Binds the instance of the current modular application to the registry. */
-public inline fun <reified T : Any> ModularApplication.bind() {
-    registry.put(T::class.java, this)
 }
