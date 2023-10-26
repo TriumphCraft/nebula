@@ -75,18 +75,18 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
 }
 
 /** Defines a installable module. */
-public interface ModuleFactory<F : Any> {
+public interface ModuleFactory<F : Any, C : Container> {
     /** Overrides the return type. */
     public val returnType: Class<*>?
         get() = null
 
     /** Module installation, works like a factory. */
-    public fun install(container: Container): F
+    public fun install(container: C): F
 }
 
 /** Installs a module into a [ModularApplication]. */
-public fun <T : Any> Container.install(
-    module: ModuleFactory<T>,
+public fun <T : Any, C : Container> C.install(
+    module: ModuleFactory<T, C>,
     configure: T.() -> Unit = {},
 ): T =
     module.install(this).apply(configure).also {
@@ -94,4 +94,4 @@ public fun <T : Any> Container.install(
     }
 
 /** Installs a module into a [ModularApplication]. */
-public fun <T : BaseModule> Container.install(block: (Container) -> T): T = block(this).also { registry.put(it.javaClass, it) }
+public fun <T : BaseModule, C : Container> C.install(block: (C) -> T): T = block(this).also { registry.put(it.javaClass, it) }

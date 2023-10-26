@@ -23,7 +23,10 @@
  */
 package dev.triumphteam.nebula
 
+import dev.triumphteam.nebula.provider.LoggerProvider
+import dev.triumphteam.nebula.provider.install
 import net.fabricmc.api.ModInitializer
+import org.slf4j.LoggerFactory
 
 /**
  * An abstract class representing a common entry point for a modular Minecraft mod.
@@ -36,6 +39,13 @@ import net.fabricmc.api.ModInitializer
  */
 public abstract class CommonEntryPoint : ModularMod(), ModInitializer {
     override fun onInitialize() {
+        // Installs the logger provider
+        install(LoggerProvider) {
+            default(LoggerFactory.getLogger(key))
+            key { key }
+        }
+
+        // Call initialize block
         initialize()
     }
 }

@@ -1,9 +1,15 @@
 [versions]
+# Logging
+slf4j = "2.0.9"
+
 # Minecraft
 paper = "1.20.2-R0.1-SNAPSHOT"
 fabric-loader = "0.14.24"
 
 [libraries]
+# Logging
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
 # Minecraft
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
-fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader"}
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
