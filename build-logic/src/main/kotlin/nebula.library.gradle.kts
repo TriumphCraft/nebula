@@ -1,3 +1,5 @@
+import gradle.kotlin.dsl.accessors._c3b5a8584877c7599cd6fe5cb3cf4f8d.kotlinSourcesJar
+
 plugins {
     `java-library`
     `maven-publish`
@@ -8,15 +10,9 @@ tasks {
         publications {
             create<MavenPublication>("maven") {
                 from(components["java"])
+                
+                artifact(kotlinSourcesJar)
 
-                versionMapping {
-                    usage("java-api") {
-                        fromResolutionOf("runtimeClasspath")
-                    }
-                    usage("java-runtime") {
-                        fromResolutionResult()
-                    }
-                }
                 pom {
                     name.set("nebula")
                     description.set("Core library and modules for Triumph plugins.")

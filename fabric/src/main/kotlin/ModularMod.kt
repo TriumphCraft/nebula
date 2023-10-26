@@ -24,21 +24,35 @@
 package dev.triumphteam.nebula
 
 import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
+import dev.triumphteam.nebula.container.registry.bind
 import dev.triumphteam.nebula.registerable.Registerable
+import net.fabricmc.loader.api.FabricLoader
+import java.io.File
 
 public abstract class ModularMod : ModularApplication {
+    /** Make fabric loader always available to mod implementations. */
+    protected val fabricLoader: FabricLoader by inject()
+
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
     /** Plugin has no parent container. */
     public override val parent: Container? = null
 
+    override val applicationFolder: File by lazy {
+        fabricLoader.configDir.toFile()
+    }
+
     /** Function to be called when the plugin is starting (enable). */
     public override fun onStart() {}
 
     protected fun initialize() {
+        // Binds the fabric loader
+        registry.bind<FabricLoader>(FabricLoader.getInstance())
+
         // Calls main start block.
         onStart()
         // Registers all installed registerables.

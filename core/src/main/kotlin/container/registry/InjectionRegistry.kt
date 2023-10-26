@@ -45,3 +45,14 @@ public interface InjectionRegistry {
         value: T,
     )
 }
+
+/**
+ * Binds the provided value to the InjectionRegistry for the specified type T.
+ *
+ * @param value The value to bind. It should be an instance of type T.
+ */
+public inline fun <reified T : Any> InjectionRegistry.bind(value: T) {
+    val klass = T::class.java
+    if (klass in instances) return
+    put(klass, value)
+}
