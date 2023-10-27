@@ -13,11 +13,11 @@ public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
     private val loggers: MutableMap<String, Logger> = configuration.loggerMap
 
     /** Factory for this provider. */
-    public companion object Factory : ProviderFactory<Logger, Configuration> {
+    public companion object Factory : ProviderFactory<Container, Logger, Configuration> {
         override val clazz: Class<Logger> = Logger::class.java
 
-        public override fun <C : Container> install(
-            container: C,
+        public override fun install(
+            container: Container,
             configure: Configuration.() -> Unit,
         ): Provider<Logger> = LoggerProvider(Configuration().apply(configure))
     }

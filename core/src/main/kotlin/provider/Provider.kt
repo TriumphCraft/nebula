@@ -11,12 +11,12 @@ public interface Provider<T : Any> {
 }
 
 /** Similar to a normal [ModuleFactory] but requires to provide the type of the providing instance. */
-public interface ProviderFactory<T : Any, CF> {
+public interface ProviderFactory<C : Container, T : Any, CF> {
     /** The type of the instance this provider will provide. */
     public val clazz: Class<T>
 
     /** Provider installation. */
-    public fun <C : Container> install(
+    public fun install(
         container: C,
         configure: CF.() -> Unit,
     ): Provider<T>
@@ -24,6 +24,6 @@ public interface ProviderFactory<T : Any, CF> {
 
 /** Installs a provider into a [ModularApplication]. */
 public fun <T : Any, C : Container, CF> C.install(
-    factory: ProviderFactory<T, CF>,
+    factory: ProviderFactory<C, T, CF>,
     configure: CF.() -> Unit,
 ): Provider<T> = factory.install(this, configure).also { registry.put(factory.clazz, it) }
