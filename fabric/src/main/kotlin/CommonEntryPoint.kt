@@ -24,7 +24,7 @@
 package dev.triumphteam.nebula
 
 import dev.triumphteam.nebula.provider.LoggerProvider
-import dev.triumphteam.nebula.provider.install
+import dev.triumphteam.nebula.provider.providers
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
 
@@ -40,9 +40,11 @@ import org.slf4j.LoggerFactory
 public abstract class CommonEntryPoint : ModularMod(), ModInitializer {
     override fun onInitialize() {
         // Installs the logger provider
-        install(LoggerProvider) {
-            default(LoggerFactory.getLogger(key))
-            key { key }
+        providers {
+            install(LoggerProvider) {
+                default(LoggerFactory.getLogger(key))
+                key { key }
+            }
         }
 
         // Call initialize block

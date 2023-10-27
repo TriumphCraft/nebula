@@ -84,14 +84,25 @@ public interface ModuleFactory<F : Any, C : Container> {
     public fun install(container: C): F
 }
 
-/** Installs a module into a [ModularApplication]. */
-public fun <T : Any, C : Container> C.install(
-    module: ModuleFactory<T, C>,
-    configure: T.() -> Unit = {},
-): T =
-    module.install(this).apply(configure).also {
-        registry.put(module.returnType ?: it.javaClass, it)
-    }
+/** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
+public object ModulesBlockHandler {
+    /** Installs a module into a [ModularApplication]. */
+    context(C)
+    public fun <T : Any, C : Container> C.install(
+        module: ModuleFactory<T, C>,
+        configure: T.() -> Unit = {},
+    ): T =
+        module.install(this).apply(configure).also {
+            registry.put(module.returnType ?: it.javaClass, it)
+        }
 
-/** Installs a module into a [ModularApplication]. */
-public fun <T : BaseModule, C : Container> C.install(block: (C) -> T): T = block(this).also { registry.put(it.javaClass, it) }
+    /** Installs a module into a [ModularApplication]. */
+    context(C)
+    public fun <T : BaseModule, C : Container> install(block: (C) -> T): T = block(this@C).also { registry.put(it.javaClass, it) }
+}
+
+/** Defines a function that allows configuring providers within a given context. */
+context(C)
+public inline fun <C : Container> modules(block: ModulesBlockHandler.() -> Unit) {
+    block(ModulesBlockHandler)
+}

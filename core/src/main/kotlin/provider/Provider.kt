@@ -22,8 +22,18 @@ public interface ProviderFactory<C : Container, T : Any, CF> {
     ): Provider<T>
 }
 
-/** Installs a provider into a [ModularApplication]. */
-public fun <T : Any, C : Container, CF> C.install(
-    factory: ProviderFactory<C, T, CF>,
-    configure: CF.() -> Unit,
-): Provider<T> = factory.install(this, configure).also { registry.put(factory.clazz, it) }
+/** Object to allow us to have a [providers] function that is only available in the <C : Container> context. */
+public object ProvidersBlockHandler {
+    /** Installs a provider into a [ModularApplication]. */
+    context(C)
+    public fun <T : Any, C : Container, CF> install(
+        factory: ProviderFactory<C, T, CF>,
+        configure: CF.() -> Unit = {},
+    ): Provider<T> = factory.install(this@C, configure).also { registry.put(factory.clazz, it) }
+}
+
+/** Defines a function that allows configuring providers within a given context. */
+context(C)
+public inline fun <C : Container> providers(block: ProvidersBlockHandler.() -> Unit) {
+    block(ProvidersBlockHandler)
+}
