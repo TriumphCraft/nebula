@@ -6,12 +6,6 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 
 public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
-    private val defaultLogger = configuration.defaultLogger
-    private val keyProvider = configuration.keyProvider
-
-    // Logger cache.
-    private val loggers: MutableMap<String, Logger> = configuration.loggerMap
-
     /** Factory for this provider. */
     public companion object Factory : ProviderFactory<Container, Logger, Configuration> {
         override val clazz: Class<Logger> = Logger::class.java
@@ -21,6 +15,12 @@ public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
             configure: Configuration.() -> Unit,
         ): Provider<Logger> = LoggerProvider(Configuration().apply(configure))
     }
+
+    private val defaultLogger = configuration.defaultLogger
+    private val keyProvider = configuration.keyProvider
+
+    // Logger cache.
+    private val loggers: MutableMap<String, Logger> = configuration.loggerMap
 
     public class Configuration {
         internal lateinit var defaultLogger: Logger
