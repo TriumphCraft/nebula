@@ -37,13 +37,14 @@ import org.slf4j.LoggerFactory
  * @see ModularMod
  * @see ModInitializer
  */
-public abstract class CommonEntryPoint : ModularMod(), ModInitializer {
+public abstract class CommonEntryPoint(modId: String) : ModularMod(modId), ModInitializer {
+
     override fun onInitialize() {
         // Installs the logger provider
         providers {
             install(LoggerProvider) {
-                default(LoggerFactory.getLogger(key))
-                key { key }
+                default(LoggerFactory.getLogger(modId))
+                key { modId }
             }
         }
 

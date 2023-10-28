@@ -37,6 +37,7 @@ public abstract class ModularPlugin :
     ModularApplication,
     ModularApplication.SetupStage,
     ModularApplication.StopStage {
+
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 

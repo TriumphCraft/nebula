@@ -19,7 +19,7 @@ rootProject.name = "nebula"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 plugins {
-    id("dev.triumphteam.root.settings") version "0.0.1"
+    id("dev.triumphteam.root.settings") version "0.0.2"
 }
 
 listOf("core", "paper", "fabric").forEach(::includeProject)

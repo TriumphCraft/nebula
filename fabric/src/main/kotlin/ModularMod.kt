@@ -32,12 +32,15 @@ import dev.triumphteam.nebula.registerable.Registerable
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
 
-public abstract class ModularMod : ModularApplication {
+public abstract class ModularMod(protected val modId: String) : ModularApplication {
+
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
     /** Plugin has no parent container. */
     public override val parent: Container? = null
+
+    override val key: String = javaClass.simpleName
 
     override val applicationFolder: File by lazy {
         fabricLoader.configDir.toFile()

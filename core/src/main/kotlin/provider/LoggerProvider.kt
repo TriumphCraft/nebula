@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 
 public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
+
     /** Factory for this provider. */
     public companion object Factory : ProviderFactory<Container, Logger, Configuration> {
+
         override val clazz: Class<Logger> = Logger::class.java
 
         public override fun install(

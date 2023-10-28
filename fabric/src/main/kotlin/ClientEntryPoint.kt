@@ -26,7 +26,8 @@ package dev.triumphteam.nebula
 import net.fabricmc.api.ClientModInitializer
 
 /** This class represents the client entry point for a modular Minecraft mod. */
-public abstract class ClientEntryPoint : ModularMod(), ClientModInitializer {
+public abstract class ClientEntryPoint(modId: String) : ModularMod(modId), ClientModInitializer {
+
     override fun onInitializeClient() {
         initialize()
     }
