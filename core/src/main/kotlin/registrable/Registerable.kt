@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.dsl
+package dev.triumphteam.nebula.registrable
 
-@DslMarker
-@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPEALIAS, AnnotationTarget.TYPE, AnnotationTarget.FUNCTION)
-public annotation class TriumphDsl
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
+
+/** An object that has registration. */
+public interface Registrable {
+
+    /** Whether the registrable has been registered already. */
+    public val isRegistered: Boolean
+
+    /** Registers this registrable. */
+    public fun register()
+
+    /** Unregisters this registrable. */
+    public fun unregister()
+}
+
+/** Registers all instances of [Registrable] in the [InjectionRegistry]. */
+public fun InjectionRegistry.registerAll() {
+    filterIsInstance<Registrable>().forEach(Registrable::register)
+}
+
+/** Unregisters all Registrable instances from the InjectionRegistry. */
+public fun InjectionRegistry.unregisterAll() {
+    filterIsInstance<Registrable>().forEach(Registrable::unregister)
+}

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,12 @@ import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.container.registry.bind
-import dev.triumphteam.nebula.registerable.Registerable
+import dev.triumphteam.nebula.container.registry.registerAll
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
 
+@OptIn(NebulaInternalApi::class)
 public abstract class ModularMod(protected val modId: String) : ModularApplication {
 
     /** Plugin uses the global registry. */
@@ -55,12 +57,9 @@ public abstract class ModularMod(protected val modId: String) : ModularApplicati
     protected fun initialize() {
         // Binds the fabric loader
         registry.bind<FabricLoader>(FabricLoader.getInstance())
-        // Calls main start block.
+        // Calls the main start block.
         onStart()
-        // Registers all installed registerables.
-        registry.instances.values
-            .filterIsInstance<Registerable>()
-            .filterNot(Registerable::isRegistered)
-            .forEach(Registerable::register)
+        // Registers all installed registrables.
+        registry.registerAll()
     }
 }

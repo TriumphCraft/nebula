@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,22 +24,25 @@
 package dev.triumphteam.nebula.container.registry
 
 import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.key.Keyed
 
 /** A registry for storing, adding, and getting injection objects. */
-public interface InjectionRegistry {
+public interface InjectionRegistry : Keyed, Iterable<Any> {
+
     /** A read only map containing all the objects that can be injected in the container. */
+    @NebulaInternalApi
     public val instances: Map<Class<*>, Any>
 
-    /** A read only map containing all the objects "alias" for example, super class. */
-    public val alias: Map<Class<*>, Any>
-
     /** Gets an object based on a class. */
+    @NebulaInternalApi
     public fun <T : Any> get(
         clazz: Class<out T>,
         target: Container?,
     ): T?
 
     /** Puts an object in the values map. */
+    @NebulaInternalApi
     public fun <T : Any> put(
         clazz: Class<out T>,
         value: T,
@@ -51,8 +54,7 @@ public interface InjectionRegistry {
  *
  * @param value The value to bind. It should be an instance of type T.
  */
+@OptIn(NebulaInternalApi::class)
 public inline fun <reified T : Any> InjectionRegistry.bind(value: T) {
-    val klass = T::class.java
-    if (klass in instances) return
-    put(klass, value)
+    put(T::class.java, value)
 }

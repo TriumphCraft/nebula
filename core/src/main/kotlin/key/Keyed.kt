@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ package dev.triumphteam.nebula.key
 
 /** Represents an object that can be identified by a key. */
 public interface Keyed {
+
     /** The simple key value. */
     public val key: String
 }

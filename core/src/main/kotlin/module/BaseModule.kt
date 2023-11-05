@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,11 @@ import dev.triumphteam.nebula.ModularApplication
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.registerable.Registerable
+import dev.triumphteam.nebula.container.registry.registerAll
+import dev.triumphteam.nebula.container.registry.unregisterAll
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.registrable.Registrable
+import java.util.concurrent.atomic.AtomicBoolean
 
 private typealias RegisterAction = () -> Unit
 
@@ -36,14 +40,16 @@ private typealias RegisterAction = () -> Unit
  * It contains registering of things.
  * Allows you to run things when modules are registered and unregistered.
  */
-public abstract class BaseModule(parent: Container? = null) : BaseContainer(parent), Registerable {
+@OptIn(NebulaInternalApi::class)
+public abstract class BaseModule(parent: Container? = null) : BaseContainer(parent), Registrable {
+
     private val registering: MutableList<RegisterAction> = mutableListOf()
     private val unregistering: MutableList<RegisterAction> = mutableListOf()
 
-    private var _isRegistered = false
+    private val _isRegistered: AtomicBoolean = AtomicBoolean(false)
 
     override val isRegistered: Boolean
-        get() = _isRegistered
+        get() = _isRegistered.get()
 
     /** Adds actions to be run when the module is registering. */
     protected fun onRegister(block: RegisterAction) {
@@ -57,25 +63,28 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
 
     /** Registers the current module and its children. */
     public override fun register() {
-        _isRegistered = true
+        if (isRegistered) return
+        _isRegistered.set(true)
         registering.forEach(RegisterAction::invoke)
-        // prevent re-registering global registerables.
+        // prevent re-registering global registrable.
         if (registry == GlobalInjectionRegistry) return
-        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::register)
+        registry.registerAll()
     }
 
     /** Unregisters the current module and its children. */
     public override fun unregister() {
-        _isRegistered = false
+        if (!isRegistered) return
+        _isRegistered.set(false)
         unregistering.forEach(RegisterAction::invoke)
-        // prevent re-unregistering global registerables.
+        // prevent re-unregistering global registrable.
         if (registry == GlobalInjectionRegistry) return
-        registry.instances.values.filterIsInstance<Registerable>().forEach(Registerable::unregister)
+        registry.unregisterAll()
     }
 }
 
 /** Defines a installable module. */
 public interface ModuleFactory<F : Any, C : Container> {
+
     /** Overrides the return type. */
     public val returnType: Class<*>?
         get() = null
@@ -85,24 +94,25 @@ public interface ModuleFactory<F : Any, C : Container> {
 }
 
 /** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
-public object ModulesBlockHandler {
-    /** Installs a module into a [ModularApplication]. */
-    context(C)
-    public fun <T : Any, C : Container> C.install(
-        module: ModuleFactory<T, C>,
-        configure: T.() -> Unit = {},
-    ): T =
-        module.install(this).apply(configure).also {
-            registry.put(module.returnType ?: it.javaClass, it)
-        }
+public object Modules {
 
     /** Installs a module into a [ModularApplication]. */
     context(C)
-    public fun <T : BaseModule, C : Container> install(block: (C) -> T): T = block(this@C).also { registry.put(it.javaClass, it) }
+    @OptIn(NebulaInternalApi::class)
+    public fun <T : Any, C : Container> C.install(
+        module: ModuleFactory<T, C>,
+        configure: T.() -> Unit = {},
+    ): T = module.install(this).apply(configure).also {
+        registry.put(module.returnType ?: it.javaClass, it)
+    }
+
+    /** Installs a module into a [ModularApplication]. */
+    context(C)
+    @OptIn(NebulaInternalApi::class)
+    public fun <T : BaseModule, C : Container> install(block: (C) -> T): T =
+        block(this@C).also { registry.put(it.javaClass, it) }
 }
 
 /** Defines a function that allows configuring providers within a given context. */
 context(C)
-public inline fun <C : Container> modules(block: ModulesBlockHandler.() -> Unit) {
-    block(ModulesBlockHandler)
-}
+public inline fun <C : Container> modules(block: Modules.() -> Unit): Unit = block(Modules)

@@ -7,7 +7,3 @@ plugins {
 dependencies {
     api(projects.nebulaCore)
 }
-
-root {
-    configureKotlin(17)
-}

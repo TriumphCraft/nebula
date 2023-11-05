@@ -25,6 +25,6 @@ license {
 }
 
 root {
-    configureKotlin(8)
+    configureKotlin(17)
     configureSpotless()
 }

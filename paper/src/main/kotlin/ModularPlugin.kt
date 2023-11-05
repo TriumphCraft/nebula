@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,15 @@ package dev.triumphteam.nebula
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
-import dev.triumphteam.nebula.registerable.Registerable
+import dev.triumphteam.nebula.container.registry.registerAll
+import dev.triumphteam.nebula.container.registry.unregisterAll
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
-/** Main implementation for Bukkit plugins. */
+/** Main implementation for Paper plugins. */
+@OptIn(NebulaInternalApi::class)
 public abstract class ModularPlugin :
     JavaPlugin(),
     ModularApplication,
@@ -56,24 +59,20 @@ public abstract class ModularPlugin :
     public override fun onEnable() {
         // Makes plugin instance injectable.
         bind<Plugin>()
-        // Calls main start block.
+        // Calls the main start block.
         onStart()
-        // Registers all installed registerables.
-        registry.instances.values
-            .filterIsInstance<Registerable>()
-            .filterNot(Registerable::isRegistered)
-            .forEach(Registerable::register)
+        // Registers all installed registrables.
+        registry.registerAll()
     }
 
     public override fun onDisable() {
-        // Calls main stop block.
+        // Calls the main stop block.
         onStop()
-        // Unregisters all installed registerables.
-        registry.instances.values.filterIsInstance<Registerable>()
-            .filter(Registerable::isRegistered)
-            .forEach(Registerable::unregister)
+        // Unregisters all installed registrables.
+        registry.unregisterAll()
     }
 
+    /** Function to be called when the plugin is loading (load). */
     public override fun onSetup() {}
 
     /** Function to be called when the plugin is starting (enable). */

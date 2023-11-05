@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.triumphteam.nebula.registerable
+package dev.triumphteam.nebula.core.annotation
 
-/** An object that has registration. */
-public interface Registerable {
-    /** Whether the registerable has been registed already. */
-    public val isRegistered: Boolean
-
-    /** Registers this registerable. */
-    public fun register()
-
-    /** Unregisters this registerable. */
-    public fun unregister()
-}
+/**
+ * The `NebulaInternalApi` annotation is used to mark classes, functions, fields, and properties
+ * that are only intended for internal usage within the Nebula API. It indicates that these elements
+ * should NOT be used outside the Nebula API.
+ */
+@RequiresOptIn(
+    message = "Only for internal usage. Shouldn't NOT be used outside of the Nebula API.",
+    level = RequiresOptIn.Level.ERROR,
+)
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+public annotation class NebulaInternalApi

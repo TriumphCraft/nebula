@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2021-2022 TriumphTeam
+ * Copyright (c) 2021-2023 TriumphTeam
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,13 @@ package dev.triumphteam.nebula.container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.container.registry.SimpleInjectionRegistry
-import dev.triumphteam.nebula.exception.MissingModuleException
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.core.exception.MissingModuleException
 import dev.triumphteam.nebula.key.Keyed
 
 /** Represents a keyed container, which holders a parent and an injection registry. */
 public interface Container : Keyed {
+
     /**
      * The container's [InjectionRegistry], which holds the injecting required for this container.
      * Or for its children.
@@ -41,6 +43,7 @@ public interface Container : Keyed {
     public val parent: Container?
 
     /** Gets a specific object from this container or from its parent. */
+    @OptIn(NebulaInternalApi::class)
     public fun <T : Any> get(
         klass: Class<T>,
         target: Container?,
@@ -49,11 +52,12 @@ public interface Container : Keyed {
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
 public abstract class BaseContainer(override val parent: Container? = null) : Container {
-    /** Simple injection registry of this container. */
-    public override val registry: InjectionRegistry = SimpleInjectionRegistry()
 
     /** Defaults to the class name to be easier. */
-    override val key: String = javaClass.simpleName
+    final override val key: String = javaClass.simpleName
+
+    /** Simple injection registry of this container. */
+    public override val registry: InjectionRegistry = SimpleInjectionRegistry(key)
 
     /** The to string of containers is their key. */
     override fun toString(): String = key
@@ -70,7 +74,8 @@ public inline fun <reified T : Any> Container.inject(mode: LazyThreadSafetyMode 
 /**
  * Injection function that allows for lazy injection of objects, modules, or containers.
  * This injection can only be done with objects from the global registry.
- * Container specific objects will not be present.
+ * Container-specific objects will not be present.
  */
+@OptIn(NebulaInternalApi::class)
 public inline fun <reified T : Any> inject(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE): Lazy<T> =
     lazy(mode) { GlobalInjectionRegistry.get(T::class.java, null) ?: throw MissingModuleException(T::class.java) }
