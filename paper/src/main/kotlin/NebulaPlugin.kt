@@ -26,20 +26,20 @@ package dev.triumphteam.nebula
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
-import dev.triumphteam.nebula.container.registry.registerAll
-import dev.triumphteam.nebula.container.registry.unregisterAll
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.registrable.registerAll
+import dev.triumphteam.nebula.registrable.unregisterAll
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 /** Main implementation for Paper plugins. */
 @OptIn(NebulaInternalApi::class)
-public abstract class ModularPlugin :
+public abstract class NebulaPlugin :
     JavaPlugin(),
-    ModularApplication,
-    ModularApplication.SetupStage,
-    ModularApplication.StopStage {
+    Nebula,
+    Nebula.SetupStage,
+    Nebula.StopStage {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry

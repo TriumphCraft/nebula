@@ -37,6 +37,7 @@ public interface Container : Keyed {
      * The container's [InjectionRegistry], which holds the injecting required for this container.
      * Or for its children.
      */
+    @NebulaInternalApi
     public val registry: InjectionRegistry
 
     /** The container this container is bound to. */
@@ -57,6 +58,7 @@ public abstract class BaseContainer(override val parent: Container? = null) : Co
     final override val key: String = javaClass.simpleName
 
     /** Simple injection registry of this container. */
+    @NebulaInternalApi
     public override val registry: InjectionRegistry = SimpleInjectionRegistry(key)
 
     /** The to string of containers is their key. */

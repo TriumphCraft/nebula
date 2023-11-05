@@ -23,32 +23,35 @@
  */
 package dev.triumphteam.nebula
 
-import dev.triumphteam.nebula.provider.LoggerProvider
-import dev.triumphteam.nebula.provider.providers
-import net.fabricmc.api.ModInitializer
-import org.slf4j.LoggerFactory
+import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.registrable.registerAll
+import java.io.File
 
-/**
- * An abstract class representing a common entry point for a modular Minecraft mod.
- * It extends the ModularMod class and implements the ModInitializer interface.
- *
- * This class provides a blueprint for initializing the mod by calling the initialize() method.
- *
- * @see NebulaMod
- * @see ModInitializer
- */
-public abstract class CommonEntryPoint(modId: String) : NebulaMod(modId), ModInitializer {
+/** Main implementation for Paper plugins. */
+@OptIn(NebulaInternalApi::class)
+public abstract class NebulaApplication : Nebula {
 
-    override fun onInitialize() {
-        // Installs the logger provider
-        providers {
-            install(LoggerProvider) {
-                default(LoggerFactory.getLogger(modId))
-                key { modId }
-            }
-        }
+    /** Plugin uses the global registry. */
+    public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
-        // Call initialize block
-        initialize()
+    /** Scope key, the highest scope in the application. */
+    public override val key: String = "application"
+
+    /** Plugin has no parent container. */
+    public override val parent: Container? = null
+
+    public override val applicationFolder: File = File("data")
+
+    public fun start() {
+        // Calls the main start block.
+        onStart()
+        // Registers all installed registrables.
+        registry.registerAll()
     }
+
+    /** Function to be called when the plugin is starting (enable). */
+    public override fun onStart() {}
 }

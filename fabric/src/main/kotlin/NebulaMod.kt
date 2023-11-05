@@ -28,13 +28,13 @@ import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.container.registry.bind
-import dev.triumphteam.nebula.container.registry.registerAll
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.registrable.registerAll
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
 
 @OptIn(NebulaInternalApi::class)
-public abstract class ModularMod(protected val modId: String) : ModularApplication {
+public abstract class NebulaMod(protected val modId: String) : Nebula {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry

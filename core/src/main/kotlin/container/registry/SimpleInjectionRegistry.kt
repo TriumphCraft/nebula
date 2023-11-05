@@ -68,7 +68,9 @@ public open class SimpleInjectionRegistry(override val key: String) : InjectionR
         clazz: Class<out T>,
         value: T,
     ) {
+        // Check for duplicates
         if (clazz in instances) throw DuplicateModuleException(clazz, key)
+
         // Main adding.
         instances[clazz] = value
         if (value is Provider<*>) return
@@ -86,7 +88,7 @@ public open class SimpleInjectionRegistry(override val key: String) : InjectionR
 
 /**
  * A global registry, objects inside will be accessible everywhere through the `inject` function.
- * Adding to this registry should only be done from a [dev.triumphteam.nebula.ModularApplication].
+ * Adding to this registry should only be done from a [dev.triumphteam.nebula.Nebula].
  */
 @NebulaInternalApi
 public object GlobalInjectionRegistry : SimpleInjectionRegistry("main")

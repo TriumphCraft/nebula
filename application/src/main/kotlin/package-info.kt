@@ -22,33 +22,3 @@
  * SOFTWARE.
  */
 package dev.triumphteam.nebula
-
-import dev.triumphteam.nebula.provider.LoggerProvider
-import dev.triumphteam.nebula.provider.providers
-import net.fabricmc.api.ModInitializer
-import org.slf4j.LoggerFactory
-
-/**
- * An abstract class representing a common entry point for a modular Minecraft mod.
- * It extends the ModularMod class and implements the ModInitializer interface.
- *
- * This class provides a blueprint for initializing the mod by calling the initialize() method.
- *
- * @see NebulaMod
- * @see ModInitializer
- */
-public abstract class CommonEntryPoint(modId: String) : NebulaMod(modId), ModInitializer {
-
-    override fun onInitialize() {
-        // Installs the logger provider
-        providers {
-            install(LoggerProvider) {
-                default(LoggerFactory.getLogger(modId))
-                key { modId }
-            }
-        }
-
-        // Call initialize block
-        initialize()
-    }
-}

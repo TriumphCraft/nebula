@@ -23,14 +23,14 @@
  */
 package dev.triumphteam.nebula.module
 
-import dev.triumphteam.nebula.ModularApplication
+import dev.triumphteam.nebula.Nebula
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
-import dev.triumphteam.nebula.container.registry.registerAll
-import dev.triumphteam.nebula.container.registry.unregisterAll
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.registrable.Registrable
+import dev.triumphteam.nebula.registrable.registerAll
+import dev.triumphteam.nebula.registrable.unregisterAll
 import java.util.concurrent.atomic.AtomicBoolean
 
 private typealias RegisterAction = () -> Unit
@@ -96,7 +96,7 @@ public interface ModuleFactory<F : Any, C : Container> {
 /** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
 public object Modules {
 
-    /** Installs a module into a [ModularApplication]. */
+    /** Installs a module into a [Nebula]. */
     context(C)
     @OptIn(NebulaInternalApi::class)
     public fun <T : Any, C : Container> C.install(
@@ -106,7 +106,7 @@ public object Modules {
         registry.put(module.returnType ?: it.javaClass, it)
     }
 
-    /** Installs a module into a [ModularApplication]. */
+    /** Installs a module into a [Nebula]. */
     context(C)
     @OptIn(NebulaInternalApi::class)
     public fun <T : BaseModule, C : Container> install(block: (C) -> T): T =
