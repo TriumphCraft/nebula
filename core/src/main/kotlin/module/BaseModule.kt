@@ -99,10 +99,10 @@ public object Modules {
     /** Installs a module into a [Nebula]. */
     context(C)
     @OptIn(NebulaInternalApi::class)
-    public fun <T : Any, C : Container> C.install(
+    public fun <T : Any, C : Container> install(
         module: ModuleFactory<T, C>,
         configure: T.() -> Unit = {},
-    ): T = module.install(this).apply(configure).also {
+    ): T = module.install(this@C).apply(configure).also {
         registry.put(module.returnType ?: it.javaClass, it)
     }
 
