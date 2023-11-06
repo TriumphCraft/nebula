@@ -23,9 +23,11 @@
  */
 package dev.triumphteam.nebula
 
+import dev.triumphteam.nebula.container.registry.bind
 import dev.triumphteam.nebula.provider.LoggerProvider
 import dev.triumphteam.nebula.provider.providers
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.loader.api.FabricLoader
 import org.slf4j.LoggerFactory
 
 /**
@@ -40,6 +42,9 @@ import org.slf4j.LoggerFactory
 public abstract class CommonEntryPoint(modId: String) : NebulaMod(modId), ModInitializer {
 
     override fun onInitialize() {
+        // Binds the fabric loader
+        registry.bind<FabricLoader>(FabricLoader.getInstance())
+
         // Installs the logger provider
         providers {
             install(LoggerProvider) {

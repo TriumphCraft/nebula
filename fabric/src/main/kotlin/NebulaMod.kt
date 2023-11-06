@@ -27,7 +27,6 @@ import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
-import dev.triumphteam.nebula.container.registry.bind
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.registrable.registerAll
 import net.fabricmc.loader.api.FabricLoader
@@ -55,8 +54,6 @@ public abstract class NebulaMod(protected val modId: String) : Nebula {
     public override fun onStart() {}
 
     protected fun initialize() {
-        // Binds the fabric loader
-        registry.bind<FabricLoader>(FabricLoader.getInstance())
         // Calls the main start block.
         onStart()
         // Registers all installed registrables.
