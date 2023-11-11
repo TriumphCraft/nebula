@@ -48,7 +48,10 @@ public interface Container : Keyed {
     public fun <T : Any> get(
         klass: Class<T>,
         target: Container?,
-    ): T = registry.get(klass, target) ?: parent?.get(klass, target) ?: throw MissingModuleException(klass)
+    ): T = registry.get(klass, target) // From own registry
+        ?: parent?.get(klass, target) // Or from parent
+        ?: GlobalInjectionRegistry.get(klass, target) // Or global
+        ?: throw MissingModuleException(klass) // Or throw exception
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */

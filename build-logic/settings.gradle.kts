@@ -17,7 +17,7 @@ dependencyResolutionManagement {
             from(files(localLibs))
         }
 
-        baseLibs("0.0.2-063a785")
+        baseLibs("0.0.3-kt-1.9.10")
     }
 }
 

@@ -1,9 +1,17 @@
+import dev.triumphteam.root.baseLibs
 import dev.triumphteam.root.includeProject
+import dev.triumphteam.root.localLibs
+import dev.triumphteam.root.releasesRepo
 
 dependencyResolutionManagement {
     includeBuild("build-logic")
     repositories {
+        releasesRepo()
         gradlePluginPortal()
+    }
+
+    versionCatalogs {
+        baseLibs("0.0.3-kt-1.9.10")
     }
 }
 
@@ -22,5 +30,5 @@ plugins {
     id("dev.triumphteam.root.settings") version "0.0.2"
 }
 
-listOf("application", "core", "paper", "fabric").forEach(::includeProject)
+listOf("application", "core", "paper", "fabric", "utilities").forEach(::includeProject)
 // listOf("scheduler", "commands").forEach(::includeModule)
