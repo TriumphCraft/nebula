@@ -28,15 +28,16 @@ import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.core.exception.DuplicateModuleException
 import dev.triumphteam.nebula.provider.Provider
 import java.util.Objects
-import java.util.concurrent.ConcurrentHashMap
 
 /** Map like registry implementation for holding the needed attributes. */
+@NebulaInternalApi
 @Suppress("UNCHECKED_CAST")
-public open class SimpleInjectionRegistry(override val key: String) : InjectionRegistry {
-
+public open class SimpleInjectionRegistry(
+    override val key: String,
     /** Map holding the instances. */
     @NebulaInternalApi
-    override val instances: MutableMap<Class<*>, Any> = ConcurrentHashMap()
+    override val instances: MutableMap<Class<*>, Any> = mutableMapOf(),
+) : InjectionRegistry {
 
     /**
      * Retrieves an instance of the specified class from the instance cache or returns null if it doesn't exist.

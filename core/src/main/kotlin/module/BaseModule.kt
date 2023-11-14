@@ -83,14 +83,14 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
 }
 
 /** Defines a installable module. */
-public interface ModuleFactory<F : Any, C : Container> {
+public interface ModuleFactory<M : Any, C : Container> {
 
     /** Overrides the return type. */
     public val returnType: Class<*>?
         get() = null
 
     /** Module installation, works like a factory. */
-    public fun install(container: C): F
+    public fun install(container: C): M
 }
 
 /** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
