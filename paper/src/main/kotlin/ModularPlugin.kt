@@ -24,39 +24,61 @@
 package dev.triumphteam.nebula
 
 import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.container.inject
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.registrable.registerAll
-import net.fabricmc.loader.api.FabricLoader
+import dev.triumphteam.nebula.registrable.unregisterAll
+import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.nio.file.Path
 
+/** Main implementation for Paper plugins. */
 @OptIn(NebulaInternalApi::class)
-public abstract class NebulaMod(protected val modId: String) : Nebula {
+public abstract class ModularPlugin :
+    JavaPlugin(),
+    Modular,
+    Modular.SetupStage,
+    Modular.StopStage {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
+    /** Scope key, the highest scope in the application. */
+    public override val key: String = "plugin"
+
     /** Plugin has no parent container. */
     public override val parent: Container? = null
 
-    override val key: String = javaClass.simpleName
+    public override val applicationFolder: Path = dataFolder.toPath()
 
-    override val applicationFolder: File by lazy {
-        fabricLoader.configDir.toFile()
+    public override fun onLoad() {
+        onSetup()
     }
 
-    /** Make fabric loader always available to mod implementations. */
-    protected val fabricLoader: FabricLoader by inject()
-
-    /** Function to be called when the plugin is starting (enable). */
-    public override fun onStart() {}
-
-    protected fun initialize() {
+    public override fun onEnable() {
+        // Makes plugin instance injectable.
+        bind<Plugin>()
         // Calls the main start block.
         onStart()
         // Registers all installed registrables.
         registry.registerAll()
     }
+
+    public override fun onDisable() {
+        // Calls the main stop block.
+        onStop()
+        // Unregisters all installed registrables.
+        registry.unregisterAll()
+    }
+
+    /** Function to be called when the plugin is loading (load). */
+    public override fun onSetup() {}
+
+    /** Function to be called when the plugin is starting (enable). */
+    public override fun onStart() {}
+
+    /** Function to be called when the plugin is stopping (disable). */
+    public override fun onStop() {}
 }

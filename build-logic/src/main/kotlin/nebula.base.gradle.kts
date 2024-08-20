@@ -1,3 +1,6 @@
+import dev.triumphteam.root.KotlinOpt
+import dev.triumphteam.root.PreviewFeature
+
 plugins {
     kotlin("jvm")
     id("dev.triumphteam.root")
@@ -25,6 +28,12 @@ license {
 }
 
 root {
-    configureKotlin(17)
-    configureSpotless()
+    configureKotlin {
+        jvmVersion(21)
+        explicitApi()
+
+        optIn(KotlinOpt.ALL)
+        previewFeatures(PreviewFeature.CONTEXT_RECEIVERS)
+    }
+    // configureSpotless()
 }

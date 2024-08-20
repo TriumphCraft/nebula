@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        baseLibs("0.0.3-kt-1.9.10")
+        baseLibs("0.0.3-kt-2.0.10")
     }
 }
 
@@ -27,7 +27,7 @@ rootProject.name = "nebula"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 plugins {
-    id("dev.triumphteam.root.settings") version "0.0.2"
+    id("dev.triumphteam.root.settings") version "0.0.9"
 }
 
 listOf("application", "core", "paper", "fabric", "utilities").forEach(::includeProject)

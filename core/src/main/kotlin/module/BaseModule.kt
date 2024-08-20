@@ -23,7 +23,7 @@
  */
 package dev.triumphteam.nebula.module
 
-import dev.triumphteam.nebula.Nebula
+import dev.triumphteam.nebula.Modular
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
@@ -96,23 +96,26 @@ public interface ModuleFactory<M : Any, C : Container> {
 /** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
 public object Modules {
 
-    /** Installs a module into a [Nebula]. */
-    context(C)
+    /** Installs a module into a [Modular]. */
     @OptIn(NebulaInternalApi::class)
-    public fun <T : Any, C : Container> install(
+    public fun <T : Any, C : Container> C.install(
         module: ModuleFactory<T, C>,
         configure: T.() -> Unit = {},
     ): T = module.install(this@C).apply(configure).also {
         registry.put(module.returnType ?: it.javaClass, it)
     }
 
-    /** Installs a module into a [Nebula]. */
-    context(C)
+    /** Installs a module into a [Modular]. */
     @OptIn(NebulaInternalApi::class)
-    public fun <T : BaseModule, C : Container> install(block: (C) -> T): T =
+    public fun <T : BaseModule, C : Container> C.install(block: (C) -> T): T =
         block(this@C).also { registry.put(it.javaClass, it) }
+
+    /** Installs a module into a [Modular]. */
+    @OptIn(NebulaInternalApi::class)
+    public inline fun <reified T : BaseModule, C : Container> C.install(instance: T): Unit =
+        registry.put(T::class.java, instance)
 }
 
 /** Defines a function that allows configuring providers within a given context. */
-context(C)
-public inline fun <C : Container> modules(block: Modules.() -> Unit): Unit = block(Modules)
+// context(C)
+public inline fun <C : Container> C.modules(block: Modules.() -> Unit): Unit = block(Modules)

@@ -29,10 +29,12 @@ import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.registrable.registerAll
 import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.Path
 
 /** Main implementation for Paper plugins. */
 @OptIn(NebulaInternalApi::class)
-public abstract class NebulaApplication : Nebula {
+public abstract class ModularApplication : Modular {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
@@ -43,7 +45,7 @@ public abstract class NebulaApplication : Nebula {
     /** Plugin has no parent container. */
     public override val parent: Container? = null
 
-    public override val applicationFolder: File = File("data")
+    public override val applicationFolder: Path = Path("data")
 
     public fun start() {
         // Calls the main start block.

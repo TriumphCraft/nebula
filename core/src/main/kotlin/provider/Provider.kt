@@ -23,7 +23,7 @@
  */
 package dev.triumphteam.nebula.provider
 
-import dev.triumphteam.nebula.Nebula
+import dev.triumphteam.nebula.Modular
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.module.ModuleFactory
@@ -51,15 +51,15 @@ public interface ProviderFactory<C : Container, T : Any, CF> {
 /** Object to allow us to have a [providers] function that is only available in the <C : Container> context. */
 public object Providers {
 
-    /** Installs a provider into a [Nebula]. */
-    context(C)
+    /** Installs a provider into a [Modular]. */
+    // context(C)
     @OptIn(NebulaInternalApi::class)
-    public fun <T : Any, C : Container, CF> install(
+    public fun <T : Any, C : Container, CF> C.install(
         factory: ProviderFactory<C, T, CF>,
         configure: CF.() -> Unit = {},
     ): Provider<T> = factory.install(this@C, configure).also { registry.put(factory.clazz, it) }
 }
 
 /** Defines a function that allows configuring providers within a given context. */
-context(C)
-public inline fun <C : Container> providers(block: Providers.() -> Unit): Unit = block(Providers)
+// context(C)
+public inline fun <C : Container> C.providers(block: Providers.() -> Unit): Unit = block(Providers)

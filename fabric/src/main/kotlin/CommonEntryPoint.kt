@@ -36,10 +36,10 @@ import org.slf4j.LoggerFactory
  *
  * This class provides a blueprint for initializing the mod by calling the initialize() method.
  *
- * @see NebulaMod
+ * @see ModularMod
  * @see ModInitializer
  */
-public abstract class CommonEntryPoint(modId: String) : NebulaMod(modId), ModInitializer {
+public abstract class CommonEntryPoint(modId: String) : ModularMod(modId), ModInitializer {
 
     override fun onInitialize() {
         // Binds the fabric loader

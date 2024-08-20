@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._c3b5a8584877c7599cd6fe5cb3cf4f8d.kotlinSourcesJar
 
 plugins {
     `java-library`
@@ -10,8 +9,8 @@ tasks {
         publications {
             create<MavenPublication>("maven") {
                 from(components["java"])
-                
-                artifact(kotlinSourcesJar)
+
+                // artifact(kotlinSourcesJar)
 
                 pom {
                     name.set("nebula")

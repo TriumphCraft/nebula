@@ -26,7 +26,7 @@ package dev.triumphteam.nebula
 import net.fabricmc.api.DedicatedServerModInitializer
 
 /** This class represents the server entry point for a modular Minecraft mod. */
-public abstract class ServerEntryPoint(modId: String) : NebulaMod(modId), DedicatedServerModInitializer {
+public abstract class ServerEntryPoint(modId: String) : ModularMod(modId), DedicatedServerModInitializer {
 
     override fun onInitializeServer() {
         initialize()

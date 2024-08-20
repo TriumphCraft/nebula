@@ -17,7 +17,7 @@ dependencyResolutionManagement {
             from(files(localLibs))
         }
 
-        baseLibs("0.0.3-kt-1.9.10")
+        baseLibs("0.0.3-kt-2.0.10")
     }
 }
 
@@ -29,5 +29,5 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.triumphteam.root.settings") version "0.0.2"
+    id("dev.triumphteam.root.settings") version "0.0.9"
 }

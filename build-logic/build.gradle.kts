@@ -2,7 +2,7 @@ import dev.triumphteam.root.root
 
 plugins {
     `kotlin-dsl`
-    id("dev.triumphteam.root.logic") version "0.0.2"
+    id("dev.triumphteam.root.logic") version "0.0.9"
 }
 
 dependencies {
@@ -11,5 +11,5 @@ dependencies {
     implementation(baseLibs.bundles.kotlin.all)
     implementation("gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.16.1")
 
-    root("0.0.2")
+    root("0.0.9")
 }
