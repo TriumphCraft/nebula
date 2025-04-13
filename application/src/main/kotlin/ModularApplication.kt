@@ -28,13 +28,12 @@ import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.registrable.registerAll
-import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.Path
 
 /** Main implementation for Paper plugins. */
 @OptIn(NebulaInternalApi::class)
-public abstract class ModularApplication : Modular {
+public abstract class BaseModularApplication : ModularApplication {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry

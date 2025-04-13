@@ -5,6 +5,5 @@ plugins {
 
 dependencies {
     api(projects.nebulaCore)
-    // TODO: IMPORT CORE INSTEAD OF JSON
-    api(baseLibs.kotlin.serialization.json)
+    api(libs.kotlin.serialization.core)
 }

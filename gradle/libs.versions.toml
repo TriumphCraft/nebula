@@ -1,10 +1,20 @@
 [versions]
+# Plugins
+kotlin = "2.1.20"
+
 # Logging
 slf4j = "2.0.9"
 
 # Minecraft
 paper = "1.20.2-R0.1-SNAPSHOT"
 fabric-loader = "0.14.24"
+
+# Kotlin
+kotlin-serialization = "1.8.1"
+
+# Formatting
+detekt = "1.23.1"
+spotless = "6.22.0"
 
 [libraries]
 # Logging
@@ -13,3 +23,20 @@ slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 # Minecraft
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+
+# Kotlin
+kotlin-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlin-serialization" }
+
+# Plugins
+build-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+build-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+build-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+
+[bundles]
+kotlin-all = [
+    "build-kotlin",
+    "build-kotlin-serialization",
+    "build-detekt",
+    "build-spotless"
+]

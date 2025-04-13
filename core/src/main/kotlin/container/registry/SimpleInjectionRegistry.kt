@@ -89,7 +89,7 @@ public open class SimpleInjectionRegistry(
 
 /**
  * A global registry, objects inside will be accessible everywhere through the `inject` function.
- * Adding to this registry should only be done from a [dev.triumphteam.nebula.Modular].
+ * Adding to this registry should only be done from a [dev.triumphteam.nebula.ModularApplication].
  */
 @NebulaInternalApi
-public object GlobalInjectionRegistry : SimpleInjectionRegistry("main")
+public object GlobalInjectionRegistry : SimpleInjectionRegistry("global")

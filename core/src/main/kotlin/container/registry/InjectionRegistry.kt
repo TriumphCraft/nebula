@@ -30,7 +30,7 @@ import dev.triumphteam.nebula.key.Keyed
 /** A registry for storing, adding, and getting injection objects. */
 public interface InjectionRegistry : Keyed, Iterable<Any> {
 
-    /** A read only map containing all the objects that can be injected in the container. */
+    /** A read-only map containing all the objects that can be injected in the container. */
     @NebulaInternalApi
     public val instances: Map<Class<*>, Any>
 
@@ -47,14 +47,4 @@ public interface InjectionRegistry : Keyed, Iterable<Any> {
         clazz: Class<out T>,
         value: T,
     )
-}
-
-/**
- * Binds the provided value to the InjectionRegistry for the specified type T.
- *
- * @param value The value to bind. It should be an instance of type T.
- */
-@OptIn(NebulaInternalApi::class)
-public inline fun <reified T : Any> InjectionRegistry.bind(value: T) {
-    put(T::class.java, value)
 }

@@ -9,10 +9,6 @@ dependencyResolutionManagement {
         releasesRepo()
         gradlePluginPortal()
     }
-
-    versionCatalogs {
-        baseLibs("0.0.3-kt-2.0.10")
-    }
 }
 
 pluginManagement {
@@ -30,5 +26,5 @@ plugins {
     id("dev.triumphteam.root.settings") version "0.0.9"
 }
 
-listOf("application", "core", "paper", "fabric", "utilities").forEach(::includeProject)
+listOf("application", "core", "paper", "utilities").forEach(::includeProject)
 // listOf("scheduler", "commands").forEach(::includeModule)

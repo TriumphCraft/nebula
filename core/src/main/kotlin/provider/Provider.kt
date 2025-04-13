@@ -23,7 +23,7 @@
  */
 package dev.triumphteam.nebula.provider
 
-import dev.triumphteam.nebula.Modular
+import dev.triumphteam.nebula.ModularApplication
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.module.ModuleFactory
@@ -51,7 +51,7 @@ public interface ProviderFactory<C : Container, T : Any, CF> {
 /** Object to allow us to have a [providers] function that is only available in the <C : Container> context. */
 public object Providers {
 
-    /** Installs a provider into a [Modular]. */
+    /** Installs a provider into a [ModularApplication]. */
     // context(C)
     @OptIn(NebulaInternalApi::class)
     public fun <T : Any, C : Container, CF> C.install(

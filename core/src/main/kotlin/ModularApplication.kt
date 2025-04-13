@@ -24,11 +24,10 @@
 package dev.triumphteam.nebula
 
 import dev.triumphteam.nebula.container.Container
-import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import java.nio.file.Path
 
 /** An application, this represents any type of application for any platform. */
-public interface Modular : Container {
+public interface ModularApplication : Container {
 
     /** A folder where the application wants to store data, similar to Bukkit's "dataFolder". */
     public val applicationFolder: Path
@@ -36,7 +35,7 @@ public interface Modular : Container {
     /** Function to be called when the application starts. */
     public fun onStart()
 
-    public interface SetupStage {
+    public interface SetupStage : ModularApplication {
 
         /**
          * Performs the setup for the application.
@@ -45,15 +44,11 @@ public interface Modular : Container {
         public fun onSetup()
     }
 
-    public interface StopStage {
+    public interface StopStage : ModularApplication {
 
         /** Function to be called when the application stops. */
         public fun onStop()
     }
-}
 
-/** Binds the instance of the current modular application to the registry. */
-@OptIn(NebulaInternalApi::class)
-public inline fun <reified T : Any> Modular.bind() {
-    registry.put(T::class.java, this)
+    public interface Entrypoint : ModularApplication
 }

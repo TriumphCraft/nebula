@@ -4,13 +4,16 @@ plugins {
     `maven-publish`
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks {
     publishing {
         publications {
             create<MavenPublication>("maven") {
                 from(components["java"])
-
-                // artifact(kotlinSourcesJar)
 
                 pom {
                     name.set("nebula")

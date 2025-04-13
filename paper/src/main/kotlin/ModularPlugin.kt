@@ -27,26 +27,23 @@ import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.module.modules
 import dev.triumphteam.nebula.registrable.registerAll
 import dev.triumphteam.nebula.registrable.unregisterAll
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 import java.nio.file.Path
 
 /** Main implementation for Paper plugins. */
 @OptIn(NebulaInternalApi::class)
 public abstract class ModularPlugin :
     JavaPlugin(),
-    Modular,
-    Modular.SetupStage,
-    Modular.StopStage {
+    ModularApplication,
+    ModularApplication.SetupStage,
+    ModularApplication.StopStage {
 
     /** Plugin uses the global registry. */
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
-
-    /** Scope key, the highest scope in the application. */
-    public override val key: String = "plugin"
 
     /** Plugin has no parent container. */
     public override val parent: Container? = null
@@ -59,7 +56,9 @@ public abstract class ModularPlugin :
 
     public override fun onEnable() {
         // Makes plugin instance injectable.
-        bind<Plugin>()
+        modules {
+            install<Plugin>(this@ModularPlugin)
+        }
         // Calls the main start block.
         onStart()
         // Registers all installed registrables.
