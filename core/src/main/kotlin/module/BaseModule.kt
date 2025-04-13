@@ -52,15 +52,23 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
         get() = _isRegistered.get()
 
     /** Adds actions to be run when the module is registering. */
-    @NebulaInternalApi
-    public fun onRegister(block: RegisterAction) {
+    protected fun onRegister(block: RegisterAction) {
         registering.add(block)
     }
 
     /** Adds actions to be run when the module is unregistering. */
-    @NebulaInternalApi
-    public fun onUnregister(block: RegisterAction) {
+    protected fun onUnregister(block: RegisterAction) {
         unregistering.add(block)
+    }
+
+    @NebulaInternalApi
+    public fun addRegistration(action: RegisterAction) {
+        onRegister(action)
+    }
+
+    @NebulaInternalApi
+    public fun addUnregistration(action: RegisterAction) {
+        onUnregister(action)
     }
 
     /** Registers the current module and its children. */
