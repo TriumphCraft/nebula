@@ -33,7 +33,7 @@ import dev.triumphteam.nebula.registrable.registerAll
 import dev.triumphteam.nebula.registrable.unregisterAll
 import java.util.concurrent.atomic.AtomicBoolean
 
-private typealias RegisterAction = () -> Unit
+public typealias RegisterAction = () -> Unit
 
 /**
  * A module to be extended.
@@ -52,12 +52,14 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
         get() = _isRegistered.get()
 
     /** Adds actions to be run when the module is registering. */
-    protected fun onRegister(block: RegisterAction) {
+    @NebulaInternalApi
+    public fun onRegister(block: RegisterAction) {
         registering.add(block)
     }
 
     /** Adds actions to be run when the module is unregistering. */
-    protected fun onUnregister(block: RegisterAction) {
+    @NebulaInternalApi
+    public fun onUnregister(block: RegisterAction) {
         unregistering.add(block)
     }
 
