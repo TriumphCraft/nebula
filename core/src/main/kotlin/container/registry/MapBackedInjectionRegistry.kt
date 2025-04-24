@@ -27,17 +27,26 @@ import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.core.exception.DuplicateModuleException
 import dev.triumphteam.nebula.provider.Provider
+import dev.triumphteam.nebula.registrable.Registrable
 import java.util.Objects
+
+@NebulaInternalApi
+public fun interface RegistrationFailure : (Throwable, RegistrationFailure.Stage) -> Unit {
+    public enum class Stage {
+        REGISTRATION, UNREGISTRATION;
+    }
+}
 
 /** Map like registry implementation for holding the needed attributes. */
 @NebulaInternalApi
 @Suppress("UNCHECKED_CAST")
-public open class SimpleInjectionRegistry(
+public open class MapBackedInjectionRegistry(
     override val key: String,
     /** Map holding the instances. */
-    @NebulaInternalApi
-    override val instances: MutableMap<Class<*>, Any> = mutableMapOf(),
-) : InjectionRegistry {
+    instances: MutableMap<Class<*>, Any> = mutableMapOf(),
+) : InjectionRegistry, MutableMap<Class<*>, Any> by instances {
+
+    private val failureHandler: MutableMap<Class<*>, RegistrationFailure> = mutableMapOf()
 
     /**
      * Retrieves an instance of the specified class from the instance cache or returns null if it doesn't exist.
@@ -51,7 +60,7 @@ public open class SimpleInjectionRegistry(
         clazz: Class<out T>,
         target: Container?,
     ): T? {
-        val instance = instances[clazz] ?: return null
+        val instance = this[clazz] ?: return null
         if (instance !is Provider<*>) return instance as T?
         return instance.provide(target) as T?
     }
@@ -68,22 +77,49 @@ public open class SimpleInjectionRegistry(
     override fun <T : Any> put(
         clazz: Class<out T>,
         value: T,
+        onFailure: RegistrationFailure,
     ) {
         // Check for duplicates
-        if (clazz in instances) throw DuplicateModuleException(clazz, key)
+        if (clazz in this) throw DuplicateModuleException(clazz, key)
 
         // Main adding.
-        instances[clazz] = value
+        this[clazz] = value
+        failureHandler[clazz] = onFailure // Add failure handler.
         if (value is Provider<*>) return
         val superClass = clazz.superclass
         if (superClass == null || superClass == Objects::class.java) return
         // Add as superclass if none is already present.
-        instances.putIfAbsent(superClass, value)
+        putIfAbsent(superClass, value)
     }
 
     @NebulaInternalApi
-    override fun iterator(): Iterator<Any> {
-        return instances.values.iterator()
+    override fun registerAll() {
+        values.filterIsInstance<Registrable>().forEach { registrable ->
+            runCatching {
+                registrable.unregister()
+            }.onFailure { throwable ->
+                failureHandler[registrable::class.java]?.invoke(throwable, RegistrationFailure.Stage.REGISTRATION)
+                    ?: throw IllegalStateException(
+                        "Could not register module ${registrable::class.java.name}.",
+                        throwable,
+                    )
+            }
+        }
+    }
+
+    @NebulaInternalApi
+    override fun unregisterAll() {
+        values.filterIsInstance<Registrable>().forEach { registrable ->
+            runCatching {
+                registrable.unregister()
+            }.onFailure { throwable ->
+                failureHandler[registrable::class.java]?.invoke(throwable, RegistrationFailure.Stage.UNREGISTRATION)
+                    ?: throw IllegalStateException(
+                        "Could not unregister module ${registrable::class.java.name}.",
+                        throwable,
+                    )
+            }
+        }
     }
 }
 
@@ -92,4 +128,4 @@ public open class SimpleInjectionRegistry(
  * Adding to this registry should only be done from a [dev.triumphteam.nebula.ModularApplication].
  */
 @NebulaInternalApi
-public object GlobalInjectionRegistry : SimpleInjectionRegistry("global")
+public object GlobalInjectionRegistry : MapBackedInjectionRegistry("global")

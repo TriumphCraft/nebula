@@ -25,7 +25,7 @@ package dev.triumphteam.nebula.container
 
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
-import dev.triumphteam.nebula.container.registry.SimpleInjectionRegistry
+import dev.triumphteam.nebula.container.registry.MapBackedInjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.core.exception.MissingModuleException
 import dev.triumphteam.nebula.key.Keyed
@@ -52,6 +52,10 @@ public interface Container : Keyed {
         ?: parent?.get(klass, target) // Or from parent
         ?: GlobalInjectionRegistry.get(klass, target) // Or global
         ?: throw MissingModuleException(klass) // Or throw exception
+
+    /** Gets called when something critical happens to the container. */
+    @NebulaInternalApi
+    public fun handleCriticalFailure(description: String, throwable: Throwable)
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
@@ -62,10 +66,15 @@ public abstract class BaseContainer(override val parent: Container? = null) : Co
 
     /** Simple injection registry of this container. */
     @NebulaInternalApi
-    public override val registry: InjectionRegistry = SimpleInjectionRegistry(key)
+    public override val registry: InjectionRegistry = MapBackedInjectionRegistry(key)
 
     /** The to string of containers is their key. */
     override fun toString(): String = key
+
+    @NebulaInternalApi
+    override fun handleCriticalFailure(description: String, throwable: Throwable) {
+        throw IllegalStateException("Critical module failure: $description", throwable)
+    }
 }
 
 /**

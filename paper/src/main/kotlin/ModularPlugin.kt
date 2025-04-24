@@ -28,8 +28,6 @@ import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.module.modules
-import dev.triumphteam.nebula.registrable.registerAll
-import dev.triumphteam.nebula.registrable.unregisterAll
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.nio.file.Path

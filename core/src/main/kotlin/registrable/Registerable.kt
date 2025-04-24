@@ -23,8 +23,6 @@
  */
 package dev.triumphteam.nebula.registrable
 
-import dev.triumphteam.nebula.container.registry.InjectionRegistry
-
 /** An object that has registration. */
 public interface Registrable {
 
@@ -38,12 +36,7 @@ public interface Registrable {
     public fun unregister()
 }
 
-/** Registers all instances of [Registrable] in the [InjectionRegistry]. */
-public fun InjectionRegistry.registerAll() {
-    filterIsInstance<Registrable>().forEach(Registrable::register)
-}
+public interface RegisterScope {
 
-/** Unregisters all Registrable instances from the InjectionRegistry. */
-public fun InjectionRegistry.unregisterAll() {
-    filterIsInstance<Registrable>().forEach(Registrable::unregister)
+    public val caller: Registrable
 }

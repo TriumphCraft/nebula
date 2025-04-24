@@ -27,7 +27,6 @@ import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
-import dev.triumphteam.nebula.registrable.registerAll
 import java.nio.file.Path
 import kotlin.io.path.Path
 

@@ -26,13 +26,10 @@ package dev.triumphteam.nebula.container.registry
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.key.Keyed
+import dev.triumphteam.nebula.registrable.Registrable
 
 /** A registry for storing, adding, and getting injection objects. */
-public interface InjectionRegistry : Keyed, Iterable<Any> {
-
-    /** A read-only map containing all the objects that can be injected in the container. */
-    @NebulaInternalApi
-    public val instances: Map<Class<*>, Any>
+public interface InjectionRegistry : Keyed, Map<Class<*>, Any> {
 
     /** Gets an object based on a class. */
     @NebulaInternalApi
@@ -46,5 +43,14 @@ public interface InjectionRegistry : Keyed, Iterable<Any> {
     public fun <T : Any> put(
         clazz: Class<out T>,
         value: T,
+        onFailure: RegistrationFailure,
     )
+
+    /** Registers all instances of [Registrable] in the [InjectionRegistry]. */
+    @NebulaInternalApi
+    public fun registerAll()
+
+    /** Unregisters all instances of [Registrable] in the [InjectionRegistry]. */
+    @NebulaInternalApi
+    public fun unregisterAll()
 }

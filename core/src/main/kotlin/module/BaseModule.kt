@@ -27,13 +27,14 @@ import dev.triumphteam.nebula.ModularApplication
 import dev.triumphteam.nebula.container.BaseContainer
 import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.RegistrationFailure
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
+import dev.triumphteam.nebula.registrable.RegisterScope
 import dev.triumphteam.nebula.registrable.Registrable
-import dev.triumphteam.nebula.registrable.registerAll
-import dev.triumphteam.nebula.registrable.unregisterAll
 import java.util.concurrent.atomic.AtomicBoolean
 
-public typealias RegisterAction = () -> Unit
+public typealias RegisterAction = RegisterScope.() -> Unit
+public typealias UnRegisterAction = () -> Unit
 
 /**
  * A module to be extended.
@@ -41,15 +42,18 @@ public typealias RegisterAction = () -> Unit
  * Allows you to run things when modules are registered and unregistered.
  */
 @OptIn(NebulaInternalApi::class)
-public abstract class BaseModule(parent: Container? = null) : BaseContainer(parent), Registrable {
+public abstract class BaseModule<S : RegisterScope>(parent: Container? = null) : BaseContainer(parent), Registrable {
 
     private val registering: MutableList<RegisterAction> = mutableListOf()
-    private val unregistering: MutableList<RegisterAction> = mutableListOf()
+    private val unregistering: MutableList<UnRegisterAction> = mutableListOf()
 
     private val _isRegistered: AtomicBoolean = AtomicBoolean(false)
 
     override val isRegistered: Boolean
         get() = _isRegistered.get()
+
+    /** The register scope of this module. */
+    protected abstract val registerScope: S
 
     /** Adds actions to be run when the module is registering. */
     protected fun onRegister(block: RegisterAction) {
@@ -57,7 +61,7 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
     }
 
     /** Adds actions to be run when the module is unregistering. */
-    protected fun onUnregister(block: RegisterAction) {
+    protected fun onUnregister(block: UnRegisterAction) {
         unregistering.add(block)
     }
 
@@ -67,7 +71,7 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
     }
 
     @NebulaInternalApi
-    public fun addUnregistration(action: RegisterAction) {
+    public fun addUnregistration(action: UnRegisterAction) {
         onUnregister(action)
     }
 
@@ -75,7 +79,7 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
     public override fun register() {
         if (isRegistered) return
         _isRegistered.set(true)
-        registering.forEach(RegisterAction::invoke)
+        registering.forEach { action -> action(registerScope) }
         // prevent re-registering global registrable.
         if (registry == GlobalInjectionRegistry) return
         registry.registerAll()
@@ -85,7 +89,7 @@ public abstract class BaseModule(parent: Container? = null) : BaseContainer(pare
     public override fun unregister() {
         if (!isRegistered) return
         _isRegistered.set(false)
-        unregistering.forEach(RegisterAction::invoke)
+        unregistering.forEach(UnRegisterAction::invoke)
         // prevent re-unregistering global registrable.
         if (registry == GlobalInjectionRegistry) return
         registry.unregisterAll()
@@ -99,31 +103,54 @@ public interface ModuleFactory<M : Any, C : Container> {
     public val returnType: Class<*>?
         get() = null
 
-    /** Module installation, works like a factory. */
+    /** Module installation works like a factory. */
     public fun install(container: C): M
+
+    public abstract class Simple<M : Any, C : Container>(private val provider: () -> M) : ModuleFactory<M, C> {
+        override fun install(container: C): M {
+            return provider()
+        }
+    }
 }
 
 /** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
 @OptIn(NebulaInternalApi::class)
-public object Modules {
+public data class Modules(@PublishedApi internal val description: String) {
 
     /** Installs a module into a [ModularApplication]. */
     public fun <T : Any, C : Container> C.install(
         module: ModuleFactory<T, C>,
         configure: T.() -> Unit = {},
     ): T = module.install(this@C).apply(configure).also {
-        registry.put(module.returnType ?: it.javaClass, it)
+        put(module.returnType ?: it.javaClass, it)
     }
 
     /** Installs a module into a [ModularApplication]. */
-    public fun <T : BaseModule, C : Container> C.install(block: (C) -> T): T =
-        block(this@C).also { registry.put(it.javaClass, it) }
+    public fun <T : BaseModule<*>, C : Container> C.install(block: (C) -> T): T =
+        block(this@C).also { put(it.javaClass, it) }
 
     /** Installs a module into a [ModularApplication]. */
     public inline fun <reified T : Any> Container.install(instance: T): Unit =
-        registry.put(T::class.java, instance)
+        put(T::class.java, instance)
+
+    @PublishedApi
+    internal fun <T : Any> Container.put(clazz: Class<out T>, instance: T) {
+        registry.put(clazz, instance) { throwable, stage ->
+            when (stage) {
+                RegistrationFailure.Stage.REGISTRATION -> {
+                    handleCriticalFailure("An error occurred while registering modules: $description", throwable)
+                }
+
+                RegistrationFailure.Stage.UNREGISTRATION -> {
+                    handleCriticalFailure("An error occurred while unregistering modules: $description", throwable)
+                }
+            }
+        }
+    }
 }
 
 /** Defines a function that allows configuring providers within a given context. */
-// context(C)
-public inline fun <C : Container> C.modules(block: Modules.() -> Unit): Unit = block(Modules)
+public inline fun <C : Container> C.modules(
+    description: String = "Registering generic modules.",
+    block: Modules.() -> Unit,
+): Unit = block(Modules(description))

@@ -57,7 +57,11 @@ public object Providers {
     public fun <T : Any, C : Container, CF> C.install(
         factory: ProviderFactory<C, T, CF>,
         configure: CF.() -> Unit = {},
-    ): Provider<T> = factory.install(this@C, configure).also { registry.put(factory.clazz, it) }
+    ): Provider<T> = factory.install(this@C, configure).also { provider ->
+        registry.put(factory.clazz, provider) { throwable, _ ->
+            handleCriticalFailure("Failed to install provider for class '${factory.clazz.simpleName}'.", throwable)
+        }
+    }
 }
 
 /** Defines a function that allows configuring providers within a given context. */
