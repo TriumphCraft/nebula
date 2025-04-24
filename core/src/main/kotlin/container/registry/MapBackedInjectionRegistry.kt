@@ -94,9 +94,9 @@ public open class MapBackedInjectionRegistry(
 
     @NebulaInternalApi
     override fun registerAll() {
-        values.filterIsInstance<Registrable>().forEach { registrable ->
+        values.filterIsInstance<Registrable>().toSet().forEach { registrable ->
             runCatching {
-                registrable.unregister()
+                registrable.register()
             }.onFailure { throwable ->
                 failureHandler[registrable::class.java]?.invoke(throwable, RegistrationFailure.Stage.REGISTRATION)
                     ?: throw IllegalStateException(
@@ -109,7 +109,7 @@ public open class MapBackedInjectionRegistry(
 
     @NebulaInternalApi
     override fun unregisterAll() {
-        values.filterIsInstance<Registrable>().forEach { registrable ->
+        values.filterIsInstance<Registrable>().toSet().forEach { registrable ->
             runCatching {
                 registrable.unregister()
             }.onFailure { throwable ->

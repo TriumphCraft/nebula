@@ -28,6 +28,9 @@ import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
 import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.module.modules
+import dev.triumphteam.nebula.provider.LoggerProvider
+import dev.triumphteam.nebula.provider.Providers.install
+import dev.triumphteam.nebula.provider.providers
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import java.nio.file.Path
@@ -53,10 +56,19 @@ public abstract class ModularPlugin :
     }
 
     public override fun onEnable() {
+        // Adds logger as injectable provider.
+        providers {
+            install(LoggerProvider) {
+                default(slF4JLogger)
+                key(Container::key)
+            }
+        }
+
         // Makes plugin instance injectable.
         modules {
             install<Plugin>(this@ModularPlugin)
         }
+
         // Calls the main start block.
         onStart()
         // Registers all installed registrables.
