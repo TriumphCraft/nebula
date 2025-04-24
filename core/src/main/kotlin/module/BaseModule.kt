@@ -130,7 +130,7 @@ public data class Modules(@PublishedApi internal val description: String) {
         block(this@C).also { put(it.javaClass, it) }
 
     /** Installs a module into a [ModularApplication]. */
-    public inline fun <reified T : Any> Container.install(instance: T): Unit =
+    public inline fun <reified T : Any> Container.installDirect(instance: T): Unit =
         put(T::class.java, instance)
 
     @PublishedApi

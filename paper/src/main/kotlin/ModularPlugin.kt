@@ -29,7 +29,6 @@ import dev.triumphteam.nebula.container.registry.InjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.module.modules
 import dev.triumphteam.nebula.provider.LoggerProvider
-import dev.triumphteam.nebula.provider.Providers.install
 import dev.triumphteam.nebula.provider.providers
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
@@ -66,7 +65,7 @@ public abstract class ModularPlugin :
 
         // Makes plugin instance injectable.
         modules {
-            install<Plugin>(this@ModularPlugin)
+            installDirect<Plugin>(this@ModularPlugin)
         }
 
         // Calls the main start block.
