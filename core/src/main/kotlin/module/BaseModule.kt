@@ -33,7 +33,7 @@ import dev.triumphteam.nebula.registrable.RegisterScope
 import dev.triumphteam.nebula.registrable.Registrable
 import java.util.concurrent.atomic.AtomicBoolean
 
-public typealias RegisterAction = RegisterScope.() -> Unit
+public typealias RegisterAction<S> = S.() -> Unit
 public typealias UnRegisterAction = () -> Unit
 
 /**
@@ -44,7 +44,7 @@ public typealias UnRegisterAction = () -> Unit
 @OptIn(NebulaInternalApi::class)
 public abstract class BaseModule<S : RegisterScope>(parent: Container? = null) : BaseContainer(parent), Registrable {
 
-    private val registering: MutableList<RegisterAction> = mutableListOf()
+    private val registering: MutableList<RegisterAction<S>> = mutableListOf()
     private val unregistering: MutableList<UnRegisterAction> = mutableListOf()
 
     private val _isRegistered: AtomicBoolean = AtomicBoolean(false)
@@ -56,7 +56,7 @@ public abstract class BaseModule<S : RegisterScope>(parent: Container? = null) :
     protected abstract val registerScope: S
 
     /** Adds actions to be run when the module is registering. */
-    protected fun onRegister(block: RegisterAction) {
+    protected fun onRegister(block: RegisterAction<S>) {
         registering.add(block)
     }
 
@@ -66,7 +66,7 @@ public abstract class BaseModule<S : RegisterScope>(parent: Container? = null) :
     }
 
     @NebulaInternalApi
-    public fun addRegistration(action: RegisterAction) {
+    public fun addRegistration(action: RegisterAction<S>) {
         onRegister(action)
     }
 
