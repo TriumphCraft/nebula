@@ -42,7 +42,7 @@ public typealias UnRegisterAction = () -> Unit
  * Allows you to run things when modules are registered and unregistered.
  */
 @OptIn(NebulaInternalApi::class)
-public abstract class BaseModule<S : RegisterScope>(parent: Container? = null) : BaseContainer(parent), Registrable {
+public abstract class BaseModule<S : RegisterScope> : BaseContainer(), Registrable {
 
     private val registering: MutableList<RegisterAction<S>> = mutableListOf()
     private val unregistering: MutableList<UnRegisterAction> = mutableListOf()
@@ -115,7 +115,7 @@ public interface ModuleFactory<M : Any, C : Container> {
 
 /** Object to allow us to have a [modules] function that is only available in the <C : Container> context. */
 @OptIn(NebulaInternalApi::class)
-public data class Modules(@PublishedApi internal val description: String) {
+public open class ContainerScope(@PublishedApi internal val description: (Class<*>) -> String) {
 
     /** Installs a module into a [ModularApplication]. */
     public fun <T : Any, C : Container> C.install(
@@ -135,14 +135,19 @@ public data class Modules(@PublishedApi internal val description: String) {
 
     @PublishedApi
     internal fun <T : Any> Container.put(clazz: Class<out T>, instance: T) {
+        // Auto set this as a parent for the module if it is a container.
+        if (instance is Container) {
+            instance.parent = this
+        }
+
         registry.put(clazz, instance) { throwable, stage ->
             when (stage) {
                 RegistrationFailure.Stage.REGISTRATION -> {
-                    handleCriticalFailure("An error occurred while registering modules: $description", throwable)
+                    handleCriticalFailure("An error occurred while registering modules: ${description(clazz)}", throwable)
                 }
 
                 RegistrationFailure.Stage.UNREGISTRATION -> {
-                    handleCriticalFailure("An error occurred while unregistering modules: $description", throwable)
+                    handleCriticalFailure("An error occurred while unregistering modules: ${description(clazz)}", throwable)
                 }
             }
         }
@@ -152,5 +157,5 @@ public data class Modules(@PublishedApi internal val description: String) {
 /** Defines a function that allows configuring providers within a given context. */
 public inline fun <C : Container> C.modules(
     description: String = "Registering generic modules.",
-    block: Modules.() -> Unit,
-): Unit = block(Modules(description))
+    block: ContainerScope.() -> Unit,
+): Unit = block(ContainerScope { description })

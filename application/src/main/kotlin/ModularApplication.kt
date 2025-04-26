@@ -41,7 +41,7 @@ public abstract class BaseModularApplication : ModularApplication {
     public override val key: String = "application"
 
     /** Plugin has no parent container. */
-    public override val parent: Container? = null
+    public override var parent: Container? = null
 
     public override val applicationFolder: Path = Path("data")
 

@@ -29,6 +29,7 @@ import dev.triumphteam.nebula.container.registry.MapBackedInjectionRegistry
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.core.exception.MissingModuleException
 import dev.triumphteam.nebula.key.Keyed
+import dev.triumphteam.nebula.module.ContainerScope
 
 /** Represents a keyed container, which holders a parent and an injection registry. */
 public interface Container : Keyed {
@@ -41,7 +42,8 @@ public interface Container : Keyed {
     public val registry: InjectionRegistry
 
     /** The container this container is bound to. */
-    public val parent: Container?
+    @NebulaInternalApi
+    public var parent: Container?
 
     /** Gets a specific object from this container or from its parent. */
     @OptIn(NebulaInternalApi::class)
@@ -59,7 +61,7 @@ public interface Container : Keyed {
 }
 
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
-public abstract class BaseContainer(override val parent: Container? = null) : Container {
+public abstract class BaseContainer : ContainerScope(Class<*>::getSimpleName), Container {
 
     /** Defaults to the class name to be easier. */
     final override val key: String = javaClass.simpleName
@@ -68,7 +70,7 @@ public abstract class BaseContainer(override val parent: Container? = null) : Co
     @NebulaInternalApi
     public override val registry: InjectionRegistry = MapBackedInjectionRegistry(key)
 
-    /** The to string of containers is their key. */
+    /** The "toString" of containers are their key. */
     override fun toString(): String = key
 
     @NebulaInternalApi

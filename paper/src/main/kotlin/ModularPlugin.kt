@@ -46,7 +46,7 @@ public abstract class ModularPlugin :
     public override val registry: InjectionRegistry = GlobalInjectionRegistry
 
     /** Plugin has no parent container. */
-    public override val parent: Container? = null
+    public override var parent: Container? = null
 
     public override val applicationFolder: Path = dataFolder.toPath()
 
