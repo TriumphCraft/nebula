@@ -52,13 +52,13 @@ public open class MapBackedInjectionRegistry(
      * Retrieves an instance of the specified class from the instance cache or returns null if it doesn't exist.
      *
      * @param clazz The class of the instance to retrieve.
-     * @param target An optional target container to provide context for the instance retrieval.
+     * @param target An optional target to provide context for the instance retrieval.
      * @return The instance of the specified class, or null if it does not exist or is not a Provider instance.
      */
     @NebulaInternalApi
     override fun <T : Any> get(
         clazz: Class<out T>,
-        target: Container?,
+        target: Any?,
     ): T? {
         val instance = this[clazz] ?: return null
         if (instance !is Provider<*>) return instance as T?

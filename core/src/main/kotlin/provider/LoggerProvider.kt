@@ -56,7 +56,7 @@ public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
 
         internal lateinit var defaultLogger: Logger
             private set
-        internal lateinit var keyProvider: (Container) -> String
+        internal lateinit var keyProvider: (Any) -> String
             private set
         internal var loggerMap: MutableMap<String, Logger> = ConcurrentHashMap()
             private set
@@ -65,7 +65,7 @@ public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
             defaultLogger = logger
         }
 
-        public fun key(provider: (Container) -> String) {
+        public fun key(provider: (Any) -> String) {
             keyProvider = provider
         }
 
@@ -74,11 +74,11 @@ public class LoggerProvider(configuration: Configuration) : Provider<Logger> {
         }
     }
 
-    override fun provide(container: Container?): Logger {
+    override fun provide(container: Any?): Logger {
         if (container == null) return defaultLogger
         // Creates the logger key
         val key = keyProvider(container)
-        // Returns cached logger or creates a new one and caches it.
+        // Returns a cached logger or creates a new one and caches it.
         return loggers[key] ?: LoggerFactory.getLogger(key).also { loggers[key] = it }
     }
 }

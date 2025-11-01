@@ -28,11 +28,11 @@ import dev.triumphteam.nebula.container.Container
 import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import dev.triumphteam.nebula.module.ModuleFactory
 
-/** A provider, allows for custom injection based on the container it's injecting from. */
+/** A provider allows for custom injection based on the container it's injecting from. */
 public interface Provider<T : Any> {
 
     /** Provides an object based on the given [container]. */
-    public fun provide(container: Container?): T
+    public fun provide(container: Any?): T
 }
 
 /** Similar to a normal [ModuleFactory] but requires providing the type of the providing instance. */

@@ -63,6 +63,9 @@ public interface Container : Keyed {
 /** Simple abstract implementation of a container, simply initializes the [registry]. */
 public abstract class BaseContainer : ContainerScope(Class<*>::getSimpleName), Container {
 
+    @NebulaInternalApi
+    override var parent: Container? = null
+
     /** Defaults to the class name to be easier. */
     final override val key: String = javaClass.simpleName
 
@@ -86,6 +89,20 @@ public abstract class BaseContainer : ContainerScope(Class<*>::getSimpleName), C
  */
 public inline fun <reified T : Any> Container.inject(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE): Lazy<T> =
     lazy(mode) { get(T::class.java, this) }
+
+/**
+ * Injection function that allows for lazy injection of objects, modules, or containers.
+ * This injection can only be done with objects from the global registry.
+ * Container-specific objects will not be present.
+ */
+@OptIn(NebulaInternalApi::class)
+public inline fun <reified T : Any> Any.inject(mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE): Lazy<T> =
+    lazy(mode) {
+        if (this is Container) {
+            return@lazy get(T::class.java, this)
+        }
+        GlobalInjectionRegistry.get(T::class.java, this) ?: throw MissingModuleException(T::class.java)
+    }
 
 /**
  * Injection function that allows for lazy injection of objects, modules, or containers.

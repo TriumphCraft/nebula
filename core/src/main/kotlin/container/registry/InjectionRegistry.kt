@@ -35,7 +35,7 @@ public interface InjectionRegistry : Keyed, Map<Class<*>, Any> {
     @NebulaInternalApi
     public fun <T : Any> get(
         clazz: Class<out T>,
-        target: Container?,
+        target: Any?,
     ): T?
 
     /** Puts an object in the values map. */

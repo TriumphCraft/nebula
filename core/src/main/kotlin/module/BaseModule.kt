@@ -129,7 +129,7 @@ public open class ContainerScope(@PublishedApi internal val description: (Class<
     public fun <T : BaseModule<*>, C : Container> C.install(block: (C) -> T): T =
         block(this@C).also { put(it.javaClass, it) }
 
-    /** Installs a module into a [ModularApplication]. */
+    /** Installs an instance into a [ModularApplication]. */
     public inline fun <reified T : Any> Container.installDirect(instance: T): Unit =
         put(T::class.java, instance)
 

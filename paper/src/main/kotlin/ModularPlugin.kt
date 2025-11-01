@@ -59,7 +59,9 @@ public abstract class ModularPlugin :
         providers {
             install(LoggerProvider) {
                 default(slF4JLogger)
-                key(Container::key)
+                key { target ->
+                    if (target is Container) target.key else target.javaClass.name
+                }
             }
         }
 

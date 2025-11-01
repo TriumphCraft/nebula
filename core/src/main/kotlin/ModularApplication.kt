@@ -24,6 +24,9 @@
 package dev.triumphteam.nebula
 
 import dev.triumphteam.nebula.container.Container
+import dev.triumphteam.nebula.container.registry.GlobalInjectionRegistry
+import dev.triumphteam.nebula.container.registry.InjectionRegistry
+import dev.triumphteam.nebula.core.annotation.NebulaInternalApi
 import java.nio.file.Path
 
 /** An application, this represents any type of application for any platform. */
@@ -51,4 +54,13 @@ public interface ModularApplication : Container {
     }
 
     public interface Entrypoint : ModularApplication
+
+    public abstract class BaseEntrypoint : Entrypoint {
+
+        @NebulaInternalApi
+        override var parent: Container? = null
+        
+        @NebulaInternalApi
+        override val registry: InjectionRegistry = GlobalInjectionRegistry
+    }
 }
